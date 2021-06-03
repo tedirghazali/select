@@ -1,0 +1,49 @@
+{
+  "name": "alga-vue",
+  "version": "0.0.1-development1",
+  "description": "Alga Vue is alga-js version of Vue 3 Composition API helper",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/alga-vue.umd.js",
+  "module": "./dist/alga-vue.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/alga-vue.es.js",
+      "require": "./dist/alga-vue.umd.js"
+    }
+  },
+  "types": "./dist/alga-vue.d.js",
+  "scripts": {
+    "build": "vue-tsc --noEmit && vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tedirghazali/vidie.git"
+  },
+  "keywords": [
+    "utility",
+    "helper",
+    "composition-api",
+    "vue",
+    "vue-3",
+    "vue-helper",
+    "vue-utility"
+  ],
+  "author": "Tedir Ghazali",
+  "license": "SEE LICENSE IN license.txt",
+  "bugs": {
+    "url": "https://github.com/tedirghazali/alga-vue/issues"
+  },
+  "homepage": "https://github.com/tedirghazali/alga-vue#readme",
+  "dependencies": {
+    "vue": "^3.0.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.2.1",
+    "@vue/compiler-sfc": "^3.0.5",
+    "typescript": "^4.1.3",
+    "vite": "^2.1.5",
+    "vue-tsc": "^0.0.15"
+  }
+}
