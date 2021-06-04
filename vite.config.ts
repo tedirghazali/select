@@ -10,10 +10,11 @@ export default defineConfig({
       name: 'alga-vue'
     },
     rollupOptions: {
-      external: ['vue'],
+      external: ['vue', 'alga-js'],
       output: {
         globals: {
-          vue: 'Vue'
+          vue: 'Vue',
+          'alga-js': 'AlgaJS'
         }
       }
     }

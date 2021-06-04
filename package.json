@@ -1,7 +1,7 @@
 {
   "name": "alga-vue",
   "version": "0.0.1-development1",
-  "description": "Alga Vue is alga-js version of Vue 3 Composition API helper",
+  "description": "Alga Vue is a compilation of composable files or Vue 3 Composition API helper based on Alga.js",
   "files": [
     "dist"
   ],
@@ -13,9 +13,8 @@
       "require": "./dist/alga-vue.umd.js"
     }
   },
-  "types": "./dist/alga-vue.d.js",
   "scripts": {
-    "build": "vue-tsc --noEmit && vite build"
+    "build": "vue-tsc && vite build"
   },
   "repository": {
     "type": "git",
@@ -37,6 +36,7 @@
   },
   "homepage": "https://github.com/tedirghazali/alga-vue#readme",
   "dependencies": {
+    "alga-js": "^0.0.1-beta1",
     "vue": "^3.0.5"
   },
   "devDependencies": {
