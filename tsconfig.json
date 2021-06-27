@@ -14,7 +14,7 @@
     "declarationMap": true,
     "emitDeclarationOnly": false,
     "declarationDir": "types",
-    "types": ["vite/client"]
+    "types": ["vite/client", "jest"]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }
