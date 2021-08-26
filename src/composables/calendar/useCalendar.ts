@@ -1,20 +1,35 @@
-import { ref, computed } from 'vue'
-import { date as dt } from 'alga-js'
+import { ref, reactive, computed } from 'vue'
+import { date as dt, array as arr } from 'alga-js'
 
-export default function useCalendar(getYearRef: any = null, getMonthRef: any = null, getDayRef: any = null, locale: any = {value: 'en-US'}, weekDay: any = {value: 'short'}) {
+export default function useCalendar(getYearRef: any = null, getMonthRef: any = null, getDayRef: any = null, locale: any = {value: 'en-US'}, dayType: any = {value: 'short'}) {
   const setYearRef = ref<number>(0)
   const setMonthRef = ref<number>(0)
   const setDayRef = ref<number>(0)
+  const setWeeks = ref<number>(0)
+  const setEvents = ref<any[]>([])
+  const options = reactive<any>({
+    dateEvent: 'startdate'
+  })
   
   setYearRef.value = (getYearRef !== null && getYearRef.value !== 0) ? getYearRef.value : Number(new Date().getFullYear())
   setMonthRef.value = (getMonthRef !== null && getMonthRef.value !== 0) ? getMonthRef.value : Number(new Date().getMonth()) + 1
   setDayRef.value = (getDayRef !== null && getDayRef.value !== 0) ? getDayRef.value : Number(new Date().getDate())
   
-  const weekDays = computed<string[]>(() => {
-    return dt.days(locale.value, weekDay.value)
+  const getDayNames = computed<string[]>(() => {
+    return dt.days(locale.value, dayType.value)
+  })
+  
+  const getWeeks = computed<number>(() => {
+    return dt.week(setYearRef.value, setMonthRef.value, setDayRef.value)
+  })
+  
+  setWeeks.value = getWeeks.value
+  
+  const getWeekDays = computed<string[]>(() => {
+    return dt.weeks(setYearRef.value, setWeeks.value, 'YYYY-MM-DD')
   })
     
-  const prevDays = computed<number[]>(() => {
+  const getPrevDays = computed<number[]>(() => {
     const getFirstDay = Number(new Date(setYearRef.value, Number(setMonthRef.value) - 1, 1).getDay())
     let restPrevDays = []
     if(getFirstDay > 0) {
@@ -27,11 +42,11 @@ export default function useCalendar(getYearRef: any = null, getMonthRef: any = n
     return restPrevDays
   })
     
-  const monthDays = computed<number>(() => {
+  const getMonthDays = computed<number>(() => {
     return dt.daysInMonth(setYearRef.value, setMonthRef.value)
   })
     
-  const nextDays = computed<number[]>(() => {
+  const getNextDays = computed<number[]>(() => {
     const getLastDay = Number(new Date(setYearRef.value, Number(setMonthRef.value) - 1, Number(dt.daysInMonth(setYearRef.value, setMonthRef.value))).getDay())
     let restNextDays = []
     if(getLastDay < 6) {
@@ -46,39 +61,69 @@ export default function useCalendar(getYearRef: any = null, getMonthRef: any = n
   
   const getCurrentDay: number = Number(new Date(setYearRef.value, Number(setMonthRef.value) - 1, setDayRef.value).getDay())
     
-  const beforeDays = computed<number[]>(() => {
+  const getBeforeDays = computed<number[]>(() => {
     let restBeforeDays = []
     if(getCurrentDay > 0) {
       const getBeforeDay = getCurrentDay + 1
       for(let i = 1; i < getBeforeDay; i++) {
-        restBeforeDays.push(dt.subtractDate(new Date(setYearRef.value, Number(setMonthRef.value) - 1, setDayRef.value), i).valueOf())
+        restBeforeDays.push(dt.subtractDate(new Date(setYearRef.value, Number(setMonthRef.value) - 1, setDayRef.value), i), 'YYYY-MM-DD')
       }
     }
       
     return restBeforeDays
   })
     
-  const afterDays = computed<number[]>(() => {
+  const getAfterDays = computed<number[]>(() => {
     let restAfterDays = []
     if(getCurrentDay < 6) {
       const getAfterDay = 6 - getCurrentDay
       for(let i = 1; i <= getAfterDay; i++) {
-        restAfterDays.push(dt.subtractDate(new Date(setYearRef.value, Number(setMonthRef.value) - 1, setDayRef.value), i).valueOf())
+        restAfterDays.push(dt.addDate(new Date(setYearRef.value, Number(setMonthRef.value) - 1, setDayRef.value), i), 'YYYY-MM-DD')
       }
     }
       
     return restAfterDays
   })
   
+  const getEvents = computed<any>(() => {
+    if(setEvents.value.length >= 1) {
+      return arr.group(setEvents.value, (item: any) => {
+        if(options['dateEvent'] in item) {
+          return new Date(item[options['dateEvent']]).getDate()
+        }
+      })
+    } else {
+      return []
+    }
+  })
+  
+  const getEventsByTime = computed<any>(() => {
+    if(setEvents.value.length >= 1) {
+      return arr.group(setEvents.value, (item: any) => {
+        if(options['dateEvent'] in item) {
+          return new Date(item[options['dateEvent']]).getHours()
+        }
+      })
+    } else {
+      return []
+    }
+  })
+  
   return {
     setYearRef,
     setMonthRef,
     setDayRef,
-    weekDays,
-    prevDays,
-    monthDays,
-    nextDays,
-    beforeDays,
-    afterDays
+    setWeeks,
+    getWeeks,
+    getWeekDays,
+    getDayNames,
+    getPrevDays,
+    getMonthDays,
+    getNextDays,
+    getBeforeDays,
+    getAfterDays,
+    setEvents,
+    getEvents,
+    getEventsByTime
   }
 }

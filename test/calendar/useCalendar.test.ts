@@ -3,31 +3,16 @@ import useCalendar from '../../src/composables/calendar/useCalendar'
 
 const CalendarComponent = {
   template: `
-    <div id="daynames">{{ weekDays }}</div>
+    <div id="daynames">{{ getDayNames }}</div>
   `,
   setup() {
-    const { 
-      setYearRef,
-      setMonthRef,
-      setDayRef,
-      weekDays,
-      prevDays,
-      monthDays,
-      nextDays,
-      beforeDays,
-      afterDays
-    } = useCalendar()
+    const { setYearRef, setWeeks, getDayNames } = useCalendar()
+    
+    setYearRef.value = 2021
+    setWeeks.value = 24
     
     return {
-      setYearRef,
-      setMonthRef,
-      setDayRef,
-      weekDays,
-      prevDays,
-      monthDays,
-      nextDays,
-      beforeDays,
-      afterDays
+      getDayNames
     }
   }
 }

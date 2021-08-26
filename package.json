@@ -1,6 +1,6 @@
 {
   "name": "alga-vue",
-  "version": "0.0.1-development2",
+  "version": "0.0.1-development3",
   "description": "Alga Vue is a compilation of composable files or Vue 3 Composition API helper based on Alga.js",
   "files": [
     "dist"
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tedirghazali/vidie.git"
+    "url": "git+https://github.com/tedirghazali/alga-vue.git"
   },
   "keywords": [
     "utility",
@@ -37,7 +37,7 @@
   },
   "homepage": "https://github.com/tedirghazali/alga-vue#readme",
   "dependencies": {
-    "alga-js": "^0.0.1-beta2",
+    "alga-js": "^0.0.2",
     "vue": "^3.0.5"
   },
   "devDependencies": {
