@@ -1,2 +1,4 @@
-# Alga Vue
-Alga Vue is a compilation of composable files or Vue 3 Composition API helper based on Alga.js
+# Tedir Select
+Tedir Select is a Vue 3 Custom SelectBox, ListBox, Taggable, etc.
+
+![Demo](examples/demo-selectbox.png "Tedir SelectBox")
