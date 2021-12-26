@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import SelectBox from './components/SelectBox.vue'
+import { strOptions, objOptions } from './models/options'
 
-const arrayOfStrings = ['Option One', 'Option Two', 'Option There']
-const arrayOfObjects = [
-  {id: 1, value: 'Option One'}, 
-  {id: 2, value: 'Option Two'}, 
-  {id: 3, value: 'Option There'}
-]
+const arrayOfStrings = strOptions()
+const arrayOfObjects = objOptions()
 
 const str = ref<string>('')
 const obj = ref<any>({})

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onUpdated } from 'vue'
+import { ref, computed, onUpdated } from 'vue'
 
 interface Props {
   modelValue?: any,
@@ -24,6 +24,31 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<Emits>()
 
 const picker = ref<boolean>(false)
+const searchStr = ref<string>('')
+
+const filteredOptions = computed<any[]>(() => {
+  //@ts-ignore
+  let newOptions: any[] = props.options
+  if(searchStr.value.length >= 1) {
+    newOptions = newOptions.filter((item: any) => {
+      if(isNaN(item) === false && Number(item) === Number(searchStr.value)) {
+        return true
+      } else if(typeof item === 'string' && item.toLowerCase().includes(searchStr.value.toLowerCase())) {
+        return true
+      } else if(typeof item === 'object' && item !== null && Object.prototype.toString.call(item) === "[object Object]") {
+        for(const key of Object.keys(item)) {
+          if(isNaN(item[key]) === false && Number(item[key]) === Number(searchStr.value)) {
+            return true
+          } else if(typeof item[key] === 'string' && item[key].toLowerCase().includes(searchStr.value.toLowerCase())) {
+            return true
+          }
+        }
+      }
+      return false
+    })
+  }
+  return newOptions
+})
 
 onUpdated(() => {
   document.addEventListener('click', () => {
@@ -32,9 +57,9 @@ onUpdated(() => {
 })
 
 const randomChar = () => {
-  let allChar = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  let resChar = ''
-  for(let i = 0; i < 10; i++) {
+  let allChar: string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  let resChar: string = ''
+  for(let i: number = 0; i < 10; i++) {
     resChar += allChar.charAt(Math.floor(Math.random() * allChar.length))
   }
   return resChar
@@ -54,29 +79,29 @@ const getRandomChar = randomChar()
     </div>
     <div class="selectPicker">
       <div class="selectWrap">
-        <input type="search" class="selectSearch" />
+        <input type="search" v-model="searchStr" class="selectSearch" />
       </div>
       <div v-if="Array.isArray(modelValue)" class="selectList">
-        <template v-for="(option, index) in options" :key="'option-'+option">
-          <div v-if="typeof option === 'string'" @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex(i => i === option), 1); emit('update:modelValue', modelValue);" class="selectItem">
+        <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
+          <div v-if="typeof option === 'string'" @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((i: string) => i === option), 1); emit('update:modelValue', modelValue);" class="selectItem">
             <div class="selectCheck">
-						  <input type="checkbox" class="selectCheckInput" :checked="modelValue.includes(option)" :id="'check-'+(getRandomChar + String(index))" @change="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex(j => j === option), 1); emit('update:modelValue', modelValue);">
+						  <input type="checkbox" class="selectCheckInput" :checked="modelValue.includes(option)" :id="'check-'+(getRandomChar + String(index))" @change="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((j: string) => j === option), 1); emit('update:modelValue', modelValue);">
 							<label class="selectCheckLabel" :for="'check-'+(getRandomChar + String(index))">{{ option }}</label>
 					  </div>
           </div>
-          <div v-else-if="typeof option === 'object' && prop in option" @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex(i => i[prop] === option[prop]), 1); emit('update:modelValue', modelValue);" class="selectItem">
+          <div v-else-if="typeof option === 'object' && prop in option" @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((i: any) => i[prop] === option[prop]), 1); emit('update:modelValue', modelValue);" class="selectItem">
           <div class="selectCheck">
-						  <input type="checkbox" class="selectCheckInput" :checked="modelValue.includes(option)" :id="'check-'+(getRandomChar + String(index))" @change="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex(j => j[prop] === option[prop]), 1); emit('update:modelValue', modelValue);">
+						  <input type="checkbox" class="selectCheckInput" :checked="modelValue.includes(option)" :id="'check-'+(getRandomChar + String(index))" @change="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((j: any) => j[prop] === option[prop]), 1); emit('update:modelValue', modelValue);">
 							<label class="selectCheckLabel" :for="'check-'+(getRandomChar + String(index))">{{ option[prop] }}</label>
 					  </div>
           </div>
-          <div v-else @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex(i => i === option), 1); emit('update:modelValue', modelValue);" class="selectItem">
+          <div v-else @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((i: any) => i === option), 1); emit('update:modelValue', modelValue);" class="selectItem">
             <slot :option="option" :items="modelValue"></slot>
           </div>
         </template>
       </div>
       <div v-else class="selectList">
-        <template v-for="(option, index) in options" :key="'option-'+option">
+        <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
           <div v-if="typeof option === 'string'" @click="emit('update:modelValue', option); picker = false;" class="selectItem">{{ option }}</div>
           <div v-else-if="typeof option === 'object' && prop in option" @click="emit('update:modelValue', option); picker = false;" class="selectItem">{{ option[prop] }}</div>
           <div v-else @click="emit('update:modelValue', option); picker = false;" class="selectItem">
@@ -108,6 +133,8 @@ const getRandomChar = randomChar()
   outline: none;
   user-select: none;
   appearance: none;
+  text-overflow: ellipsis;
+  overflow: hidden;
   white-space: nowrap;
   font-size: 0.875rem;
   font-weight: 400;
