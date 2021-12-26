@@ -30,6 +30,17 @@ onUpdated(() => {
     picker.value = false
   })
 })
+
+const randomChar = () => {
+  let allChar = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  let resChar = ''
+  for(let i = 0; i < 10; i++) {
+    resChar += allChar.charAt(Math.floor(Math.random() * allChar.length))
+  }
+  return resChar
+}
+
+const getRandomChar = randomChar()
 </script>
 
 <template>
@@ -47,10 +58,20 @@ onUpdated(() => {
       </div>
       <div v-if="Array.isArray(modelValue)" class="selectList">
         <template v-for="(option, index) in options" :key="'option-'+option">
-          <div v-if="typeof option === 'string'" @click="if(!modelValue.includes(option)) { modelValue.push(option); } emit('update:modelValue', modelValue);" class="selectItem">{{ option }}</div>
-          <div v-else-if="typeof option === 'object' && prop in option" @click="if(!modelValue.includes(option)) { modelValue.push(option); } emit('update:modelValue', modelValue);" class="selectItem">{{ option[prop] }}</div>
-          <div v-else @click="if(!modelValue.includes(option)) { modelValue.push(option); } emit('update:modelValue', modelValue);" class="selectItem">
-            <slot :option="option"></slot>
+          <div v-if="typeof option === 'string'" @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex(i => i === option), 1); emit('update:modelValue', modelValue);" class="selectItem">
+            <div class="selectCheck">
+						  <input type="checkbox" class="selectCheckInput" :checked="modelValue.includes(option)" :id="'check-'+(getRandomChar + String(index))" @change="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex(j => j === option), 1); emit('update:modelValue', modelValue);">
+							<label class="selectCheckLabel" :for="'check-'+(getRandomChar + String(index))">{{ option }}</label>
+					  </div>
+          </div>
+          <div v-else-if="typeof option === 'object' && prop in option" @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex(i => i[prop] === option[prop]), 1); emit('update:modelValue', modelValue);" class="selectItem">
+          <div class="selectCheck">
+						  <input type="checkbox" class="selectCheckInput" :checked="modelValue.includes(option)" :id="'check-'+(getRandomChar + String(index))" @change="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex(j => j[prop] === option[prop]), 1); emit('update:modelValue', modelValue);">
+							<label class="selectCheckLabel" :for="'check-'+(getRandomChar + String(index))">{{ option[prop] }}</label>
+					  </div>
+          </div>
+          <div v-else @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex(i => i === option), 1); emit('update:modelValue', modelValue);" class="selectItem">
+            <slot :option="option" :items="modelValue"></slot>
           </div>
         </template>
       </div>
@@ -192,5 +213,36 @@ onUpdated(() => {
 }
 .selectItem:active {
   background: rgba(0, 0, 0, 0.15);
+}
+
+.selectCheck {
+  display: flex;
+  align-items: center;
+  min-height: 1.3125rem;
+  padding-left: 1.5em;
+}
+.selectCheckInput {
+  width: 1rem;
+  height: 1rem;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  appearance: none;
+  color-adjust: exact;
+  border-radius: 0.15rem;
+}
+.selectCheckInput:checked {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+  background-color: rgba(0, 0, 0, 0.25);
+}
+.selectCheck .selectCheckInput {
+  float: left;
+  margin-left: -1.5em;
+}
+.selectCheckLabel {
+  margin-left: 0.3125rem;
+  display: inline-block;
 }
 </style>
