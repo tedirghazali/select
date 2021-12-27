@@ -24,7 +24,7 @@ export default defineConfig(({ command, mode }) => {
           name: 'TedirSelect',
           fileName: (format) => `tedir-select-vue.${format}.js`
         },
-        outDir: 'vue',
+        outDir: 'dist/vue',
         rollupOptions: {
           external: ['vue'],
           output: {
