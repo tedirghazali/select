@@ -6,7 +6,8 @@ interface Props {
   //@ts-ignore
   options?: any[],
   prop?: string,
-  placeholder?: string
+  placeholder?: string,
+  size?: number
 }
 
 interface Emits {
@@ -18,7 +19,8 @@ const props = withDefaults(defineProps<Props>(), {
   //@ts-ignore
   options: [],
   prop: 'value',
-  placeholder: '-- Select option --'
+  placeholder: '-- Select option --',
+  size: 0
 })
 
 const emit = defineEmits<Emits>()
@@ -81,7 +83,7 @@ const getRandomChar = randomChar()
       <div class="selectWrap">
         <input type="search" v-model="searchStr" class="selectSearch" />
       </div>
-      <div v-if="Array.isArray(modelValue)" class="selectList">
+      <div v-if="Array.isArray(modelValue)" class="selectList" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 44)+'px' : 'auto'}">
         <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
           <div v-if="typeof option === 'string'" @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((i: string) => i === option), 1); emit('update:modelValue', modelValue);" class="selectItem">
             <div class="selectCheck">
@@ -100,7 +102,7 @@ const getRandomChar = randomChar()
           </div>
         </template>
       </div>
-      <div v-else class="selectList">
+      <div v-else class="selectList" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 44)+'px' : 'auto'}">
         <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
           <div v-if="typeof option === 'string'" @click="emit('update:modelValue', option); picker = false;" class="selectItem">{{ option }}</div>
           <div v-else-if="typeof option === 'object' && prop in option" @click="emit('update:modelValue', option); picker = false;" class="selectItem">{{ option[prop] }}</div>
@@ -225,7 +227,9 @@ const getRandomChar = randomChar()
 }
 
 .selectList {
-  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 .selectItem:first-child {
   border-top: 0.0625rem solid rgba(0, 0, 0, 0.15);

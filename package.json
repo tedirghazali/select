@@ -1,19 +1,24 @@
 {
   "name": "tedir-select",
-  "version": "0.0.1-wood3",
+  "version": "0.0.1-wood4",
   "description": "Tedir Select is a Vue 3 & Web Component Custom SelectBox, ListBox, Taggable, etc.",
-  "main": "dist/tedir-select-vue.umd.js",
-  "module": "dist/tedir-select-vue.es.js",
-  "unpkg": "dist/tedir-select-vue.umd.js",
+  "main": "vue/tedir-select-vue.umd.js",
+  "module": "vue/tedir-select-vue.es.js",
+  "unpkg": "vue/tedir-select-vue.umd.js",
   "exports": {
     ".": {
-      "import": "dist/tedir-select-vue.es.js",
-      "require": "dist/tedir-select-vue.umd.js"
+      "import": "vue/tedir-select-vue.es.js",
+      "require": "vue/tedir-select-vue.umd.js"
+    },
+    "./web": {
+      "import": "web/tedir-select-web.es.js",
+      "require": "web/tedir-select-web.umd.js"
     }
   },
   "scripts": {
     "dev-vue": "vite --config vite-vue-config.ts",
     "build-vue": "vue-tsc --noEmit && vite build --config vite-vue-config.ts",
+    "build-web": "vue-tsc --noEmit && vite build --config vite-web-config.ts",
     "preview-vue": "vite preview --config vite-vue-config.ts"
   },
   "files": [
