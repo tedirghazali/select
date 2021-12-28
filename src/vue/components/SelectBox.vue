@@ -87,15 +87,15 @@ const getRandomChar = randomChar()
         <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
           <div v-if="typeof option === 'string'" @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((i: string) => i === option), 1); emit('update:modelValue', modelValue);" class="selectItem">
             <div class="selectCheck">
-						  <input type="checkbox" class="selectCheckInput" :checked="modelValue.includes(option)" :id="'check-'+(getRandomChar + String(index))" @change="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((j: string) => j === option), 1); emit('update:modelValue', modelValue);">
-							<label class="selectCheckLabel" :for="'check-'+(getRandomChar + String(index))">{{ option }}</label>
-					  </div>
+              <input type="checkbox" class="selectCheckInput" :checked="modelValue.includes(option)" :id="'check-'+(getRandomChar + String(index))" @change="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((j: string) => j === option), 1); emit('update:modelValue', modelValue);">
+              <label class="selectCheckLabel" :for="'check-'+(getRandomChar + String(index))">{{ option }}</label>
+            </div>
           </div>
           <div v-else-if="typeof option === 'object' && prop in option" @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((i: any) => i[prop] === option[prop]), 1); emit('update:modelValue', modelValue);" class="selectItem">
-          <div class="selectCheck">
-						  <input type="checkbox" class="selectCheckInput" :checked="modelValue.includes(option)" :id="'check-'+(getRandomChar + String(index))" @change="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((j: any) => j[prop] === option[prop]), 1); emit('update:modelValue', modelValue);">
-							<label class="selectCheckLabel" :for="'check-'+(getRandomChar + String(index))">{{ option[prop] }}</label>
-					  </div>
+            <div class="selectCheck">
+              <input type="checkbox" class="selectCheckInput" :checked="modelValue.includes(option)" :id="'check-'+(getRandomChar + String(index))" @change="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((j: any) => j[prop] === option[prop]), 1); emit('update:modelValue', modelValue);">
+              <label class="selectCheckLabel" :for="'check-'+(getRandomChar + String(index))">{{ option[prop] }}</label>
+            </div>
           </div>
           <div v-else @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((i: any) => i === option), 1); emit('update:modelValue', modelValue);" class="selectItem">
             <slot :option="option" :items="modelValue"></slot>
@@ -212,7 +212,7 @@ const getRandomChar = randomChar()
   position: relative;
   display: block;
   border: 0.0625rem solid rgba(0, 0, 0, 0.15);
-  padding: 0.3125rem 1.25rem;
+  padding: 0.15rem 1rem;
   border-radius: 1rem;
   width: 100%;
   line-height: 2rem;

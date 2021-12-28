@@ -4819,7 +4819,7 @@ function ensureRenderer() {
 const render = (...args) => {
   ensureRenderer().render(...args);
 };
-var _style_0 = `.select[data-v-37fb9193]{position:relative}.selectBox[data-v-37fb9193]{position:relative;display:block;border:.0625rem solid rgba(0,0,0,.15);padding:.3125rem 1.25rem;border-radius:1rem;width:100%;min-height:44px;line-height:2rem;box-sizing:border-box;cursor:pointer;font-family:inherit;outline:none;user-select:none;appearance:none;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;font-size:.875rem;font-weight:400;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.selectBox[data-v-37fb9193]:hover{box-shadow:none;background:#fff;color:#6e6e6e}.selectBox[data-v-37fb9193]:after{border-bottom:3px solid rgba(0,0,0,.15);border-right:3px solid rgba(0,0,0,.15);content:"";display:block;height:10px;margin-top:-6px;pointer-events:none;position:absolute;right:8px;top:45%;margin-right:10px;-webkit-transform-origin:66% 66%;-ms-transform-origin:66% 66%;transform-origin:66% 66%;-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);transform:rotate(45deg);-webkit-transition:all .15s ease-in-out;transition:all .15s ease-in-out;width:10px}.show .selectBox[data-v-37fb9193]:after{-webkit-transform:rotate(-135deg);-ms-transform:rotate(-135deg);transform:rotate(-135deg)}.show .selectBox[data-v-37fb9193]{border-bottom-right-radius:0;border-bottom-left-radius:0}.selectPicker[data-v-37fb9193]{position:absolute;display:none;z-index:1001;background-color:#fff;border:.0625rem solid rgba(0,0,0,.15);border-top-width:0;border-bottom-right-radius:1rem;border-bottom-left-radius:1rem;width:100%;line-height:2rem;box-sizing:border-box;font-family:inherit;outline:none;user-select:none;appearance:none;white-space:nowrap;font-size:.875rem;font-weight:400;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.show .selectPicker[data-v-37fb9193]{display:block}.selectWrap[data-v-37fb9193]{padding:.3125rem}.selectSearch[data-v-37fb9193]{position:relative;display:block;border:.0625rem solid rgba(0,0,0,.15);padding:.3125rem 1.25rem;border-radius:1rem;width:100%;line-height:2rem;box-sizing:border-box;font-family:inherit;outline:none;appearance:none;white-space:nowrap;font-size:.875rem;font-weight:400;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.selectList[data-v-37fb9193]{margin-bottom:1.25rem;overflow-x:hidden;overflow-y:auto}.selectItem[data-v-37fb9193]:first-child{border-top:.0625rem solid rgba(0,0,0,.15)}.selectItem[data-v-37fb9193]{padding:.3125rem 1.25rem;border-bottom:.0625rem solid rgba(0,0,0,.15);cursor:pointer}.selectItem[data-v-37fb9193]:hover{background:rgba(0,0,0,.05)}.selectItem[data-v-37fb9193]:active{background:rgba(0,0,0,.15)}.selectCheck[data-v-37fb9193]{display:flex;align-items:center;min-height:1.3125rem;padding-left:1.5em}.selectCheckInput[data-v-37fb9193]{width:1rem;height:1rem;background-color:#fff;background-repeat:no-repeat;background-position:center;background-size:contain;border:1px solid rgba(0,0,0,.15);appearance:none;color-adjust:exact;border-radius:.15rem}.selectCheckInput[data-v-37fb9193]:checked{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");background-color:#00000040}.selectCheck .selectCheckInput[data-v-37fb9193]{float:left;margin-left:-1.5em}.selectCheckLabel[data-v-37fb9193]{margin-left:.3125rem;display:inline-block}
+var _style_0$1 = `.select[data-v-a5af6912]{position:relative}.selectBox[data-v-a5af6912]{position:relative;display:block;border:.0625rem solid rgba(0,0,0,.15);padding:.3125rem 1.25rem;border-radius:1rem;width:100%;min-height:44px;line-height:2rem;box-sizing:border-box;cursor:pointer;font-family:inherit;outline:none;user-select:none;appearance:none;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;font-size:.875rem;font-weight:400;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.selectBox[data-v-a5af6912]:hover{box-shadow:none;background:#fff;color:#6e6e6e}.selectBox[data-v-a5af6912]:after{border-bottom:3px solid rgba(0,0,0,.15);border-right:3px solid rgba(0,0,0,.15);content:"";display:block;height:10px;margin-top:-6px;pointer-events:none;position:absolute;right:8px;top:45%;margin-right:10px;-webkit-transform-origin:66% 66%;-ms-transform-origin:66% 66%;transform-origin:66% 66%;-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);transform:rotate(45deg);-webkit-transition:all .15s ease-in-out;transition:all .15s ease-in-out;width:10px}.show .selectBox[data-v-a5af6912]:after{-webkit-transform:rotate(-135deg);-ms-transform:rotate(-135deg);transform:rotate(-135deg)}.show .selectBox[data-v-a5af6912]{border-bottom-right-radius:0;border-bottom-left-radius:0}.selectPicker[data-v-a5af6912]{position:absolute;display:none;z-index:1001;background-color:#fff;border:.0625rem solid rgba(0,0,0,.15);border-top-width:0;border-bottom-right-radius:1rem;border-bottom-left-radius:1rem;width:100%;line-height:2rem;box-sizing:border-box;font-family:inherit;outline:none;user-select:none;appearance:none;white-space:nowrap;font-size:.875rem;font-weight:400;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.show .selectPicker[data-v-a5af6912]{display:block}.selectWrap[data-v-a5af6912]{padding:.3125rem}.selectSearch[data-v-a5af6912]{position:relative;display:block;border:.0625rem solid rgba(0,0,0,.15);padding:.15rem 1rem;border-radius:1rem;width:100%;line-height:2rem;box-sizing:border-box;font-family:inherit;outline:none;appearance:none;white-space:nowrap;font-size:.875rem;font-weight:400;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.selectList[data-v-a5af6912]{margin-bottom:1.25rem;overflow-x:hidden;overflow-y:auto}.selectItem[data-v-a5af6912]:first-child{border-top:.0625rem solid rgba(0,0,0,.15)}.selectItem[data-v-a5af6912]{padding:.3125rem 1.25rem;border-bottom:.0625rem solid rgba(0,0,0,.15);cursor:pointer}.selectItem[data-v-a5af6912]:hover{background:rgba(0,0,0,.05)}.selectItem[data-v-a5af6912]:active{background:rgba(0,0,0,.15)}.selectCheck[data-v-a5af6912]{display:flex;align-items:center;min-height:1.3125rem;padding-left:1.5em}.selectCheckInput[data-v-a5af6912]{width:1rem;height:1rem;background-color:#fff;background-repeat:no-repeat;background-position:center;background-size:contain;border:1px solid rgba(0,0,0,.15);appearance:none;color-adjust:exact;border-radius:.15rem}.selectCheckInput[data-v-a5af6912]:checked{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");background-color:#00000040}.selectCheck .selectCheckInput[data-v-a5af6912]{float:left;margin-left:-1.5em}.selectCheckLabel[data-v-a5af6912]{margin-left:.3125rem;display:inline-block}
 `;
 var _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
@@ -4828,10 +4828,10 @@ var _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _hoisted_1 = { class: "selectPicker" };
-const _hoisted_2 = { class: "selectWrap" };
-const _hoisted_3 = ["onClick"];
-const _hoisted_4 = { class: "selectCheck" };
+const _hoisted_1$1 = { class: "selectPicker" };
+const _hoisted_2$1 = { class: "selectWrap" };
+const _hoisted_3$1 = ["onClick"];
+const _hoisted_4$1 = { class: "selectCheck" };
 const _hoisted_5 = ["checked", "id", "onChange"];
 const _hoisted_6 = ["for"];
 const _hoisted_7 = ["onClick"];
@@ -4842,7 +4842,7 @@ const _hoisted_11 = ["onClick"];
 const _hoisted_12 = ["onClick"];
 const _hoisted_13 = ["onClick"];
 const _hoisted_14 = ["onClick"];
-const _sfc_main = /* @__PURE__ */ defineComponent({
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   props: {
     modelValue: { default: null },
     options: { default: [] },
@@ -4913,8 +4913,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             createTextVNode(toDisplayString(__props.placeholder), 1)
           ], 64))
         ]),
-        createBaseVNode("div", _hoisted_1, [
-          createBaseVNode("div", _hoisted_2, [
+        createBaseVNode("div", _hoisted_1$1, [
+          createBaseVNode("div", _hoisted_2$1, [
             withDirectives(createBaseVNode("input", {
               type: "search",
               "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => searchStr.value = $event),
@@ -4940,7 +4940,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                   },
                   class: "selectItem"
                 }, [
-                  createBaseVNode("div", _hoisted_4, [
+                  createBaseVNode("div", _hoisted_4$1, [
                     createBaseVNode("input", {
                       type: "checkbox",
                       class: "selectCheckInput",
@@ -4956,7 +4956,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                       for: "check-" + (unref(getRandomChar) + String(index))
                     }, toDisplayString(option), 9, _hoisted_6)
                   ])
-                ], 8, _hoisted_3)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
+                ], 8, _hoisted_3$1)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
                   key: 1,
                   onClick: ($event) => {
                     !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i[__props.prop] === option[__props.prop]), 1);
@@ -5036,9 +5036,116 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
   }
 });
-var VueSelectBox = /* @__PURE__ */ _export_sfc(_sfc_main, [["styles", [_style_0]], ["__scopeId", "data-v-37fb9193"]]);
+var VueSelectBox = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["styles", [_style_0$1]], ["__scopeId", "data-v-a5af6912"]]);
+var _style_0 = ".combo[data-v-75a36584]{position:relative}.comboBox[data-v-75a36584]{position:relative;display:block;border:.0625rem solid rgba(0,0,0,.15);padding:.3125rem 1.25rem;border-radius:1rem;width:100%;min-height:44px;line-height:2rem;box-sizing:border-box;font-family:inherit;outline:none;user-select:none;appearance:none;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;font-size:.875rem;font-weight:400;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.comboBox[data-v-75a36584]:hover{box-shadow:none;background:#fff;color:#6e6e6e}.show .comboBox[data-v-75a36584]{border-bottom-right-radius:0;border-bottom-left-radius:0}.comboPicker[data-v-75a36584]{position:absolute;display:none;z-index:1001;background-color:#fff;border:.0625rem solid rgba(0,0,0,.15);border-top-width:0;border-bottom-right-radius:1rem;border-bottom-left-radius:1rem;width:100%;line-height:2rem;box-sizing:border-box;font-family:inherit;outline:none;user-combo:none;appearance:none;white-space:nowrap;font-size:.875rem;font-weight:400;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.show .comboPicker[data-v-75a36584]{display:block}.comboList[data-v-75a36584]{margin-bottom:1.25rem;overflow-x:hidden;overflow-y:auto}.comboItem[data-v-75a36584]{padding:.3125rem 1.25rem;border-bottom:.0625rem solid rgba(0,0,0,.15);cursor:pointer}.comboItem[data-v-75a36584]:hover{background:rgba(0,0,0,.05)}.comboItem[data-v-75a36584]:active{background:rgba(0,0,0,.15)}\n";
+const _hoisted_1 = { class: "comboPicker" };
+const _hoisted_2 = ["onClick"];
+const _hoisted_3 = ["onClick"];
+const _hoisted_4 = ["onClick"];
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  props: {
+    modelValue: { default: null },
+    options: { default: [] },
+    prop: { default: "value" },
+    placeholder: { default: "-- combo option --" },
+    size: { default: 0 }
+  },
+  emits: ["update:modelValue"],
+  setup(__props, { emit }) {
+    const props = __props;
+    const picker = ref(false);
+    const searchStr = ref("");
+    const filteredOptions = computed(() => {
+      let newOptions = props.options;
+      if (searchStr.value.length >= 1) {
+        newOptions = newOptions.filter((item) => {
+          if (isNaN(item) === false && Number(item) === Number(searchStr.value)) {
+            return true;
+          } else if (typeof item === "string" && item.toLowerCase().includes(searchStr.value.toLowerCase())) {
+            return true;
+          } else if (typeof item === "object" && item !== null && Object.prototype.toString.call(item) === "[object Object]") {
+            for (const key of Object.keys(item)) {
+              if (isNaN(item[key]) === false && Number(item[key]) === Number(searchStr.value)) {
+                return true;
+              } else if (typeof item[key] === "string" && item[key].toLowerCase().includes(searchStr.value.toLowerCase())) {
+                return true;
+              }
+            }
+          }
+          return false;
+        });
+      }
+      return newOptions;
+    });
+    onUpdated(() => {
+      document.addEventListener("click", () => {
+        picker.value = false;
+      });
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createElementBlock("div", {
+        class: normalizeClass(["combo", { show: picker.value === true }]),
+        onClick: _cache[3] || (_cache[3] = withModifiers(() => {
+        }, ["stop"]))
+      }, [
+        withDirectives(createBaseVNode("input", {
+          type: "search",
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => searchStr.value = $event),
+          onInput: _cache[1] || (_cache[1] = ($event) => unref(filteredOptions).length >= 1 && searchStr.value !== "" ? picker.value = true : picker.value = false),
+          onClick: _cache[2] || (_cache[2] = ($event) => unref(filteredOptions).length >= 1 && searchStr.value !== "" ? picker.value = true : picker.value = false),
+          class: "comboBox"
+        }, null, 544), [
+          [vModelText, searchStr.value]
+        ]),
+        createBaseVNode("div", _hoisted_1, [
+          createBaseVNode("div", {
+            class: "comboList",
+            style: normalizeStyle({ "max-height": Number(__props.size) !== 0 ? Number(__props.size) * 44 + "px" : "auto" })
+          }, [
+            (openBlock(true), createElementBlock(Fragment, null, renderList(unref(filteredOptions), (option, index) => {
+              return openBlock(), createElementBlock(Fragment, {
+                key: "option-" + option
+              }, [
+                typeof option === "string" ? (openBlock(), createElementBlock("div", {
+                  key: 0,
+                  onClick: ($event) => {
+                    searchStr.value = option;
+                    emit("update:modelValue", option);
+                    picker.value = false;
+                  },
+                  class: "comboItem"
+                }, toDisplayString(option), 9, _hoisted_2)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
+                  key: 1,
+                  onClick: ($event) => {
+                    searchStr.value = option[__props.prop];
+                    emit("update:modelValue", option);
+                    picker.value = false;
+                  },
+                  class: "comboItem"
+                }, toDisplayString(option[__props.prop]), 9, _hoisted_3)) : (openBlock(), createElementBlock("div", {
+                  key: 2,
+                  onClick: ($event) => {
+                    searchStr.value = option;
+                    emit("update:modelValue", option);
+                    picker.value = false;
+                  },
+                  class: "comboItem"
+                }, [
+                  renderSlot(_ctx.$slots, "default", { option }, void 0, true)
+                ], 8, _hoisted_4))
+              ], 64);
+            }), 128))
+          ], 4)
+        ])
+      ], 2);
+    };
+  }
+});
+var VueComboBox = /* @__PURE__ */ _export_sfc(_sfc_main, [["styles", [_style_0]], ["__scopeId", "data-v-75a36584"]]);
 const SelectBox = defineCustomElement(VueSelectBox);
+const ComboBox = defineCustomElement(VueComboBox);
 function useTedirSelect() {
   customElements.define("select-box", SelectBox);
+  customElements.define("combo-box", ComboBox);
 }
-export { SelectBox, useTedirSelect };
+export { ComboBox, SelectBox, useTedirSelect };
