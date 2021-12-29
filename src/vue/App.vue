@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import SelectBox from './components/SelectBox.vue'
 import ComboBox from './components/ComboBox.vue'
+import ListBox from './components/ListBox.vue'
 import { strOptions, objOptions } from './models/options'
 
 const arrayOfStrings = strOptions()
@@ -18,23 +19,47 @@ const comboObj = ref<any>({})
 <template>
   <h3>SelectBox (String)</h3>
   <SelectBox v-model="str" :options="arrayOfStrings" :size="5" />
-  <p>Your select in string: {{ str }}</p>
+  <p>Your selected value is in string: {{ str }}</p>
+  <p><br/></p>
   <h3>SelectBox (Object)</h3>
   <SelectBox v-model="obj" :options="arrayOfObjects" :size="10" />
-  <p>Your select in object: {{ obj }}</p>
+  <p>Your selected value is in object: {{ obj }}</p>
+  <p><br/></p>
   <h3>SelectBox (Array of Strings)</h3>
   <SelectBox v-model="arrOfStr" :options="arrayOfStrings" :size="25" />
-  <p>Your select in multiple strings: {{ arrOfStr }}</p>
+  <p>Your selected value is in multiple strings: {{ arrOfStr }}</p>
+  <p><br/></p>
   <h3>SelectBox (Array of Objects)</h3>
   <SelectBox v-model="arrOfObj" :options="arrayOfObjects" :size="50" />
-  <p>Your select in multiple objects: {{ arrOfObj }}</p>
-  <p><br /></p>
+  <p>Your selected value is in multiple objects: {{ arrOfObj }}</p>
+  
+  <p><br /><br /></p>
   <h3>ComboBox Autocomplete (String)</h3>
   <ComboBox v-model="comboStr" :options="arrayOfStrings" :size="5" />
-  <p>Your select in multiple objects: {{ comboStr }}</p>
+  <p>You choose the value in string: {{ comboStr }}</p>
+  <p><br/></p>
   <h3>ComboBox Autocomplete (Object)</h3>
   <ComboBox v-model="comboObj" :options="arrayOfObjects" :size="5" />
-  <p>Your select in multiple objects: {{ comboObj }}</p>
+  <p>You choose the value in object: {{ comboObj }}</p>
+  
+  <p><br /><br /></p>
+  <h3>ListBox (String)</h3>
+  <ListBox v-model="str" :options="arrayOfStrings" :size="5" />
+  <p>Your selected value is in string: {{ str }}</p>
+  <p><br/></p>
+  <h3>ListBox (Object)</h3>
+  <ListBox v-model="obj" :options="arrayOfObjects" :size="5" />
+  <p>Your selected value is in object: {{ obj }}</p>
+  <p><br/></p>
+  <h3>ListBox (Array of Strings)</h3>
+  <ListBox v-model="arrOfStr" :options="arrayOfStrings" :size="5" />
+  <p>Your selected value is in multiple strings: {{ arrOfStr }}</p>
+  <p><br/></p>
+  <h3>ListBox (Array of Objects)</h3>
+  <ListBox v-model="arrOfObj" :options="arrayOfObjects" :size="5" />
+  <p>Your selected value is in multiple objects: {{ arrOfObj }}</p>
+  
+  <p><br /><br /></p>
 </template>
 
 <style>
