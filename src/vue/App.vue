@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import SelectBox from './components/SelectBox.vue'
 import ComboBox from './components/ComboBox.vue'
 import ListBox from './components/ListBox.vue'
+import TagBox from './components/TagBox.vue'
 import { strOptions, objOptions } from './models/options'
 
 const arrayOfStrings = strOptions()
@@ -58,6 +59,15 @@ const comboObj = ref<any>({})
   <h3>ListBox (Array of Objects)</h3>
   <ListBox v-model="arrOfObj" :options="arrayOfObjects" :size="5" />
   <p>Your selected value is in multiple objects: {{ arrOfObj }}</p>
+  
+  <p><br /><br /></p>
+  <h3>TagBox (Strings)</h3>
+  <TagBox v-model="arrOfStr" :options="arrayOfStrings" :size="5" />
+  <p>Your selected value is in string: {{ arrOfStr }}</p>
+  <p><br/></p>
+  <h3>TagBox (Objects)</h3>
+  <TagBox v-model="arrOfObj" :options="arrayOfStrings" :size="5" />
+  <p>Your selected value is in string: {{ arrOfObj }}</p>
   
   <p><br /><br /></p>
 </template>
