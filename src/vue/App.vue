@@ -18,6 +18,7 @@ const comboObj = ref<any>({})
 </script>
 
 <template>
+<div class="container mt-20px mb-20px">
   <h3>SelectBox (String)</h3>
   <SelectBox v-model="str" :options="arrayOfStrings" :size="5" />
   <p>Your selected value is in string: {{ str }}</p>
@@ -70,15 +71,18 @@ const comboObj = ref<any>({})
   <p>Your selected value is in string: {{ arrOfObj }}</p>
   
   <p><br /><br /></p>
+</div>
 </template>
 
 <style>
+@use base;
+
 #app {
   font-family: Avenir, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  width: 800px;
   color: #2c3e50;
-  margin: 60px auto;
 }
+
+@use container;
 </style>

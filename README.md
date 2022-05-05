@@ -1,5 +1,5 @@
 # Tedir Select
-Tedir Select is a Vue 3 and a Web Component Custom SelectBox, ComboBox Autocomplete, ListBox, and Tags Input.
+Tedir Select is a Custom SelectBox, Multiple ListBox, ComboBox Autocomplete, and Tags Input for Vue 3 and Web Components
 
 ## Install & Usage
 ```bash

@@ -1,6 +1,6 @@
 {
   "name": "tedir-select",
-  "version": "0.0.1-wood8",
+  "version": "0.0.1-wood-8",
   "description": "Tedir Select is a Vue 3 & Web Component Custom SelectBox, ListBox, Taggable, etc.",
   "main": "dist/vue/tedir-select-vue.umd.js",
   "module": "dist/vue/tedir-select-vue.es.js",
@@ -49,6 +49,7 @@
     "vue-tsc": "^0.28.10"
   },
   "dependencies": {
+    "alga-css": "^1.0.0-stone-3",
     "vue": "^3.2.20"
   }
 }
