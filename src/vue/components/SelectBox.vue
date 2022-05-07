@@ -119,5 +119,4 @@ const getRandomChar = randomChar()
 @use form {
   field: input, check;
 }
-@use selectBox;
 </style>

@@ -1,3 +1,10 @@
-@import "./src/alga/selectBox.alga";
+@import "./src/alga/tedirSelect.alga";
 
-@export selectBox;
+/*@use picker;
+@use list;
+@use tags;
+@use form {
+  field: input, check;
+}*/
+
+@export tedirSelect;

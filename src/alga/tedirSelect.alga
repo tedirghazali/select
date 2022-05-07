@@ -1,0 +1,10 @@
+@alga tedirSelect {
+  .selectWrap {
+    ref: padding-0.3125rem;
+    ref-borderBottom: 1px solid #d9d9d9;
+  }
+  
+  .active {
+    ref: pointerEvents-none borderColor-hex4890eb backgroundColor-hex4c9bff color-hexfff;
+  }
+}

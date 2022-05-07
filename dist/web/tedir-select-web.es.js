@@ -3251,6 +3251,135 @@ function getSequence(arr) {
   return result;
 }
 const isTeleport = (type) => type.__isTeleport;
+const isTeleportDisabled = (props) => props && (props.disabled || props.disabled === "");
+const isTargetSVG = (target) => typeof SVGElement !== "undefined" && target instanceof SVGElement;
+const resolveTarget = (props, select) => {
+  const targetSelector = props && props.to;
+  if (isString(targetSelector)) {
+    if (!select) {
+      return null;
+    } else {
+      const target = select(targetSelector);
+      return target;
+    }
+  } else {
+    return targetSelector;
+  }
+};
+const TeleportImpl = {
+  __isTeleport: true,
+  process(n1, n2, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized, internals) {
+    const { mc: mountChildren, pc: patchChildren, pbc: patchBlockChildren, o: { insert, querySelector, createText, createComment } } = internals;
+    const disabled = isTeleportDisabled(n2.props);
+    let { shapeFlag, children, dynamicChildren } = n2;
+    if (n1 == null) {
+      const placeholder = n2.el = createText("");
+      const mainAnchor = n2.anchor = createText("");
+      insert(placeholder, container, anchor);
+      insert(mainAnchor, container, anchor);
+      const target = n2.target = resolveTarget(n2.props, querySelector);
+      const targetAnchor = n2.targetAnchor = createText("");
+      if (target) {
+        insert(targetAnchor, target);
+        isSVG = isSVG || isTargetSVG(target);
+      }
+      const mount = (container2, anchor2) => {
+        if (shapeFlag & 16) {
+          mountChildren(children, container2, anchor2, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized);
+        }
+      };
+      if (disabled) {
+        mount(container, mainAnchor);
+      } else if (target) {
+        mount(target, targetAnchor);
+      }
+    } else {
+      n2.el = n1.el;
+      const mainAnchor = n2.anchor = n1.anchor;
+      const target = n2.target = n1.target;
+      const targetAnchor = n2.targetAnchor = n1.targetAnchor;
+      const wasDisabled = isTeleportDisabled(n1.props);
+      const currentContainer = wasDisabled ? container : target;
+      const currentAnchor = wasDisabled ? mainAnchor : targetAnchor;
+      isSVG = isSVG || isTargetSVG(target);
+      if (dynamicChildren) {
+        patchBlockChildren(n1.dynamicChildren, dynamicChildren, currentContainer, parentComponent, parentSuspense, isSVG, slotScopeIds);
+        traverseStaticChildren(n1, n2, true);
+      } else if (!optimized) {
+        patchChildren(n1, n2, currentContainer, currentAnchor, parentComponent, parentSuspense, isSVG, slotScopeIds, false);
+      }
+      if (disabled) {
+        if (!wasDisabled) {
+          moveTeleport(n2, container, mainAnchor, internals, 1);
+        }
+      } else {
+        if ((n2.props && n2.props.to) !== (n1.props && n1.props.to)) {
+          const nextTarget = n2.target = resolveTarget(n2.props, querySelector);
+          if (nextTarget) {
+            moveTeleport(n2, nextTarget, null, internals, 0);
+          }
+        } else if (wasDisabled) {
+          moveTeleport(n2, target, targetAnchor, internals, 1);
+        }
+      }
+    }
+  },
+  remove(vnode, parentComponent, parentSuspense, optimized, { um: unmount, o: { remove: hostRemove } }, doRemove) {
+    const { shapeFlag, children, anchor, targetAnchor, target, props } = vnode;
+    if (target) {
+      hostRemove(targetAnchor);
+    }
+    if (doRemove || !isTeleportDisabled(props)) {
+      hostRemove(anchor);
+      if (shapeFlag & 16) {
+        for (let i = 0; i < children.length; i++) {
+          const child = children[i];
+          unmount(child, parentComponent, parentSuspense, true, !!child.dynamicChildren);
+        }
+      }
+    }
+  },
+  move: moveTeleport,
+  hydrate: hydrateTeleport
+};
+function moveTeleport(vnode, container, parentAnchor, { o: { insert }, m: move }, moveType = 2) {
+  if (moveType === 0) {
+    insert(vnode.targetAnchor, container, parentAnchor);
+  }
+  const { el, anchor, shapeFlag, children, props } = vnode;
+  const isReorder = moveType === 2;
+  if (isReorder) {
+    insert(el, container, parentAnchor);
+  }
+  if (!isReorder || isTeleportDisabled(props)) {
+    if (shapeFlag & 16) {
+      for (let i = 0; i < children.length; i++) {
+        move(children[i], container, parentAnchor, 2);
+      }
+    }
+  }
+  if (isReorder) {
+    insert(anchor, container, parentAnchor);
+  }
+}
+function hydrateTeleport(node, vnode, parentComponent, parentSuspense, slotScopeIds, optimized, { o: { nextSibling, parentNode, querySelector } }, hydrateChildren) {
+  const target = vnode.target = resolveTarget(vnode.props, querySelector);
+  if (target) {
+    const targetNode = target._lpa || target.firstChild;
+    if (vnode.shapeFlag & 16) {
+      if (isTeleportDisabled(vnode.props)) {
+        vnode.anchor = hydrateChildren(nextSibling(node), vnode, parentNode(node), parentComponent, parentSuspense, slotScopeIds, optimized);
+        vnode.targetAnchor = targetNode;
+      } else {
+        vnode.anchor = nextSibling(node);
+        vnode.targetAnchor = hydrateChildren(targetNode, vnode, target, parentComponent, parentSuspense, slotScopeIds, optimized);
+      }
+      target._lpa = vnode.targetAnchor && nextSibling(vnode.targetAnchor);
+    }
+  }
+  return vnode.anchor && nextSibling(vnode.anchor);
+}
+const Teleport = TeleportImpl;
 const NULL_DYNAMIC_COMPONENT = Symbol();
 const Fragment = Symbol(void 0);
 const Text = Symbol(void 0);
@@ -4819,7 +4948,7 @@ function ensureRenderer() {
 const render = (...args) => {
   ensureRenderer().render(...args);
 };
-var _style_0$2 = `.select[data-v-a5af6912]{position:relative}.selectBox[data-v-a5af6912]{position:relative;display:block;border:.0625rem solid rgba(0,0,0,.15);padding:.3125rem 1.25rem;border-radius:1rem;width:100%;min-height:44px;line-height:2rem;box-sizing:border-box;cursor:pointer;font-family:inherit;outline:none;user-select:none;appearance:none;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;font-size:.875rem;font-weight:400;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.selectBox[data-v-a5af6912]:hover{box-shadow:none;background:#fff;color:#6e6e6e}.selectBox[data-v-a5af6912]:after{border-bottom:3px solid rgba(0,0,0,.15);border-right:3px solid rgba(0,0,0,.15);content:"";display:block;height:10px;margin-top:-6px;pointer-events:none;position:absolute;right:8px;top:45%;margin-right:10px;-webkit-transform-origin:66% 66%;-ms-transform-origin:66% 66%;transform-origin:66% 66%;-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);transform:rotate(45deg);-webkit-transition:all .15s ease-in-out;transition:all .15s ease-in-out;width:10px}.show .selectBox[data-v-a5af6912]:after{-webkit-transform:rotate(-135deg);-ms-transform:rotate(-135deg);transform:rotate(-135deg)}.show .selectBox[data-v-a5af6912]{border-bottom-right-radius:0;border-bottom-left-radius:0}.selectPicker[data-v-a5af6912]{position:absolute;display:none;z-index:1001;background-color:#fff;border:.0625rem solid rgba(0,0,0,.15);border-top-width:0;border-bottom-right-radius:1rem;border-bottom-left-radius:1rem;width:100%;line-height:2rem;box-sizing:border-box;font-family:inherit;outline:none;user-select:none;appearance:none;white-space:nowrap;font-size:.875rem;font-weight:400;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.show .selectPicker[data-v-a5af6912]{display:block}.selectWrap[data-v-a5af6912]{padding:.3125rem}.selectSearch[data-v-a5af6912]{position:relative;display:block;border:.0625rem solid rgba(0,0,0,.15);padding:.15rem 1rem;border-radius:1rem;width:100%;line-height:2rem;box-sizing:border-box;font-family:inherit;outline:none;appearance:none;white-space:nowrap;font-size:.875rem;font-weight:400;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.selectList[data-v-a5af6912]{margin-bottom:1.25rem;overflow-x:hidden;overflow-y:auto}.selectItem[data-v-a5af6912]:first-child{border-top:.0625rem solid rgba(0,0,0,.15)}.selectItem[data-v-a5af6912]{padding:.3125rem 1.25rem;border-bottom:.0625rem solid rgba(0,0,0,.15);cursor:pointer}.selectItem[data-v-a5af6912]:hover{background:rgba(0,0,0,.05)}.selectItem[data-v-a5af6912]:active{background:rgba(0,0,0,.15)}.selectCheck[data-v-a5af6912]{display:flex;align-items:center;min-height:1.3125rem;padding-left:1.5em}.selectCheckInput[data-v-a5af6912]{width:1rem;height:1rem;background-color:#fff;background-repeat:no-repeat;background-position:center;background-size:contain;border:1px solid rgba(0,0,0,.15);appearance:none;color-adjust:exact;border-radius:.15rem}.selectCheckInput[data-v-a5af6912]:checked{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");background-color:#00000040}.selectCheck .selectCheckInput[data-v-a5af6912]{float:left;margin-left:-1.5em}.selectCheckLabel[data-v-a5af6912]{margin-left:.3125rem;display:inline-block}
+var _style_0$2 = `.picker[data-v-33121258]{width:auto}.pickerContent[data-v-33121258]{display:block;position:relative}.picker.dropdown .pickerContent[data-v-33121258]{display:inline-block}.pickerBackdrop[data-v-33121258]{position:fixed;z-index:5;inset:0 3em 3em 0;width:100vw;height:100vh;display:none}.picker.active .pickerBackdrop[data-v-33121258]{display:block}.pickerToggler[data-v-33121258]{padding:.5rem}.select.pickerToggler[data-v-33121258]{padding-left:.75rem;padding-right:.75rem}.pickerBody[data-v-33121258],.pickerMenu[data-v-33121258]{position:absolute;z-index:6;top:2.5rem;left:0;width:240px;background-color:#fff;border:1px solid #d9d9d9;display:none}.pickerBody[data-v-33121258]{padding:.75rem;border-radius:.375rem}.pickerMenu[data-v-33121258]{border-radius:.375rem}.pickerMenu .pickerWrap[data-v-33121258]{padding:.5rem;border-bottom:1px solid #d9d9d9}.pickerMenu .pickerGroup[data-v-33121258]{overflow-y:auto;max-height:360px}.pickerMenu .pickerItem[data-v-33121258]{display:block;padding:.5rem .75rem;border-bottom:1px solid #d9d9d9;text-decoration:none;color:#283541}.pickerMenu .pickerItem[data-v-33121258]:last-child{border-bottom:0}.pickerMenu.pickerSizing[data-v-33121258]{overflow-y:auto;max-height:360px}.suggestion .pickerMenu[data-v-33121258],.fill .pickerBody[data-v-33121258]{width:100%}.pickerEnd .pickerBody[data-v-33121258],.pickerEnd .pickerMenu[data-v-33121258]{right:0;left:auto}.picker.active .input.pickerToggler[data-v-33121258],.picker.active .select.pickerToggler[data-v-33121258]{border-bottom-right-radius:0;border-bottom-left-radius:0}.picker.active .pickerMenu[data-v-33121258]{border-top-right-radius:0;border-top-left-radius:0}.picker.active .pickerBody[data-v-33121258],.picker.active .pickerMenu[data-v-33121258]{display:block}.input[data-v-33121258],.select[data-v-33121258]{display:block;width:100%;padding:.5rem .75rem;margin:0;font-size:1rem;font-weight:400;line-height:1.5;background-color:#f9f9f9;background-clip:padding-box;appearance:none;color:#283541;border:1px solid #d9d9d9;border-radius:.375rem;outline:0;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.input[data-v-33121258]::placeholder,.select[data-v-33121258]::placeholder{color:#555}.input[data-v-33121258]:focus,.select[data-v-33121258]:focus{border-color:#1d84b6;background-color:#f7faff}.input[disabled][data-v-33121258],.input[readonly][data-v-33121258],.input.disabled[data-v-33121258],.select[disabled][data-v-33121258],.select[readonly][data-v-33121258],.select.disabled[data-v-33121258]{border-color:#d6d6d6;background-color:#f0f0f0;cursor:default}.input[disabled][data-v-33121258],.input.disabled[data-v-33121258],.select[disabled][data-v-33121258],.select.disabled[data-v-33121258]{color:#9b9b9b;user-select:none;pointer-events:none}.input.plainText[data-v-33121258]{background-color:transparent;border-color:transparent;padding-left:0;padding-right:0}.input.valid[data-v-33121258],.validated[data-v-33121258] :valid{border-color:#198754;background-color:#f1fff8;padding-right:calc(1.5em + 0.75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(0.375em + 0.1875rem) center;background-size:calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)}.validMessage[data-v-33121258]{display:none;width:100%;margin-top:.25rem;font-size:.875em;color:#198754}.validTooltip[data-v-33121258]{position:absolute;top:100%;z-index:5;display:none;max-width:100%;padding:.25rem .5rem;margin-top:.1rem;font-size:.875rem;color:#fff;background-color:#198754e6;border-radius:.25rem}.input.invalid[data-v-33121258],.validated[data-v-33121258] :invalid{border-color:#dc3545;background-color:#fbf1f2;padding-right:calc(1.5em + 0.75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(0.375em + 0.1875rem) center;background-size:calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)}.invalidMessage[data-v-33121258]{display:none;width:100%;margin-top:.25rem;font-size:.875em;color:#dc3545}.invalidTooltip[data-v-33121258]{position:absolute;top:100%;z-index:5;display:none;max-width:100%;padding:.25rem .5rem;margin-top:.1rem;font-size:.875rem;color:#fff;background-color:#dc3545e6;border-radius:.25rem}.valid~.validMessage[data-v-33121258],.valid~.validTooltip[data-v-33121258],.validated :valid~.validMessage[data-v-33121258],.validated :valid~.validTooltip[data-v-33121258],.invalid~.invalidMessage[data-v-33121258],.invalid~.invalidTooltip[data-v-33121258],.validated :invalid~.invalidMessage[data-v-33121258],.validated :invalid~.invalidTooltip[data-v-33121258]{display:block}textarea.input[data-v-33121258]{min-height:6.5rem;resize:none}.select[data-v-33121258]:not([multiple]){padding:.5rem;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right .75rem center;background-size:16px 12px}.select[multiple][data-v-33121258]{padding-top:.5rem;padding-bottom:.5rem}.select[multiple] option[data-v-33121258]{padding-top:.375rem;padding-bottom:.375rem;outline:0}.check[data-v-33121258]{display:inline-flex;align-items:center}.check .checkInput[data-v-33121258]{width:1.5em;height:1.5em;appearance:none;border:1px solid #d9d9d9}.check .checkInput[type=checkbox][data-v-33121258]{border-radius:.25rem}.check .checkInput[type=radio][data-v-33121258]{border-radius:.75rem}.check .checkInput[data-v-33121258]:checked{border-color:#1d84b6;background-color:#1d84b6}.check .checkInput[disabled][data-v-33121258],.check .checkInput.disabled[data-v-33121258]{border-color:#d6d6d6;background-color:#f0f0f0;pointer-events:none}.check .checkInput:checked[disabled][data-v-33121258],.check .checkInput:checked.disabled[data-v-33121258]{background-color:#bbb}.check .checkInput[disabled]~.checkLabel[data-v-33121258],.check .checkInput.disabled~.checkLabel[data-v-33121258]{color:#9b9b9b;cursor:default}.check .checkInput[type=checkbox][data-v-33121258]:checked{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e")}.check .checkInput[type=checkbox][data-v-33121258]:indeterminate{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e")}.check .checkInput[type=radio][data-v-33121258]:checked{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e")}.check .checkLabel[data-v-33121258]{display:inline-block;padding-left:.25rem}.check.switch .checkInput[data-v-33121258]{width:2.85em;background-repeat:no-repeat;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%280, 0, 0, 0.25%29'/%3e%3c/svg%3e");background-position:left center;border-radius:2em;transition:background-position .15s ease-in-out}.check.switch .checkInput[data-v-33121258]:checked{background-position:right center;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e")}.mt-20px[data-v-33121258]{margin-top:20px}.mb-20px[data-v-33121258]{margin-bottom:20px}.feather-x[data-v-33121258]{feather:x}
 `;
 var _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
@@ -4828,20 +4957,21 @@ var _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _hoisted_1$2 = { class: "selectPicker" };
-const _hoisted_2$2 = { class: "selectWrap" };
-const _hoisted_3$2 = ["onClick"];
-const _hoisted_4$2 = { class: "selectCheck" };
-const _hoisted_5$1 = ["checked", "id", "onChange"];
-const _hoisted_6$1 = ["for"];
-const _hoisted_7$1 = ["onClick"];
-const _hoisted_8$1 = { class: "selectCheck" };
-const _hoisted_9$1 = ["checked", "id", "onChange"];
-const _hoisted_10$1 = ["for"];
-const _hoisted_11$1 = ["onClick"];
+const _hoisted_1$2 = { class: "pickerContent" };
+const _hoisted_2$2 = { class: "pickerMenu" };
+const _hoisted_3$2 = { class: "pickerWrap" };
+const _hoisted_4$2 = ["onClick"];
+const _hoisted_5$2 = { class: "check" };
+const _hoisted_6$1 = ["checked", "id", "onChange"];
+const _hoisted_7$1 = ["for"];
+const _hoisted_8$1 = ["onClick"];
+const _hoisted_9$1 = { class: "check" };
+const _hoisted_10$1 = ["checked", "id", "onChange"];
+const _hoisted_11$1 = ["for"];
 const _hoisted_12$1 = ["onClick"];
 const _hoisted_13$1 = ["onClick"];
 const _hoisted_14$1 = ["onClick"];
+const _hoisted_15 = ["onClick"];
 const _sfc_main$2 = /* @__PURE__ */ defineComponent({
   props: {
     modelValue: { default: null },
@@ -4877,11 +5007,6 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
       }
       return newOptions;
     });
-    onUpdated(() => {
-      document.addEventListener("click", () => {
-        picker.value = false;
-      });
-    });
     const randomChar = () => {
       let allChar = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
       let resChar = "";
@@ -4893,42 +5018,43 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     const getRandomChar = randomChar();
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", {
-        class: normalizeClass(["select", { show: picker.value === true }]),
-        onClick: _cache[2] || (_cache[2] = withModifiers(() => {
-        }, ["stop"]))
+        class: normalizeClass(["picker suggestion", picker.value ? "active" : ""])
       }, [
-        createBaseVNode("div", {
-          class: "selectBox",
-          onClick: _cache[0] || (_cache[0] = ($event) => picker.value = !picker.value)
-        }, [
-          typeof __props.modelValue === "string" && __props.modelValue !== "" ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
-            createTextVNode(toDisplayString(__props.modelValue), 1)
-          ], 64)) : typeof __props.modelValue === "object" && __props.prop in __props.modelValue ? (openBlock(), createElementBlock(Fragment, { key: 1 }, [
-            createTextVNode(toDisplayString(__props.modelValue[__props.prop]), 1)
-          ], 64)) : Array.isArray(__props.modelValue) && __props.modelValue.length >= 1 && typeof __props.modelValue[0] === "string" ? (openBlock(), createElementBlock(Fragment, { key: 2 }, [
-            createTextVNode(toDisplayString(__props.modelValue.join(", ")), 1)
-          ], 64)) : Array.isArray(__props.modelValue) && __props.modelValue.length >= 1 && typeof __props.modelValue[0] === "object" && __props.prop in __props.modelValue[0] ? (openBlock(), createElementBlock(Fragment, { key: 3 }, [
-            createTextVNode(toDisplayString(__props.modelValue.map((i) => i[__props.prop]).join(", ")), 1)
-          ], 64)) : (openBlock(), createElementBlock(Fragment, { key: 4 }, [
-            createTextVNode(toDisplayString(__props.placeholder), 1)
-          ], 64))
-        ]),
+        (openBlock(), createBlock(Teleport, { to: "body" }, [
+          createBaseVNode("div", {
+            class: "pickerBackdrop",
+            style: normalizeStyle({ display: picker.value ? "block" : "none" }),
+            onClick: _cache[0] || (_cache[0] = ($event) => picker.value = false)
+          }, null, 4)
+        ])),
         createBaseVNode("div", _hoisted_1$2, [
-          createBaseVNode("div", _hoisted_2$2, [
-            withDirectives(createBaseVNode("input", {
-              type: "search",
-              "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => searchStr.value = $event),
-              class: "selectSearch"
-            }, null, 512), [
-              [vModelText, searchStr.value]
-            ])
-          ]),
-          Array.isArray(__props.modelValue) ? (openBlock(), createElementBlock("div", {
-            key: 0,
-            class: "selectList",
-            style: normalizeStyle({ "max-height": Number(__props.size) !== 0 ? Number(__props.size) * 44 + "px" : "auto" })
+          createBaseVNode("div", {
+            class: "select pickerToggler",
+            onClick: _cache[1] || (_cache[1] = ($event) => picker.value = true)
           }, [
-            (openBlock(true), createElementBlock(Fragment, null, renderList(unref(filteredOptions), (option, index) => {
+            typeof __props.modelValue === "string" && __props.modelValue !== "" ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
+              createTextVNode(toDisplayString(__props.modelValue), 1)
+            ], 64)) : typeof __props.modelValue === "object" && __props.prop in __props.modelValue ? (openBlock(), createElementBlock(Fragment, { key: 1 }, [
+              createTextVNode(toDisplayString(__props.modelValue[__props.prop]), 1)
+            ], 64)) : Array.isArray(__props.modelValue) && __props.modelValue.length >= 1 && typeof __props.modelValue[0] === "string" ? (openBlock(), createElementBlock(Fragment, { key: 2 }, [
+              createTextVNode(toDisplayString(__props.modelValue.join(", ")), 1)
+            ], 64)) : Array.isArray(__props.modelValue) && __props.modelValue.length >= 1 && typeof __props.modelValue[0] === "object" && __props.prop in __props.modelValue[0] ? (openBlock(), createElementBlock(Fragment, { key: 3 }, [
+              createTextVNode(toDisplayString(__props.modelValue.map((i) => i[__props.prop]).join(", ")), 1)
+            ], 64)) : (openBlock(), createElementBlock(Fragment, { key: 4 }, [
+              createTextVNode(toDisplayString(__props.placeholder), 1)
+            ], 64))
+          ]),
+          createBaseVNode("div", _hoisted_2$2, [
+            createBaseVNode("div", _hoisted_3$2, [
+              withDirectives(createBaseVNode("input", {
+                type: "search",
+                "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => searchStr.value = $event),
+                class: "input"
+              }, null, 512), [
+                [vModelText, searchStr.value]
+              ])
+            ]),
+            Array.isArray(__props.modelValue) ? (openBlock(true), createElementBlock(Fragment, { key: 0 }, renderList(unref(filteredOptions), (option, index) => {
               return openBlock(), createElementBlock(Fragment, {
                 key: "option-" + option
               }, [
@@ -4938,69 +5064,63 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
                     !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i === option), 1);
                     emit("update:modelValue", __props.modelValue);
                   },
-                  class: "selectItem"
+                  class: "pickerItem"
                 }, [
-                  createBaseVNode("div", _hoisted_4$2, [
+                  createBaseVNode("div", _hoisted_5$2, [
                     createBaseVNode("input", {
                       type: "checkbox",
-                      class: "selectCheckInput",
+                      class: "checkInput",
                       checked: __props.modelValue.includes(option),
                       id: "check-" + (unref(getRandomChar) + String(index)),
                       onChange: ($event) => {
                         !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((j) => j === option), 1);
                         emit("update:modelValue", __props.modelValue);
                       }
-                    }, null, 40, _hoisted_5$1),
+                    }, null, 40, _hoisted_6$1),
                     createBaseVNode("label", {
-                      class: "selectCheckLabel",
+                      class: "checkLabel",
                       for: "check-" + (unref(getRandomChar) + String(index))
-                    }, toDisplayString(option), 9, _hoisted_6$1)
+                    }, toDisplayString(option), 9, _hoisted_7$1)
                   ])
-                ], 8, _hoisted_3$2)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
+                ], 8, _hoisted_4$2)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
                   key: 1,
                   onClick: ($event) => {
                     !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i[__props.prop] === option[__props.prop]), 1);
                     emit("update:modelValue", __props.modelValue);
                   },
-                  class: "selectItem"
+                  class: "pickerItem"
                 }, [
-                  createBaseVNode("div", _hoisted_8$1, [
+                  createBaseVNode("div", _hoisted_9$1, [
                     createBaseVNode("input", {
                       type: "checkbox",
-                      class: "selectCheckInput",
+                      class: "checkInput",
                       checked: __props.modelValue.includes(option),
                       id: "check-" + (unref(getRandomChar) + String(index)),
                       onChange: ($event) => {
                         !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((j) => j[__props.prop] === option[__props.prop]), 1);
                         emit("update:modelValue", __props.modelValue);
                       }
-                    }, null, 40, _hoisted_9$1),
+                    }, null, 40, _hoisted_10$1),
                     createBaseVNode("label", {
-                      class: "selectCheckLabel",
+                      class: "checkLabel",
                       for: "check-" + (unref(getRandomChar) + String(index))
-                    }, toDisplayString(option[__props.prop]), 9, _hoisted_10$1)
+                    }, toDisplayString(option[__props.prop]), 9, _hoisted_11$1)
                   ])
-                ], 8, _hoisted_7$1)) : (openBlock(), createElementBlock("div", {
+                ], 8, _hoisted_8$1)) : (openBlock(), createElementBlock("div", {
                   key: 2,
                   onClick: ($event) => {
                     !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i === option), 1);
                     emit("update:modelValue", __props.modelValue);
                   },
-                  class: "selectItem"
+                  class: "pickerItem"
                 }, [
                   renderSlot(_ctx.$slots, "default", {
                     option,
                     items: __props.modelValue
                   }, void 0, true)
-                ], 8, _hoisted_11$1))
+                ], 8, _hoisted_12$1))
               ], 64);
-            }), 128))
-          ], 4)) : (openBlock(), createElementBlock("div", {
-            key: 1,
-            class: "selectList",
-            style: normalizeStyle({ "max-height": Number(__props.size) !== 0 ? Number(__props.size) * 44 + "px" : "auto" })
-          }, [
-            (openBlock(true), createElementBlock(Fragment, null, renderList(unref(filteredOptions), (option, index) => {
+            }), 128)) : (openBlock(true), createElementBlock(Fragment, { key: 1 }, renderList(unref(filteredOptions), (option, index) => {
               return openBlock(), createElementBlock(Fragment, {
                 key: "option-" + option
               }, [
@@ -5010,15 +5130,15 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
                     emit("update:modelValue", option);
                     picker.value = false;
                   },
-                  class: "selectItem"
-                }, toDisplayString(option), 9, _hoisted_12$1)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
+                  class: "pickerItem"
+                }, toDisplayString(option), 9, _hoisted_13$1)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
                   key: 1,
                   onClick: ($event) => {
                     emit("update:modelValue", option);
                     picker.value = false;
                   },
-                  class: "selectItem"
-                }, toDisplayString(option[__props.prop]), 9, _hoisted_13$1)) : (openBlock(), createElementBlock("div", {
+                  class: "pickerItem"
+                }, toDisplayString(option[__props.prop]), 9, _hoisted_14$1)) : (openBlock(), createElementBlock("div", {
                   key: 2,
                   onClick: ($event) => {
                     emit("update:modelValue", option);
@@ -5027,21 +5147,23 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
                   class: "selectItem"
                 }, [
                   renderSlot(_ctx.$slots, "default", { option }, void 0, true)
-                ], 8, _hoisted_14$1))
+                ], 8, _hoisted_15))
               ], 64);
             }), 128))
-          ], 4))
+          ])
         ])
       ], 2);
     };
   }
 });
-var VueSelectBox = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["styles", [_style_0$2]], ["__scopeId", "data-v-a5af6912"]]);
-var _style_0$1 = ".combo[data-v-75a36584]{position:relative}.comboBox[data-v-75a36584]{position:relative;display:block;border:.0625rem solid rgba(0,0,0,.15);padding:.3125rem 1.25rem;border-radius:1rem;width:100%;min-height:44px;line-height:2rem;box-sizing:border-box;font-family:inherit;outline:none;user-select:none;appearance:none;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;font-size:.875rem;font-weight:400;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.comboBox[data-v-75a36584]:hover{box-shadow:none;background:#fff;color:#6e6e6e}.show .comboBox[data-v-75a36584]{border-bottom-right-radius:0;border-bottom-left-radius:0}.comboPicker[data-v-75a36584]{position:absolute;display:none;z-index:1001;background-color:#fff;border:.0625rem solid rgba(0,0,0,.15);border-top-width:0;border-bottom-right-radius:1rem;border-bottom-left-radius:1rem;width:100%;line-height:2rem;box-sizing:border-box;font-family:inherit;outline:none;user-combo:none;appearance:none;white-space:nowrap;font-size:.875rem;font-weight:400;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.show .comboPicker[data-v-75a36584]{display:block}.comboList[data-v-75a36584]{margin-bottom:1.25rem;overflow-x:hidden;overflow-y:auto}.comboItem[data-v-75a36584]{padding:.3125rem 1.25rem;border-bottom:.0625rem solid rgba(0,0,0,.15);cursor:pointer}.comboItem[data-v-75a36584]:hover{background:rgba(0,0,0,.05)}.comboItem[data-v-75a36584]:active{background:rgba(0,0,0,.15)}\n";
-const _hoisted_1$1 = { class: "comboPicker" };
-const _hoisted_2$1 = ["onClick"];
+var VueSelectBox = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["styles", [_style_0$2]], ["__scopeId", "data-v-33121258"]]);
+var _style_0$1 = `.picker[data-v-7ea5c7cc]{width:auto}.pickerContent[data-v-7ea5c7cc]{display:block;position:relative}.picker.dropdown .pickerContent[data-v-7ea5c7cc]{display:inline-block}.pickerBackdrop[data-v-7ea5c7cc]{position:fixed;z-index:5;inset:0 3em 3em 0;width:100vw;height:100vh;display:none}.picker.active .pickerBackdrop[data-v-7ea5c7cc]{display:block}.pickerToggler[data-v-7ea5c7cc]{padding:.5rem}.select.pickerToggler[data-v-7ea5c7cc]{padding-left:.75rem;padding-right:.75rem}.pickerBody[data-v-7ea5c7cc],.pickerMenu[data-v-7ea5c7cc]{position:absolute;z-index:6;top:2.5rem;left:0;width:240px;background-color:#fff;border:1px solid #d9d9d9;display:none}.pickerBody[data-v-7ea5c7cc]{padding:.75rem;border-radius:.375rem}.pickerMenu[data-v-7ea5c7cc]{border-radius:.375rem}.pickerMenu .pickerWrap[data-v-7ea5c7cc]{padding:.5rem;border-bottom:1px solid #d9d9d9}.pickerMenu .pickerGroup[data-v-7ea5c7cc]{overflow-y:auto;max-height:360px}.pickerMenu .pickerItem[data-v-7ea5c7cc]{display:block;padding:.5rem .75rem;border-bottom:1px solid #d9d9d9;text-decoration:none;color:#283541}.pickerMenu .pickerItem[data-v-7ea5c7cc]:last-child{border-bottom:0}.pickerMenu.pickerSizing[data-v-7ea5c7cc]{overflow-y:auto;max-height:360px}.suggestion .pickerMenu[data-v-7ea5c7cc],.fill .pickerBody[data-v-7ea5c7cc]{width:100%}.pickerEnd .pickerBody[data-v-7ea5c7cc],.pickerEnd .pickerMenu[data-v-7ea5c7cc]{right:0;left:auto}.picker.active .input.pickerToggler[data-v-7ea5c7cc],.picker.active .select.pickerToggler[data-v-7ea5c7cc]{border-bottom-right-radius:0;border-bottom-left-radius:0}.picker.active .pickerMenu[data-v-7ea5c7cc]{border-top-right-radius:0;border-top-left-radius:0}.picker.active .pickerBody[data-v-7ea5c7cc],.picker.active .pickerMenu[data-v-7ea5c7cc]{display:block}.input[data-v-7ea5c7cc],.select[data-v-7ea5c7cc]{display:block;width:100%;padding:.5rem .75rem;margin:0;font-size:1rem;font-weight:400;line-height:1.5;background-color:#f9f9f9;background-clip:padding-box;appearance:none;color:#283541;border:1px solid #d9d9d9;border-radius:.375rem;outline:0;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.input[data-v-7ea5c7cc]::placeholder,.select[data-v-7ea5c7cc]::placeholder{color:#555}.input[data-v-7ea5c7cc]:focus,.select[data-v-7ea5c7cc]:focus{border-color:#1d84b6;background-color:#f7faff}.input[disabled][data-v-7ea5c7cc],.input[readonly][data-v-7ea5c7cc],.input.disabled[data-v-7ea5c7cc],.select[disabled][data-v-7ea5c7cc],.select[readonly][data-v-7ea5c7cc],.select.disabled[data-v-7ea5c7cc]{border-color:#d6d6d6;background-color:#f0f0f0;cursor:default}.input[disabled][data-v-7ea5c7cc],.input.disabled[data-v-7ea5c7cc],.select[disabled][data-v-7ea5c7cc],.select.disabled[data-v-7ea5c7cc]{color:#9b9b9b;user-select:none;pointer-events:none}.input.plainText[data-v-7ea5c7cc]{background-color:transparent;border-color:transparent;padding-left:0;padding-right:0}.input.valid[data-v-7ea5c7cc],.validated[data-v-7ea5c7cc] :valid{border-color:#198754;background-color:#f1fff8;padding-right:calc(1.5em + 0.75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(0.375em + 0.1875rem) center;background-size:calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)}.validMessage[data-v-7ea5c7cc]{display:none;width:100%;margin-top:.25rem;font-size:.875em;color:#198754}.validTooltip[data-v-7ea5c7cc]{position:absolute;top:100%;z-index:5;display:none;max-width:100%;padding:.25rem .5rem;margin-top:.1rem;font-size:.875rem;color:#fff;background-color:#198754e6;border-radius:.25rem}.input.invalid[data-v-7ea5c7cc],.validated[data-v-7ea5c7cc] :invalid{border-color:#dc3545;background-color:#fbf1f2;padding-right:calc(1.5em + 0.75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(0.375em + 0.1875rem) center;background-size:calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)}.invalidMessage[data-v-7ea5c7cc]{display:none;width:100%;margin-top:.25rem;font-size:.875em;color:#dc3545}.invalidTooltip[data-v-7ea5c7cc]{position:absolute;top:100%;z-index:5;display:none;max-width:100%;padding:.25rem .5rem;margin-top:.1rem;font-size:.875rem;color:#fff;background-color:#dc3545e6;border-radius:.25rem}.valid~.validMessage[data-v-7ea5c7cc],.valid~.validTooltip[data-v-7ea5c7cc],.validated :valid~.validMessage[data-v-7ea5c7cc],.validated :valid~.validTooltip[data-v-7ea5c7cc],.invalid~.invalidMessage[data-v-7ea5c7cc],.invalid~.invalidTooltip[data-v-7ea5c7cc],.validated :invalid~.invalidMessage[data-v-7ea5c7cc],.validated :invalid~.invalidTooltip[data-v-7ea5c7cc]{display:block}textarea.input[data-v-7ea5c7cc]{min-height:6.5rem;resize:none}.select[data-v-7ea5c7cc]:not([multiple]){padding:.5rem;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right .75rem center;background-size:16px 12px}.select[multiple][data-v-7ea5c7cc]{padding-top:.5rem;padding-bottom:.5rem}.select[multiple] option[data-v-7ea5c7cc]{padding-top:.375rem;padding-bottom:.375rem;outline:0}.mt-20px[data-v-7ea5c7cc]{margin-top:20px}.mb-20px[data-v-7ea5c7cc]{margin-bottom:20px}.feather-x[data-v-7ea5c7cc]{feather:x}
+`;
+const _hoisted_1$1 = { class: "pickerContent" };
+const _hoisted_2$1 = { class: "pickerMenu" };
 const _hoisted_3$1 = ["onClick"];
 const _hoisted_4$1 = ["onClick"];
+const _hoisted_5$1 = ["onClick"];
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   props: {
     modelValue: { default: null },
@@ -5077,31 +5199,28 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       }
       return newOptions;
     });
-    onUpdated(() => {
-      document.addEventListener("click", () => {
-        picker.value = false;
-      });
-    });
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", {
-        class: normalizeClass(["combo", { show: picker.value === true }]),
-        onClick: _cache[3] || (_cache[3] = withModifiers(() => {
-        }, ["stop"]))
+        class: normalizeClass(["picker suggestion", picker.value ? "active" : ""])
       }, [
-        withDirectives(createBaseVNode("input", {
-          type: "search",
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => searchStr.value = $event),
-          onInput: _cache[1] || (_cache[1] = ($event) => unref(filteredOptions).length >= 1 && searchStr.value !== "" ? picker.value = true : picker.value = false),
-          onClick: _cache[2] || (_cache[2] = ($event) => unref(filteredOptions).length >= 1 && searchStr.value !== "" ? picker.value = true : picker.value = false),
-          class: "comboBox"
-        }, null, 544), [
-          [vModelText, searchStr.value]
-        ]),
-        createBaseVNode("div", _hoisted_1$1, [
+        (openBlock(), createBlock(Teleport, { to: "body" }, [
           createBaseVNode("div", {
-            class: "comboList",
-            style: normalizeStyle({ "max-height": Number(__props.size) !== 0 ? Number(__props.size) * 44 + "px" : "auto" })
-          }, [
+            class: "pickerBackdrop",
+            style: normalizeStyle({ display: picker.value ? "block" : "none" }),
+            onClick: _cache[0] || (_cache[0] = ($event) => picker.value = false)
+          }, null, 4)
+        ])),
+        createBaseVNode("div", _hoisted_1$1, [
+          withDirectives(createBaseVNode("input", {
+            type: "search",
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => searchStr.value = $event),
+            onInput: _cache[2] || (_cache[2] = ($event) => unref(filteredOptions).length >= 1 && searchStr.value !== "" ? picker.value = true : picker.value = false),
+            onClick: _cache[3] || (_cache[3] = ($event) => unref(filteredOptions).length >= 1 && searchStr.value !== "" ? picker.value = true : picker.value = false),
+            class: "input"
+          }, null, 544), [
+            [vModelText, searchStr.value]
+          ]),
+          createBaseVNode("div", _hoisted_2$1, [
             (openBlock(true), createElementBlock(Fragment, null, renderList(unref(filteredOptions), (option, index) => {
               return openBlock(), createElementBlock(Fragment, {
                 key: "option-" + option
@@ -5113,16 +5232,16 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
                     emit("update:modelValue", option);
                     picker.value = false;
                   },
-                  class: "comboItem"
-                }, toDisplayString(option), 9, _hoisted_2$1)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
+                  class: "pickerItem"
+                }, toDisplayString(option), 9, _hoisted_3$1)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
                   key: 1,
                   onClick: ($event) => {
                     searchStr.value = option[__props.prop];
                     emit("update:modelValue", option);
                     picker.value = false;
                   },
-                  class: "comboItem"
-                }, toDisplayString(option[__props.prop]), 9, _hoisted_3$1)) : (openBlock(), createElementBlock("div", {
+                  class: "pickerItem"
+                }, toDisplayString(option[__props.prop]), 9, _hoisted_4$1)) : (openBlock(), createElementBlock("div", {
                   key: 2,
                   onClick: ($event) => {
                     searchStr.value = option;
@@ -5132,26 +5251,26 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
                   class: "comboItem"
                 }, [
                   renderSlot(_ctx.$slots, "default", { option }, void 0, true)
-                ], 8, _hoisted_4$1))
+                ], 8, _hoisted_5$1))
               ], 64);
             }), 128))
-          ], 4)
+          ])
         ])
       ], 2);
     };
   }
 });
-var VueComboBox = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["styles", [_style_0$1]], ["__scopeId", "data-v-75a36584"]]);
-var _style_0 = `.list[data-v-237a8ef9]{position:relative}.listBox[data-v-237a8ef9]{position:relative;display:block;background-color:#fff;border:.0625rem solid rgba(0,0,0,.15);border-radius:1rem;width:100%;line-height:2rem;box-sizing:border-box;font-family:inherit;outline:none;user-list:none;appearance:none;white-space:nowrap;font-size:.875rem;font-weight:400;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.listWrap[data-v-237a8ef9]{padding:.3125rem}.listSearch[data-v-237a8ef9]{position:relative;display:block;border:.0625rem solid rgba(0,0,0,.15);padding:.15rem 1rem;border-radius:1rem;width:100%;line-height:2rem;box-sizing:border-box;font-family:inherit;outline:none;appearance:none;white-space:nowrap;font-size:.875rem;font-weight:400;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.listGroup[data-v-237a8ef9]{margin-bottom:1.25rem;overflow-x:hidden;overflow-y:auto}.listItem[data-v-237a8ef9]:first-child{border-top:.0625rem solid rgba(0,0,0,.15)}.listItem[data-v-237a8ef9]{padding:.3125rem 1.25rem;border-bottom:.0625rem solid rgba(0,0,0,.15);cursor:pointer}.listItem[data-v-237a8ef9]:hover{background:rgba(0,0,0,.05)}.listItem[data-v-237a8ef9]:active{background:rgba(0,0,0,.15)}.listCheck[data-v-237a8ef9]{display:flex;align-items:center;min-height:1.3125rem;padding-left:1.5em}.listCheckInput[data-v-237a8ef9]{width:1rem;height:1rem;background-color:#fff;background-repeat:no-repeat;background-position:center;background-size:contain;border:1px solid rgba(0,0,0,.15);appearance:none;color-adjust:exact;border-radius:.15rem}.listCheckInput[data-v-237a8ef9]:checked{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");background-color:#00000040}.listCheck .listCheckInput[data-v-237a8ef9]{float:left;margin-left:-1.5em}.listCheckLabel[data-v-237a8ef9]{margin-left:.3125rem;display:inline-block}
+var VueComboBox = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["styles", [_style_0$1]], ["__scopeId", "data-v-7ea5c7cc"]]);
+var _style_0 = `.list[data-v-273c1180]{width:100%;background-color:#fff;border:1px solid #d9d9d9;border-radius:.375rem}.list .listWrap[data-v-273c1180]{padding:.5rem;border-bottom:1px solid #d9d9d9}.list .listGroup[data-v-273c1180]{overflow-y:auto;max-height:360px}.list .listItem[data-v-273c1180]{display:block;padding:.5rem .75rem;border-bottom:1px solid #d9d9d9;text-decoration:none;color:#283541}.list .listItem[data-v-273c1180]:last-child{border-bottom:0}.list.sizing[data-v-273c1180]{overflow-y:auto;max-height:360px}.input[data-v-273c1180],.select[data-v-273c1180]{display:block;width:100%;padding:.5rem .75rem;margin:0;font-size:1rem;font-weight:400;line-height:1.5;background-color:#f9f9f9;background-clip:padding-box;appearance:none;color:#283541;border:1px solid #d9d9d9;border-radius:.375rem;outline:0;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.input[data-v-273c1180]::placeholder,.select[data-v-273c1180]::placeholder{color:#555}.input[data-v-273c1180]:focus,.select[data-v-273c1180]:focus{border-color:#1d84b6;background-color:#f7faff}.input[disabled][data-v-273c1180],.input[readonly][data-v-273c1180],.input.disabled[data-v-273c1180],.select[disabled][data-v-273c1180],.select[readonly][data-v-273c1180],.select.disabled[data-v-273c1180]{border-color:#d6d6d6;background-color:#f0f0f0;cursor:default}.input[disabled][data-v-273c1180],.input.disabled[data-v-273c1180],.select[disabled][data-v-273c1180],.select.disabled[data-v-273c1180]{color:#9b9b9b;user-select:none;pointer-events:none}.input.plainText[data-v-273c1180]{background-color:transparent;border-color:transparent;padding-left:0;padding-right:0}.input.valid[data-v-273c1180],.validated[data-v-273c1180] :valid{border-color:#198754;background-color:#f1fff8;padding-right:calc(1.5em + 0.75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(0.375em + 0.1875rem) center;background-size:calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)}.validMessage[data-v-273c1180]{display:none;width:100%;margin-top:.25rem;font-size:.875em;color:#198754}.validTooltip[data-v-273c1180]{position:absolute;top:100%;z-index:5;display:none;max-width:100%;padding:.25rem .5rem;margin-top:.1rem;font-size:.875rem;color:#fff;background-color:#198754e6;border-radius:.25rem}.input.invalid[data-v-273c1180],.validated[data-v-273c1180] :invalid{border-color:#dc3545;background-color:#fbf1f2;padding-right:calc(1.5em + 0.75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(0.375em + 0.1875rem) center;background-size:calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)}.invalidMessage[data-v-273c1180]{display:none;width:100%;margin-top:.25rem;font-size:.875em;color:#dc3545}.invalidTooltip[data-v-273c1180]{position:absolute;top:100%;z-index:5;display:none;max-width:100%;padding:.25rem .5rem;margin-top:.1rem;font-size:.875rem;color:#fff;background-color:#dc3545e6;border-radius:.25rem}.valid~.validMessage[data-v-273c1180],.valid~.validTooltip[data-v-273c1180],.validated :valid~.validMessage[data-v-273c1180],.validated :valid~.validTooltip[data-v-273c1180],.invalid~.invalidMessage[data-v-273c1180],.invalid~.invalidTooltip[data-v-273c1180],.validated :invalid~.invalidMessage[data-v-273c1180],.validated :invalid~.invalidTooltip[data-v-273c1180]{display:block}textarea.input[data-v-273c1180]{min-height:6.5rem;resize:none}.select[data-v-273c1180]:not([multiple]){padding:.5rem;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right .75rem center;background-size:16px 12px}.select[multiple][data-v-273c1180]{padding-top:.5rem;padding-bottom:.5rem}.select[multiple] option[data-v-273c1180]{padding-top:.375rem;padding-bottom:.375rem;outline:0}.check[data-v-273c1180]{display:inline-flex;align-items:center}.check .checkInput[data-v-273c1180]{width:1.5em;height:1.5em;appearance:none;border:1px solid #d9d9d9}.check .checkInput[type=checkbox][data-v-273c1180]{border-radius:.25rem}.check .checkInput[type=radio][data-v-273c1180]{border-radius:.75rem}.check .checkInput[data-v-273c1180]:checked{border-color:#1d84b6;background-color:#1d84b6}.check .checkInput[disabled][data-v-273c1180],.check .checkInput.disabled[data-v-273c1180]{border-color:#d6d6d6;background-color:#f0f0f0;pointer-events:none}.check .checkInput:checked[disabled][data-v-273c1180],.check .checkInput:checked.disabled[data-v-273c1180]{background-color:#bbb}.check .checkInput[disabled]~.checkLabel[data-v-273c1180],.check .checkInput.disabled~.checkLabel[data-v-273c1180]{color:#9b9b9b;cursor:default}.check .checkInput[type=checkbox][data-v-273c1180]:checked{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e")}.check .checkInput[type=checkbox][data-v-273c1180]:indeterminate{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e")}.check .checkInput[type=radio][data-v-273c1180]:checked{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e")}.check .checkLabel[data-v-273c1180]{display:inline-block;padding-left:.25rem}.check.switch .checkInput[data-v-273c1180]{width:2.85em;background-repeat:no-repeat;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%280, 0, 0, 0.25%29'/%3e%3c/svg%3e");background-position:left center;border-radius:2em;transition:background-position .15s ease-in-out}.check.switch .checkInput[data-v-273c1180]:checked{background-position:right center;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e")}.listItem.active[data-v-273c1180]{pointer-events:none;border-color:#4890eb;background-color:#4c9bff;color:#fff}.mt-20px[data-v-273c1180]{margin-top:20px}.mb-20px[data-v-273c1180]{margin-bottom:20px}.feather-x[data-v-273c1180]{feather:x}
 `;
-const _hoisted_1 = { class: "listBox" };
+const _hoisted_1 = { class: "list" };
 const _hoisted_2 = { class: "listWrap" };
 const _hoisted_3 = ["onClick"];
-const _hoisted_4 = { class: "listCheck" };
+const _hoisted_4 = { class: "check" };
 const _hoisted_5 = ["checked", "id", "onChange"];
 const _hoisted_6 = ["for"];
 const _hoisted_7 = ["onClick"];
-const _hoisted_8 = { class: "listCheck" };
+const _hoisted_8 = { class: "check" };
 const _hoisted_9 = ["checked", "id", "onChange"];
 const _hoisted_10 = ["for"];
 const _hoisted_11 = ["onClick"];
@@ -5168,7 +5287,6 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
   emits: ["update:modelValue"],
   setup(__props, { emit }) {
     const props = __props;
-    const picker = ref(false);
     const searchStr = ref("");
     const filteredOptions = computed(() => {
       let newOptions = props.options;
@@ -5192,11 +5310,6 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
       return newOptions;
     });
-    onUpdated(() => {
-      document.addEventListener("click", () => {
-        picker.value = false;
-      });
-    });
     const randomChar = () => {
       let allChar = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
       let resChar = "";
@@ -5207,17 +5320,13 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
     const getRandomChar = randomChar();
     return (_ctx, _cache) => {
-      return openBlock(), createElementBlock("div", {
-        class: normalizeClass(["list", { show: picker.value === true }]),
-        onClick: _cache[1] || (_cache[1] = withModifiers(() => {
-        }, ["stop"]))
-      }, [
+      return openBlock(), createElementBlock("div", null, [
         createBaseVNode("div", _hoisted_1, [
           createBaseVNode("div", _hoisted_2, [
             withDirectives(createBaseVNode("input", {
               type: "search",
               "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => searchStr.value = $event),
-              class: "listSearch"
+              class: "input"
             }, null, 512), [
               [vModelText, searchStr.value]
             ])
@@ -5233,16 +5342,16 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
               }, [
                 typeof option === "string" ? (openBlock(), createElementBlock("div", {
                   key: 0,
-                  onClick: ($event) => {
+                  onClick: withModifiers(($event) => {
                     !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i === option), 1);
                     emit("update:modelValue", __props.modelValue);
-                  },
+                  }, ["stop"]),
                   class: "listItem"
                 }, [
                   createBaseVNode("div", _hoisted_4, [
                     createBaseVNode("input", {
                       type: "checkbox",
-                      class: "listCheckInput",
+                      class: "checkInput",
                       checked: __props.modelValue.includes(option),
                       id: "check-" + (unref(getRandomChar) + String(index)),
                       onChange: ($event) => {
@@ -5251,22 +5360,22 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                       }
                     }, null, 40, _hoisted_5),
                     createBaseVNode("label", {
-                      class: "listCheckLabel",
+                      class: "checkLabel",
                       for: "check-" + (unref(getRandomChar) + String(index))
                     }, toDisplayString(option), 9, _hoisted_6)
                   ])
                 ], 8, _hoisted_3)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
                   key: 1,
-                  onClick: ($event) => {
+                  onClick: withModifiers(($event) => {
                     !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i[__props.prop] === option[__props.prop]), 1);
                     emit("update:modelValue", __props.modelValue);
-                  },
+                  }, ["stop"]),
                   class: "listItem"
                 }, [
                   createBaseVNode("div", _hoisted_8, [
                     createBaseVNode("input", {
                       type: "checkbox",
-                      class: "listCheckInput",
+                      class: "checkInput",
                       checked: __props.modelValue.includes(option),
                       id: "check-" + (unref(getRandomChar) + String(index)),
                       onChange: ($event) => {
@@ -5275,7 +5384,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                       }
                     }, null, 40, _hoisted_9),
                     createBaseVNode("label", {
-                      class: "listCheckLabel",
+                      class: "checkLabel",
                       for: "check-" + (unref(getRandomChar) + String(index))
                     }, toDisplayString(option[__props.prop]), 9, _hoisted_10)
                   ])
@@ -5285,13 +5394,13 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                     !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i === option), 1);
                     emit("update:modelValue", __props.modelValue);
                   },
-                  class: "listItem"
+                  class: normalizeClass(["listItem", __props.modelValue.includes(option) ? "active" : ""])
                 }, [
                   renderSlot(_ctx.$slots, "default", {
                     option,
                     items: __props.modelValue
                   }, void 0, true)
-                ], 8, _hoisted_11))
+                ], 10, _hoisted_11))
               ], 64);
             }), 128))
           ], 4)) : (openBlock(), createElementBlock("div", {
@@ -5307,35 +5416,32 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                   key: 0,
                   onClick: ($event) => {
                     emit("update:modelValue", option);
-                    picker.value = false;
                   },
-                  class: "listItem"
-                }, toDisplayString(option), 9, _hoisted_12)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
+                  class: normalizeClass(["listItem", __props.modelValue === option ? "active" : ""])
+                }, toDisplayString(option), 11, _hoisted_12)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
                   key: 1,
                   onClick: ($event) => {
                     emit("update:modelValue", option);
-                    picker.value = false;
                   },
-                  class: "listItem"
-                }, toDisplayString(option[__props.prop]), 9, _hoisted_13)) : (openBlock(), createElementBlock("div", {
+                  class: normalizeClass(["listItem", __props.modelValue[__props.prop] === option[__props.prop] ? "active" : ""])
+                }, toDisplayString(option[__props.prop]), 11, _hoisted_13)) : (openBlock(), createElementBlock("div", {
                   key: 2,
                   onClick: ($event) => {
                     emit("update:modelValue", option);
-                    picker.value = false;
                   },
-                  class: "listItem"
+                  class: normalizeClass(["listItem", __props.modelValue === option ? "active" : ""])
                 }, [
                   renderSlot(_ctx.$slots, "default", { option }, void 0, true)
-                ], 8, _hoisted_14))
+                ], 10, _hoisted_14))
               ], 64);
             }), 128))
           ], 4))
         ])
-      ], 2);
+      ]);
     };
   }
 });
-var VueListBox = /* @__PURE__ */ _export_sfc(_sfc_main, [["styles", [_style_0]], ["__scopeId", "data-v-237a8ef9"]]);
+var VueListBox = /* @__PURE__ */ _export_sfc(_sfc_main, [["styles", [_style_0]], ["__scopeId", "data-v-273c1180"]]);
 const SelectBox = defineCustomElement(VueSelectBox);
 const ComboBox = defineCustomElement(VueComboBox);
 const ListBox = defineCustomElement(VueListBox);
