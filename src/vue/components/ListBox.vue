@@ -104,11 +104,4 @@ const getRandomChar = randomChar()
 @use form {
   field: input, check;
 }
-
-.listItem.active {
-  pointer-events: none;
-  border-color: #4890eb;
-  background-color: #4c9bff;
-  color: #fff
-}
 </style>

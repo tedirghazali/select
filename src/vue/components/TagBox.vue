@@ -106,11 +106,22 @@ watch(inputStr, () => {
     tagControlHidden.remove()
   }
 })
+
+const randomChar = (maxlength: number = 10) => {
+  let allChar: string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  let resChar: string = ''
+  for(let i: number = 0; i < maxlength; i++) {
+    resChar += allChar.charAt(Math.floor(Math.random() * allChar.length))
+  }
+  return resChar
+}
 </script>
 
 <template>
   <div class="taggable" :class="{active: picker === true}">
-    <div class="tagBackdrop" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+    <teleport to="body">
+      <div :id="'tag'+randomChar(7)" class="tagBackdrop" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+    </teleport>
     <div class="tagContent">
       <div class="input tagToggler" @click="inputFocus">
         <div class="tags">

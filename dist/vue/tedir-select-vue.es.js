@@ -7,21 +7,22 @@ var _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _hoisted_1$2 = { class: "pickerContent" };
-const _hoisted_2$2 = { class: "pickerMenu" };
-const _hoisted_3$2 = { class: "pickerWrap" };
-const _hoisted_4$2 = ["onClick"];
-const _hoisted_5$2 = { class: "check" };
-const _hoisted_6$1 = ["checked", "id", "onChange"];
-const _hoisted_7$1 = ["for"];
-const _hoisted_8$1 = ["onClick"];
-const _hoisted_9$1 = { class: "check" };
-const _hoisted_10$1 = ["checked", "id", "onChange"];
-const _hoisted_11$1 = ["for"];
-const _hoisted_12$1 = ["onClick"];
+const _hoisted_1$2 = ["id"];
+const _hoisted_2$2 = { class: "pickerContent" };
+const _hoisted_3$2 = { class: "pickerMenu" };
+const _hoisted_4$2 = { class: "pickerWrap" };
+const _hoisted_5$2 = ["onClick"];
+const _hoisted_6$2 = { class: "check" };
+const _hoisted_7$1 = ["checked", "id", "onChange"];
+const _hoisted_8$1 = ["for"];
+const _hoisted_9$1 = ["onClick"];
+const _hoisted_10$1 = { class: "check" };
+const _hoisted_11$1 = ["checked", "id", "onChange"];
+const _hoisted_12$1 = ["for"];
 const _hoisted_13$1 = ["onClick"];
 const _hoisted_14$1 = ["onClick"];
 const _hoisted_15 = ["onClick"];
+const _hoisted_16 = ["onClick"];
 const _sfc_main$2 = /* @__PURE__ */ defineComponent({
   props: {
     modelValue: { default: null },
@@ -57,10 +58,10 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
       }
       return newOptions;
     });
-    const randomChar = () => {
+    const randomChar = (maxlength = 10) => {
       let allChar = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
       let resChar = "";
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < maxlength; i++) {
         resChar += allChar.charAt(Math.floor(Math.random() * allChar.length));
       }
       return resChar;
@@ -72,12 +73,13 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
       }, [
         (openBlock(), createBlock(Teleport, { to: "body" }, [
           createElementVNode("div", {
+            id: "picker" + randomChar(7),
             class: "pickerBackdrop",
             style: normalizeStyle({ display: picker.value ? "block" : "none" }),
             onClick: _cache[0] || (_cache[0] = ($event) => picker.value = false)
-          }, null, 4)
+          }, null, 12, _hoisted_1$2)
         ])),
-        createElementVNode("div", _hoisted_1$2, [
+        createElementVNode("div", _hoisted_2$2, [
           createElementVNode("div", {
             class: "select pickerToggler",
             onClick: _cache[1] || (_cache[1] = ($event) => picker.value = true)
@@ -94,8 +96,8 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
               createTextVNode(toDisplayString(__props.placeholder), 1)
             ], 64))
           ]),
-          createElementVNode("div", _hoisted_2$2, [
-            createElementVNode("div", _hoisted_3$2, [
+          createElementVNode("div", _hoisted_3$2, [
+            createElementVNode("div", _hoisted_4$2, [
               withDirectives(createElementVNode("input", {
                 type: "search",
                 "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => searchStr.value = $event),
@@ -104,115 +106,128 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
                 [vModelText, searchStr.value]
               ])
             ]),
-            Array.isArray(__props.modelValue) ? (openBlock(true), createElementBlock(Fragment, { key: 0 }, renderList(unref(filteredOptions), (option, index) => {
-              return openBlock(), createElementBlock(Fragment, {
-                key: "option-" + option
-              }, [
-                typeof option === "string" ? (openBlock(), createElementBlock("div", {
-                  key: 0,
-                  onClick: ($event) => {
-                    !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i === option), 1);
-                    emit("update:modelValue", __props.modelValue);
-                  },
-                  class: "pickerItem"
+            Array.isArray(__props.modelValue) ? (openBlock(), createElementBlock("div", {
+              key: 0,
+              class: "pickerGroup",
+              style: normalizeStyle({ "max-height": Number(__props.size) !== 0 ? Number(__props.size) * 42 + "px" : "auto" })
+            }, [
+              (openBlock(true), createElementBlock(Fragment, null, renderList(unref(filteredOptions), (option, index) => {
+                return openBlock(), createElementBlock(Fragment, {
+                  key: "option-" + option
                 }, [
-                  createElementVNode("div", _hoisted_5$2, [
-                    createElementVNode("input", {
-                      type: "checkbox",
-                      class: "checkInput",
-                      checked: __props.modelValue.includes(option),
-                      id: "check-" + (unref(getRandomChar) + String(index)),
-                      onChange: ($event) => {
-                        !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((j) => j === option), 1);
-                        emit("update:modelValue", __props.modelValue);
-                      }
-                    }, null, 40, _hoisted_6$1),
-                    createElementVNode("label", {
-                      class: "checkLabel",
-                      for: "check-" + (unref(getRandomChar) + String(index))
-                    }, toDisplayString(option), 9, _hoisted_7$1)
-                  ])
-                ], 8, _hoisted_4$2)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
-                  key: 1,
-                  onClick: ($event) => {
-                    !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i[__props.prop] === option[__props.prop]), 1);
-                    emit("update:modelValue", __props.modelValue);
-                  },
-                  class: "pickerItem"
+                  typeof option === "string" ? (openBlock(), createElementBlock("div", {
+                    key: 0,
+                    onClick: ($event) => {
+                      !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i === option), 1);
+                      emit("update:modelValue", __props.modelValue);
+                    },
+                    class: "pickerItem"
+                  }, [
+                    createElementVNode("div", _hoisted_6$2, [
+                      createElementVNode("input", {
+                        type: "checkbox",
+                        class: "checkInput",
+                        checked: __props.modelValue.includes(option),
+                        id: "check-" + (unref(getRandomChar) + String(index)),
+                        onChange: ($event) => {
+                          !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((j) => j === option), 1);
+                          emit("update:modelValue", __props.modelValue);
+                        }
+                      }, null, 40, _hoisted_7$1),
+                      createElementVNode("label", {
+                        class: "checkLabel",
+                        for: "check-" + (unref(getRandomChar) + String(index))
+                      }, toDisplayString(option), 9, _hoisted_8$1)
+                    ])
+                  ], 8, _hoisted_5$2)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
+                    key: 1,
+                    onClick: ($event) => {
+                      !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i[__props.prop] === option[__props.prop]), 1);
+                      emit("update:modelValue", __props.modelValue);
+                    },
+                    class: "pickerItem"
+                  }, [
+                    createElementVNode("div", _hoisted_10$1, [
+                      createElementVNode("input", {
+                        type: "checkbox",
+                        class: "checkInput",
+                        checked: __props.modelValue.includes(option),
+                        id: "check-" + (unref(getRandomChar) + String(index)),
+                        onChange: ($event) => {
+                          !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((j) => j[__props.prop] === option[__props.prop]), 1);
+                          emit("update:modelValue", __props.modelValue);
+                        }
+                      }, null, 40, _hoisted_11$1),
+                      createElementVNode("label", {
+                        class: "checkLabel",
+                        for: "check-" + (unref(getRandomChar) + String(index))
+                      }, toDisplayString(option[__props.prop]), 9, _hoisted_12$1)
+                    ])
+                  ], 8, _hoisted_9$1)) : (openBlock(), createElementBlock("div", {
+                    key: 2,
+                    onClick: ($event) => {
+                      !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i === option), 1);
+                      emit("update:modelValue", __props.modelValue);
+                    },
+                    class: "pickerItem"
+                  }, [
+                    renderSlot(_ctx.$slots, "default", {
+                      option,
+                      items: __props.modelValue
+                    }, void 0, true)
+                  ], 8, _hoisted_13$1))
+                ], 64);
+              }), 128))
+            ], 4)) : (openBlock(), createElementBlock("div", {
+              key: 1,
+              class: "pickerGroup",
+              style: normalizeStyle({ "max-height": Number(__props.size) !== 0 ? Number(__props.size) * 42 + "px" : "auto" })
+            }, [
+              (openBlock(true), createElementBlock(Fragment, null, renderList(unref(filteredOptions), (option, index) => {
+                return openBlock(), createElementBlock(Fragment, {
+                  key: "option-" + option
                 }, [
-                  createElementVNode("div", _hoisted_9$1, [
-                    createElementVNode("input", {
-                      type: "checkbox",
-                      class: "checkInput",
-                      checked: __props.modelValue.includes(option),
-                      id: "check-" + (unref(getRandomChar) + String(index)),
-                      onChange: ($event) => {
-                        !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((j) => j[__props.prop] === option[__props.prop]), 1);
-                        emit("update:modelValue", __props.modelValue);
-                      }
-                    }, null, 40, _hoisted_10$1),
-                    createElementVNode("label", {
-                      class: "checkLabel",
-                      for: "check-" + (unref(getRandomChar) + String(index))
-                    }, toDisplayString(option[__props.prop]), 9, _hoisted_11$1)
-                  ])
-                ], 8, _hoisted_8$1)) : (openBlock(), createElementBlock("div", {
-                  key: 2,
-                  onClick: ($event) => {
-                    !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i === option), 1);
-                    emit("update:modelValue", __props.modelValue);
-                  },
-                  class: "pickerItem"
-                }, [
-                  renderSlot(_ctx.$slots, "default", {
-                    option,
-                    items: __props.modelValue
-                  }, void 0, true)
-                ], 8, _hoisted_12$1))
-              ], 64);
-            }), 128)) : (openBlock(true), createElementBlock(Fragment, { key: 1 }, renderList(unref(filteredOptions), (option, index) => {
-              return openBlock(), createElementBlock(Fragment, {
-                key: "option-" + option
-              }, [
-                typeof option === "string" ? (openBlock(), createElementBlock("div", {
-                  key: 0,
-                  onClick: ($event) => {
-                    emit("update:modelValue", option);
-                    picker.value = false;
-                  },
-                  class: "pickerItem"
-                }, toDisplayString(option), 9, _hoisted_13$1)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
-                  key: 1,
-                  onClick: ($event) => {
-                    emit("update:modelValue", option);
-                    picker.value = false;
-                  },
-                  class: "pickerItem"
-                }, toDisplayString(option[__props.prop]), 9, _hoisted_14$1)) : (openBlock(), createElementBlock("div", {
-                  key: 2,
-                  onClick: ($event) => {
-                    emit("update:modelValue", option);
-                    picker.value = false;
-                  },
-                  class: "selectItem"
-                }, [
-                  renderSlot(_ctx.$slots, "default", { option }, void 0, true)
-                ], 8, _hoisted_15))
-              ], 64);
-            }), 128))
+                  typeof option === "string" ? (openBlock(), createElementBlock("div", {
+                    key: 0,
+                    onClick: ($event) => {
+                      emit("update:modelValue", option);
+                      picker.value = false;
+                    },
+                    class: normalizeClass(["pickerItem", __props.modelValue === option ? "active" : ""])
+                  }, toDisplayString(option), 11, _hoisted_14$1)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
+                    key: 1,
+                    onClick: ($event) => {
+                      emit("update:modelValue", option);
+                      picker.value = false;
+                    },
+                    class: normalizeClass(["pickerItem", __props.modelValue[__props.prop] === option[__props.prop] ? "active" : ""])
+                  }, toDisplayString(option[__props.prop]), 11, _hoisted_15)) : (openBlock(), createElementBlock("div", {
+                    key: 2,
+                    onClick: ($event) => {
+                      emit("update:modelValue", option);
+                      picker.value = false;
+                    },
+                    class: normalizeClass(["pickerItem", __props.modelValue === option ? "active" : ""])
+                  }, [
+                    renderSlot(_ctx.$slots, "default", { option }, void 0, true)
+                  ], 10, _hoisted_16))
+                ], 64);
+              }), 128))
+            ], 4))
           ])
         ])
       ], 2);
     };
   }
 });
-var SelectBox = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-33121258"]]);
+var SelectBox = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-1fda7ecd"]]);
 var ComboBox_vue_vue_type_style_index_0_scoped_true_lang = "";
-const _hoisted_1$1 = { class: "pickerContent" };
-const _hoisted_2$1 = { class: "pickerMenu" };
-const _hoisted_3$1 = ["onClick"];
+const _hoisted_1$1 = ["id"];
+const _hoisted_2$1 = { class: "pickerContent" };
+const _hoisted_3$1 = { class: "pickerMenu pickerSizing" };
 const _hoisted_4$1 = ["onClick"];
 const _hoisted_5$1 = ["onClick"];
+const _hoisted_6$1 = ["onClick"];
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   props: {
     modelValue: { default: null },
@@ -248,18 +263,27 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       }
       return newOptions;
     });
+    const randomChar = (maxlength = 10) => {
+      let allChar = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      let resChar = "";
+      for (let i = 0; i < maxlength; i++) {
+        resChar += allChar.charAt(Math.floor(Math.random() * allChar.length));
+      }
+      return resChar;
+    };
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", {
         class: normalizeClass(["picker suggestion", picker.value ? "active" : ""])
       }, [
         (openBlock(), createBlock(Teleport, { to: "body" }, [
           createElementVNode("div", {
+            id: "combo" + randomChar(7),
             class: "pickerBackdrop",
             style: normalizeStyle({ display: picker.value ? "block" : "none" }),
             onClick: _cache[0] || (_cache[0] = ($event) => picker.value = false)
-          }, null, 4)
+          }, null, 12, _hoisted_1$1)
         ])),
-        createElementVNode("div", _hoisted_1$1, [
+        createElementVNode("div", _hoisted_2$1, [
           withDirectives(createElementVNode("input", {
             type: "search",
             "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => searchStr.value = $event),
@@ -269,7 +293,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
           }, null, 544), [
             [vModelText, searchStr.value]
           ]),
-          createElementVNode("div", _hoisted_2$1, [
+          createElementVNode("div", _hoisted_3$1, [
             (openBlock(true), createElementBlock(Fragment, null, renderList(unref(filteredOptions), (option, index) => {
               return openBlock(), createElementBlock(Fragment, {
                 key: "option-" + option
@@ -281,26 +305,26 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
                     emit("update:modelValue", option);
                     picker.value = false;
                   },
-                  class: "pickerItem"
-                }, toDisplayString(option), 9, _hoisted_3$1)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
+                  class: normalizeClass(["pickerItem", __props.modelValue === option ? "active" : ""])
+                }, toDisplayString(option), 11, _hoisted_4$1)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
                   key: 1,
                   onClick: ($event) => {
                     searchStr.value = option[__props.prop];
                     emit("update:modelValue", option);
                     picker.value = false;
                   },
-                  class: "pickerItem"
-                }, toDisplayString(option[__props.prop]), 9, _hoisted_4$1)) : (openBlock(), createElementBlock("div", {
+                  class: normalizeClass(["pickerItem", __props.modelValue[__props.prop] === option[__props.prop] ? "active" : ""])
+                }, toDisplayString(option[__props.prop]), 11, _hoisted_5$1)) : (openBlock(), createElementBlock("div", {
                   key: 2,
                   onClick: ($event) => {
                     searchStr.value = option;
                     emit("update:modelValue", option);
                     picker.value = false;
                   },
-                  class: "comboItem"
+                  class: normalizeClass(["pickerItem", __props.modelValue === option ? "active" : ""])
                 }, [
                   renderSlot(_ctx.$slots, "default", { option }, void 0, true)
-                ], 8, _hoisted_5$1))
+                ], 10, _hoisted_6$1))
               ], 64);
             }), 128))
           ])
@@ -309,7 +333,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-var ComboBox = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-7ea5c7cc"]]);
+var ComboBox = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-e00ee06c"]]);
 var ListBox_vue_vue_type_style_index_0_scoped_true_lang = "";
 const _hoisted_1 = { class: "list" };
 const _hoisted_2 = { class: "listWrap" };
@@ -489,5 +513,5 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
   }
 });
-var ListBox = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-273c1180"]]);
+var ListBox = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-3b073a2f"]]);
 export { ComboBox, ListBox, SelectBox };

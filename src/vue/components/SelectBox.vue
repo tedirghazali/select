@@ -52,10 +52,10 @@ const filteredOptions = computed<any[]>(() => {
   return newOptions
 })
 
-const randomChar = () => {
+const randomChar = (maxlength: number = 10) => {
   let allChar: string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
   let resChar: string = ''
-  for(let i: number = 0; i < 10; i++) {
+  for(let i: number = 0; i < maxlength; i++) {
     resChar += allChar.charAt(Math.floor(Math.random() * allChar.length))
   }
   return resChar
@@ -67,7 +67,7 @@ const getRandomChar = randomChar()
 <template>
   <div class="picker suggestion" :class="picker ? 'active' : ''">
     <teleport to="body">
-      <div class="pickerBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="picker = false"></div>
+      <div :id="'picker'+randomChar(7)" class="pickerBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="picker = false"></div>
     </teleport>
     <div class="pickerContent">
       <div class="select pickerToggler" @click="picker = true">
@@ -81,7 +81,7 @@ const getRandomChar = randomChar()
         <div class="pickerWrap">
           <input type="search" v-model="searchStr" class="input" />
         </div>
-        <template v-if="Array.isArray(modelValue)" class="selectList" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 44)+'px' : 'auto'}">
+        <div v-if="Array.isArray(modelValue)" class="pickerGroup" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 42)+'px' : 'auto'}">
           <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
             <div v-if="typeof option === 'string'" @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((i: string) => i === option), 1); emit('update:modelValue', modelValue);" class="pickerItem">
               <div class="check">
@@ -99,16 +99,16 @@ const getRandomChar = randomChar()
               <slot :option="option" :items="modelValue"></slot>
             </div>
           </template>
-        </template>
-        <template v-else class="selectList" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 44)+'px' : 'auto'}">
+        </div>
+        <div v-else class="pickerGroup" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 42)+'px' : 'auto'}">
           <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
-            <div v-if="typeof option === 'string'" @click="emit('update:modelValue', option); picker = false;" class="pickerItem">{{ option }}</div>
-            <div v-else-if="typeof option === 'object' && prop in option" @click="emit('update:modelValue', option); picker = false;" class="pickerItem">{{ option[prop] }}</div>
-            <div v-else @click="emit('update:modelValue', option); picker = false;" class="selectItem">
+            <div v-if="typeof option === 'string'" @click="emit('update:modelValue', option); picker = false;" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">{{ option }}</div>
+            <div v-else-if="typeof option === 'object' && prop in option" @click="emit('update:modelValue', option); picker = false;" class="pickerItem" :class="(modelValue[prop] === option[prop]) ? 'active' : ''">{{ option[prop] }}</div>
+            <div v-else @click="emit('update:modelValue', option); picker = false;" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">
               <slot :option="option"></slot>
             </div>
           </template>
-        </template>
+        </div>
       </div>
     </div>
   </div>
