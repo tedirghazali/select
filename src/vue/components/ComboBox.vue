@@ -60,12 +60,17 @@ const randomChar = (maxlength: number = 10) => {
   }
   return resChar
 }
+
+const hideByClick = (e: any) => {
+  e.target.style.display = 'none' 
+  picker.value = false
+}
 </script>
 
 <template>
   <div class="picker suggestion" :class="picker ? 'active' : ''">
     <teleport to="body">
-      <div :id="'combo'+randomChar(7)" class="pickerBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="picker = false"></div>
+      <div class="pickerBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="hideByClick"></div>
     </teleport>
     <div class="pickerContent">
       <input type="search" v-model="searchStr" @input="(filteredOptions.length >= 1 && searchStr !== '') ? picker = true : picker = false" @click="(filteredOptions.length >= 1 && searchStr !== '') ? picker = true : picker = false" class="input" />

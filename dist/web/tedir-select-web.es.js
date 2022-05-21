@@ -4948,7 +4948,7 @@ function ensureRenderer() {
 const render = (...args) => {
   ensureRenderer().render(...args);
 };
-var _style_0$2 = `.picker[data-v-1fda7ecd]{width:auto}.pickerContent[data-v-1fda7ecd]{display:block;position:relative}.picker.dropdown .pickerContent[data-v-1fda7ecd]{display:inline-block}.pickerBackdrop[data-v-1fda7ecd]{position:fixed;z-index:5;inset:0 3em 3em 0;width:100vw;height:100vh;display:none}.picker.active .pickerBackdrop[data-v-1fda7ecd]{display:block}.pickerToggler[data-v-1fda7ecd]{padding:.5rem}.select.pickerToggler[data-v-1fda7ecd]{padding-left:.75rem;padding-right:.75rem;cursor:default}.pickerBody[data-v-1fda7ecd],.pickerMenu[data-v-1fda7ecd]{position:absolute;z-index:6;top:2.5rem;left:0;width:240px;background-color:#fff;border:1px solid #d9d9d9;display:none}.pickerBody[data-v-1fda7ecd]{padding:.75rem;border-radius:.375rem}.pickerMenu[data-v-1fda7ecd]{border-radius:.375rem}.pickerMenu .pickerWrap[data-v-1fda7ecd]{padding:.5rem;border-bottom:1px solid #d9d9d9}.pickerMenu .pickerGroup[data-v-1fda7ecd]{overflow-y:auto;max-height:420px}.pickerMenu .pickerItem[data-v-1fda7ecd]{display:block;padding:.675rem .75rem;border-bottom:1px solid #d9d9d9;text-decoration:none;color:#283541;cursor:default}.pickerMenu .pickerItem[data-v-1fda7ecd]:last-child{border-bottom:0}.pickerMenu .pickerItem[data-v-1fda7ecd]:hover{background-color:#ededed}.pickerMenu .pickerItem.active[data-v-1fda7ecd]{pointer-events:none;border-color:#4890eb;background-color:#4c9bff;color:#fff}.pickerMenu.pickerSizing[data-v-1fda7ecd]{overflow-y:auto;max-height:420px}.suggestion .pickerMenu[data-v-1fda7ecd],.fill .pickerBody[data-v-1fda7ecd]{width:100%}.pickerEnd .pickerBody[data-v-1fda7ecd],.pickerEnd .pickerMenu[data-v-1fda7ecd]{right:0;left:auto}.picker.active .input.pickerToggler[data-v-1fda7ecd],.picker.active .select.pickerToggler[data-v-1fda7ecd]{border-bottom-right-radius:0;border-bottom-left-radius:0}.picker.active .pickerMenu[data-v-1fda7ecd]{border-top-right-radius:0;border-top-left-radius:0}.picker.active .pickerBody[data-v-1fda7ecd],.picker.active .pickerMenu[data-v-1fda7ecd]{display:block}.input[data-v-1fda7ecd],.select[data-v-1fda7ecd]{display:block;width:100%;padding:.5rem .75rem;margin:0;font-size:1rem;font-weight:400;line-height:1.5;background-color:#f9f9f9;background-clip:padding-box;appearance:none;color:#283541;border:1px solid #d9d9d9;border-radius:.375rem;outline:0;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.input[data-v-1fda7ecd]::placeholder,.select[data-v-1fda7ecd]::placeholder{color:#555}.input[data-v-1fda7ecd]:focus,.select[data-v-1fda7ecd]:focus{border-color:#1d84b6;background-color:#f7faff}.input[disabled][data-v-1fda7ecd],.input[readonly][data-v-1fda7ecd],.input.disabled[data-v-1fda7ecd],.select[disabled][data-v-1fda7ecd],.select[readonly][data-v-1fda7ecd],.select.disabled[data-v-1fda7ecd]{border-color:#d6d6d6;background-color:#f0f0f0;cursor:default}.input[disabled][data-v-1fda7ecd],.input.disabled[data-v-1fda7ecd],.select[disabled][data-v-1fda7ecd],.select.disabled[data-v-1fda7ecd]{color:#9b9b9b;user-select:none;pointer-events:none}.input.plainText[data-v-1fda7ecd]{background-color:transparent;border-color:transparent;padding-left:0;padding-right:0}.input.valid[data-v-1fda7ecd],.validated[data-v-1fda7ecd] :valid{border-color:#198754;background-color:#f1fff8;padding-right:calc(1.5em + 0.75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(0.375em + 0.1875rem) center;background-size:calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)}.validMessage[data-v-1fda7ecd]{display:none;width:100%;margin-top:.25rem;font-size:.875em;color:#198754}.validTooltip[data-v-1fda7ecd]{position:absolute;top:100%;z-index:5;display:none;max-width:100%;padding:.25rem .5rem;margin-top:.1rem;font-size:.875rem;color:#fff;background-color:#198754e6;border-radius:.25rem}.input.invalid[data-v-1fda7ecd],.validated[data-v-1fda7ecd] :invalid{border-color:#dc3545;background-color:#fbf1f2;padding-right:calc(1.5em + 0.75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(0.375em + 0.1875rem) center;background-size:calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)}.invalidMessage[data-v-1fda7ecd]{display:none;width:100%;margin-top:.25rem;font-size:.875em;color:#dc3545}.invalidTooltip[data-v-1fda7ecd]{position:absolute;top:100%;z-index:5;display:none;max-width:100%;padding:.25rem .5rem;margin-top:.1rem;font-size:.875rem;color:#fff;background-color:#dc3545e6;border-radius:.25rem}.valid~.validMessage[data-v-1fda7ecd],.valid~.validTooltip[data-v-1fda7ecd],.validated :valid~.validMessage[data-v-1fda7ecd],.validated :valid~.validTooltip[data-v-1fda7ecd],.invalid~.invalidMessage[data-v-1fda7ecd],.invalid~.invalidTooltip[data-v-1fda7ecd],.validated :invalid~.invalidMessage[data-v-1fda7ecd],.validated :invalid~.invalidTooltip[data-v-1fda7ecd]{display:block}textarea.input[data-v-1fda7ecd]{min-height:6.5rem;resize:none}.select[data-v-1fda7ecd]:not([multiple]){padding:.5rem;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right .75rem center;background-size:16px 12px}.select[multiple][data-v-1fda7ecd]{padding-top:.5rem;padding-bottom:.5rem}.select[multiple] option[data-v-1fda7ecd]{padding-top:.375rem;padding-bottom:.375rem;outline:0}.check[data-v-1fda7ecd]{display:inline-flex;align-items:center}.check .checkInput[data-v-1fda7ecd]{width:1.5em;height:1.5em;appearance:none;border:1px solid #d9d9d9}.check .checkInput[type=checkbox][data-v-1fda7ecd]{border-radius:.25rem}.check .checkInput[type=radio][data-v-1fda7ecd]{border-radius:.75rem}.check .checkInput[data-v-1fda7ecd]:checked{border-color:#1d84b6;background-color:#1d84b6}.check .checkInput[disabled][data-v-1fda7ecd],.check .checkInput.disabled[data-v-1fda7ecd]{border-color:#d6d6d6;background-color:#f0f0f0;pointer-events:none}.check .checkInput:checked[disabled][data-v-1fda7ecd],.check .checkInput:checked.disabled[data-v-1fda7ecd]{background-color:#bbb}.check .checkInput[disabled]~.checkLabel[data-v-1fda7ecd],.check .checkInput.disabled~.checkLabel[data-v-1fda7ecd]{color:#9b9b9b;cursor:default}.check .checkInput[type=checkbox][data-v-1fda7ecd]:checked{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e")}.check .checkInput[type=checkbox][data-v-1fda7ecd]:indeterminate{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e")}.check .checkInput[type=radio][data-v-1fda7ecd]:checked{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e")}.check .checkLabel[data-v-1fda7ecd]{display:inline-block;padding-left:.25rem}.check.switch .checkInput[data-v-1fda7ecd]{width:2.85em;background-repeat:no-repeat;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%280, 0, 0, 0.25%29'/%3e%3c/svg%3e");background-position:left center;border-radius:2em;transition:background-position .15s ease-in-out}.check.switch .checkInput[data-v-1fda7ecd]:checked{background-position:right center;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e")}.mt-20px[data-v-1fda7ecd]{margin-top:20px}.mb-20px[data-v-1fda7ecd]{margin-bottom:20px}.feather-x[data-v-1fda7ecd]{feather:x}
+var _style_0$2 = `.picker[data-v-7a0257fe]{width:auto}.pickerContent[data-v-7a0257fe]{display:block;position:relative}.picker.dropdown .pickerContent[data-v-7a0257fe]{display:inline-block}.pickerBackdrop[data-v-7a0257fe]{position:fixed;z-index:5;inset:0 3em 3em 0;width:100vw;height:100vh;display:none}.picker.active .pickerBackdrop[data-v-7a0257fe]{display:block}.pickerToggler[data-v-7a0257fe]{padding:.5rem}.select.pickerToggler[data-v-7a0257fe]{padding-left:.75rem;padding-right:.75rem;cursor:default}.pickerBody[data-v-7a0257fe],.pickerMenu[data-v-7a0257fe]{position:absolute;z-index:6;top:2.5rem;left:0;width:240px;background-color:#fff;border:1px solid #d9d9d9;display:none}.pickerBody[data-v-7a0257fe]{padding:.75rem;border-radius:.375rem}.pickerMenu[data-v-7a0257fe]{border-radius:.375rem}.pickerMenu .pickerWrap[data-v-7a0257fe]{padding:.5rem;border-bottom:1px solid #d9d9d9}.pickerMenu .pickerGroup[data-v-7a0257fe]{overflow-y:auto;max-height:420px}.pickerMenu .pickerItem[data-v-7a0257fe]{display:block;padding:.675rem .75rem;border-bottom:1px solid #d9d9d9;text-decoration:none;color:#283541;cursor:default}.pickerMenu .pickerItem[data-v-7a0257fe]:last-child{border-bottom:0}.pickerMenu .pickerItem[data-v-7a0257fe]:hover{background-color:#ededed}.pickerMenu .pickerItem.active[data-v-7a0257fe]{pointer-events:none;border-color:#4890eb;background-color:#4c9bff;color:#fff}.pickerMenu.pickerSizing[data-v-7a0257fe]{overflow-y:auto;max-height:420px}.suggestion .pickerMenu[data-v-7a0257fe],.fill .pickerBody[data-v-7a0257fe]{width:100%}.pickerEnd .pickerBody[data-v-7a0257fe],.pickerEnd .pickerMenu[data-v-7a0257fe]{right:0;left:auto}.picker.active .input.pickerToggler[data-v-7a0257fe],.picker.active .select.pickerToggler[data-v-7a0257fe]{border-bottom-right-radius:0;border-bottom-left-radius:0}.picker.active .pickerMenu[data-v-7a0257fe]{border-top-right-radius:0;border-top-left-radius:0}.picker.active .pickerBody[data-v-7a0257fe],.picker.active .pickerMenu[data-v-7a0257fe]{display:block}.input[data-v-7a0257fe],.select[data-v-7a0257fe]{display:block;width:100%;padding:.5rem .75rem;margin:0;font-size:1rem;font-weight:400;line-height:1.5;background-color:#f9f9f9;background-clip:padding-box;appearance:none;color:#283541;border:1px solid #d9d9d9;border-radius:.375rem;outline:0;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.input[data-v-7a0257fe]::placeholder,.select[data-v-7a0257fe]::placeholder{color:#555}.input[data-v-7a0257fe]:focus,.select[data-v-7a0257fe]:focus{border-color:#1d84b6;background-color:#f7faff}.input[disabled][data-v-7a0257fe],.input[readonly][data-v-7a0257fe],.input.disabled[data-v-7a0257fe],.select[disabled][data-v-7a0257fe],.select[readonly][data-v-7a0257fe],.select.disabled[data-v-7a0257fe]{border-color:#d6d6d6;background-color:#f0f0f0;cursor:default}.input[disabled][data-v-7a0257fe],.input.disabled[data-v-7a0257fe],.select[disabled][data-v-7a0257fe],.select.disabled[data-v-7a0257fe]{color:#9b9b9b;user-select:none;pointer-events:none}.input.plainText[data-v-7a0257fe]{background-color:transparent;border-color:transparent;padding-left:0;padding-right:0}.input.valid[data-v-7a0257fe],.validated[data-v-7a0257fe] :valid{border-color:#198754;background-color:#f1fff8;padding-right:calc(1.5em + 0.75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(0.375em + 0.1875rem) center;background-size:calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)}.validMessage[data-v-7a0257fe]{display:none;width:100%;margin-top:.25rem;font-size:.875em;color:#198754}.validTooltip[data-v-7a0257fe]{position:absolute;top:100%;z-index:5;display:none;max-width:100%;padding:.25rem .5rem;margin-top:.1rem;font-size:.875rem;color:#fff;background-color:#198754e6;border-radius:.25rem}.input.invalid[data-v-7a0257fe],.validated[data-v-7a0257fe] :invalid{border-color:#dc3545;background-color:#fbf1f2;padding-right:calc(1.5em + 0.75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(0.375em + 0.1875rem) center;background-size:calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)}.invalidMessage[data-v-7a0257fe]{display:none;width:100%;margin-top:.25rem;font-size:.875em;color:#dc3545}.invalidTooltip[data-v-7a0257fe]{position:absolute;top:100%;z-index:5;display:none;max-width:100%;padding:.25rem .5rem;margin-top:.1rem;font-size:.875rem;color:#fff;background-color:#dc3545e6;border-radius:.25rem}.valid~.validMessage[data-v-7a0257fe],.valid~.validTooltip[data-v-7a0257fe],.validated :valid~.validMessage[data-v-7a0257fe],.validated :valid~.validTooltip[data-v-7a0257fe],.invalid~.invalidMessage[data-v-7a0257fe],.invalid~.invalidTooltip[data-v-7a0257fe],.validated :invalid~.invalidMessage[data-v-7a0257fe],.validated :invalid~.invalidTooltip[data-v-7a0257fe]{display:block}textarea.input[data-v-7a0257fe]{min-height:6.5rem;resize:none}.select[data-v-7a0257fe]:not([multiple]){padding:.5rem;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right .75rem center;background-size:16px 12px}.select[multiple][data-v-7a0257fe]{padding-top:.5rem;padding-bottom:.5rem}.select[multiple] option[data-v-7a0257fe]{padding-top:.375rem;padding-bottom:.375rem;outline:0}.check[data-v-7a0257fe]{display:inline-flex;align-items:center}.check .checkInput[data-v-7a0257fe]{width:1.5em;height:1.5em;appearance:none;border:1px solid #d9d9d9}.check .checkInput[type=checkbox][data-v-7a0257fe]{border-radius:.25rem}.check .checkInput[type=radio][data-v-7a0257fe]{border-radius:.75rem}.check .checkInput[data-v-7a0257fe]:checked{border-color:#1d84b6;background-color:#1d84b6}.check .checkInput[disabled][data-v-7a0257fe],.check .checkInput.disabled[data-v-7a0257fe]{border-color:#d6d6d6;background-color:#f0f0f0;pointer-events:none}.check .checkInput:checked[disabled][data-v-7a0257fe],.check .checkInput:checked.disabled[data-v-7a0257fe]{background-color:#bbb}.check .checkInput[disabled]~.checkLabel[data-v-7a0257fe],.check .checkInput.disabled~.checkLabel[data-v-7a0257fe]{color:#9b9b9b;cursor:default}.check .checkInput[type=checkbox][data-v-7a0257fe]:checked{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e")}.check .checkInput[type=checkbox][data-v-7a0257fe]:indeterminate{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e")}.check .checkInput[type=radio][data-v-7a0257fe]:checked{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e")}.check .checkLabel[data-v-7a0257fe]{display:inline-block;padding-left:.25rem}.check.switch .checkInput[data-v-7a0257fe]{width:2.85em;background-repeat:no-repeat;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%280, 0, 0, 0.25%29'/%3e%3c/svg%3e");background-position:left center;border-radius:2em;transition:background-position .15s ease-in-out}.check.switch .checkInput[data-v-7a0257fe]:checked{background-position:right center;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e")}.mt-20px[data-v-7a0257fe]{margin-top:20px}.mb-20px[data-v-7a0257fe]{margin-bottom:20px}.feather-x[data-v-7a0257fe]{feather:x}
 `;
 var _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
@@ -4957,22 +4957,21 @@ var _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _hoisted_1$2 = ["id"];
-const _hoisted_2$2 = { class: "pickerContent" };
-const _hoisted_3$2 = { class: "pickerMenu" };
-const _hoisted_4$2 = { class: "pickerWrap" };
-const _hoisted_5$2 = ["onClick"];
-const _hoisted_6$2 = { class: "check" };
-const _hoisted_7$1 = ["checked", "id", "onChange"];
-const _hoisted_8$1 = ["for"];
-const _hoisted_9$1 = ["onClick"];
-const _hoisted_10$1 = { class: "check" };
-const _hoisted_11$1 = ["checked", "id", "onChange"];
-const _hoisted_12$1 = ["for"];
+const _hoisted_1$2 = { class: "pickerContent" };
+const _hoisted_2$2 = { class: "pickerMenu" };
+const _hoisted_3$2 = { class: "pickerWrap" };
+const _hoisted_4$2 = ["onClick"];
+const _hoisted_5$2 = { class: "check" };
+const _hoisted_6$1 = ["checked", "id", "onChange"];
+const _hoisted_7$1 = ["for"];
+const _hoisted_8$1 = ["onClick"];
+const _hoisted_9$1 = { class: "check" };
+const _hoisted_10$1 = ["checked", "id", "onChange"];
+const _hoisted_11$1 = ["for"];
+const _hoisted_12$1 = ["onClick"];
 const _hoisted_13$1 = ["onClick"];
 const _hoisted_14$1 = ["onClick"];
 const _hoisted_15 = ["onClick"];
-const _hoisted_16 = ["onClick"];
 const _sfc_main$2 = /* @__PURE__ */ defineComponent({
   props: {
     modelValue: { default: null },
@@ -5017,22 +5016,25 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
       return resChar;
     };
     const getRandomChar = randomChar();
+    const hideByClick = (e) => {
+      e.target.style.display = "none";
+      picker.value = false;
+    };
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", {
         class: normalizeClass(["picker suggestion", picker.value ? "active" : ""])
       }, [
         (openBlock(), createBlock(Teleport, { to: "body" }, [
           createBaseVNode("div", {
-            id: "picker" + randomChar(7),
             class: "pickerBackdrop",
             style: normalizeStyle({ display: picker.value ? "block" : "none" }),
-            onClick: _cache[0] || (_cache[0] = ($event) => picker.value = false)
-          }, null, 12, _hoisted_1$2)
+            onClick: hideByClick
+          }, null, 4)
         ])),
-        createBaseVNode("div", _hoisted_2$2, [
+        createBaseVNode("div", _hoisted_1$2, [
           createBaseVNode("div", {
             class: "select pickerToggler",
-            onClick: _cache[1] || (_cache[1] = ($event) => picker.value = true)
+            onClick: _cache[0] || (_cache[0] = ($event) => picker.value = true)
           }, [
             typeof __props.modelValue === "string" && __props.modelValue !== "" ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
               createTextVNode(toDisplayString(__props.modelValue), 1)
@@ -5046,11 +5048,11 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
               createTextVNode(toDisplayString(__props.placeholder), 1)
             ], 64))
           ]),
-          createBaseVNode("div", _hoisted_3$2, [
-            createBaseVNode("div", _hoisted_4$2, [
+          createBaseVNode("div", _hoisted_2$2, [
+            createBaseVNode("div", _hoisted_3$2, [
               withDirectives(createBaseVNode("input", {
                 type: "search",
-                "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => searchStr.value = $event),
+                "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => searchStr.value = $event),
                 class: "input"
               }, null, 512), [
                 [vModelText, searchStr.value]
@@ -5073,7 +5075,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
                     },
                     class: "pickerItem"
                   }, [
-                    createBaseVNode("div", _hoisted_6$2, [
+                    createBaseVNode("div", _hoisted_5$2, [
                       createBaseVNode("input", {
                         type: "checkbox",
                         class: "checkInput",
@@ -5083,13 +5085,13 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
                           !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((j) => j === option), 1);
                           emit("update:modelValue", __props.modelValue);
                         }
-                      }, null, 40, _hoisted_7$1),
+                      }, null, 40, _hoisted_6$1),
                       createBaseVNode("label", {
                         class: "checkLabel",
                         for: "check-" + (unref(getRandomChar) + String(index))
-                      }, toDisplayString(option), 9, _hoisted_8$1)
+                      }, toDisplayString(option), 9, _hoisted_7$1)
                     ])
-                  ], 8, _hoisted_5$2)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
+                  ], 8, _hoisted_4$2)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
                     key: 1,
                     onClick: ($event) => {
                       !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i[__props.prop] === option[__props.prop]), 1);
@@ -5097,7 +5099,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
                     },
                     class: "pickerItem"
                   }, [
-                    createBaseVNode("div", _hoisted_10$1, [
+                    createBaseVNode("div", _hoisted_9$1, [
                       createBaseVNode("input", {
                         type: "checkbox",
                         class: "checkInput",
@@ -5107,13 +5109,13 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
                           !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((j) => j[__props.prop] === option[__props.prop]), 1);
                           emit("update:modelValue", __props.modelValue);
                         }
-                      }, null, 40, _hoisted_11$1),
+                      }, null, 40, _hoisted_10$1),
                       createBaseVNode("label", {
                         class: "checkLabel",
                         for: "check-" + (unref(getRandomChar) + String(index))
-                      }, toDisplayString(option[__props.prop]), 9, _hoisted_12$1)
+                      }, toDisplayString(option[__props.prop]), 9, _hoisted_11$1)
                     ])
-                  ], 8, _hoisted_9$1)) : (openBlock(), createElementBlock("div", {
+                  ], 8, _hoisted_8$1)) : (openBlock(), createElementBlock("div", {
                     key: 2,
                     onClick: ($event) => {
                       !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i === option), 1);
@@ -5125,7 +5127,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
                       option,
                       items: __props.modelValue
                     }, void 0, true)
-                  ], 8, _hoisted_13$1))
+                  ], 8, _hoisted_12$1))
                 ], 64);
               }), 128))
             ], 4)) : (openBlock(), createElementBlock("div", {
@@ -5144,14 +5146,14 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
                       picker.value = false;
                     },
                     class: normalizeClass(["pickerItem", __props.modelValue === option ? "active" : ""])
-                  }, toDisplayString(option), 11, _hoisted_14$1)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
+                  }, toDisplayString(option), 11, _hoisted_13$1)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
                     key: 1,
                     onClick: ($event) => {
                       emit("update:modelValue", option);
                       picker.value = false;
                     },
                     class: normalizeClass(["pickerItem", __props.modelValue[__props.prop] === option[__props.prop] ? "active" : ""])
-                  }, toDisplayString(option[__props.prop]), 11, _hoisted_15)) : (openBlock(), createElementBlock("div", {
+                  }, toDisplayString(option[__props.prop]), 11, _hoisted_14$1)) : (openBlock(), createElementBlock("div", {
                     key: 2,
                     onClick: ($event) => {
                       emit("update:modelValue", option);
@@ -5160,7 +5162,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
                     class: normalizeClass(["pickerItem", __props.modelValue === option ? "active" : ""])
                   }, [
                     renderSlot(_ctx.$slots, "default", { option }, void 0, true)
-                  ], 10, _hoisted_16))
+                  ], 10, _hoisted_15))
                 ], 64);
               }), 128))
             ], 4))
@@ -5170,15 +5172,14 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-var VueSelectBox = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["styles", [_style_0$2]], ["__scopeId", "data-v-1fda7ecd"]]);
-var _style_0$1 = `.picker[data-v-e00ee06c]{width:auto}.pickerContent[data-v-e00ee06c]{display:block;position:relative}.picker.dropdown .pickerContent[data-v-e00ee06c]{display:inline-block}.pickerBackdrop[data-v-e00ee06c]{position:fixed;z-index:5;inset:0 3em 3em 0;width:100vw;height:100vh;display:none}.picker.active .pickerBackdrop[data-v-e00ee06c]{display:block}.pickerToggler[data-v-e00ee06c]{padding:.5rem}.select.pickerToggler[data-v-e00ee06c]{padding-left:.75rem;padding-right:.75rem;cursor:default}.pickerBody[data-v-e00ee06c],.pickerMenu[data-v-e00ee06c]{position:absolute;z-index:6;top:2.5rem;left:0;width:240px;background-color:#fff;border:1px solid #d9d9d9;display:none}.pickerBody[data-v-e00ee06c]{padding:.75rem;border-radius:.375rem}.pickerMenu[data-v-e00ee06c]{border-radius:.375rem}.pickerMenu .pickerWrap[data-v-e00ee06c]{padding:.5rem;border-bottom:1px solid #d9d9d9}.pickerMenu .pickerGroup[data-v-e00ee06c]{overflow-y:auto;max-height:420px}.pickerMenu .pickerItem[data-v-e00ee06c]{display:block;padding:.675rem .75rem;border-bottom:1px solid #d9d9d9;text-decoration:none;color:#283541;cursor:default}.pickerMenu .pickerItem[data-v-e00ee06c]:last-child{border-bottom:0}.pickerMenu .pickerItem[data-v-e00ee06c]:hover{background-color:#ededed}.pickerMenu .pickerItem.active[data-v-e00ee06c]{pointer-events:none;border-color:#4890eb;background-color:#4c9bff;color:#fff}.pickerMenu.pickerSizing[data-v-e00ee06c]{overflow-y:auto;max-height:420px}.suggestion .pickerMenu[data-v-e00ee06c],.fill .pickerBody[data-v-e00ee06c]{width:100%}.pickerEnd .pickerBody[data-v-e00ee06c],.pickerEnd .pickerMenu[data-v-e00ee06c]{right:0;left:auto}.picker.active .input.pickerToggler[data-v-e00ee06c],.picker.active .select.pickerToggler[data-v-e00ee06c]{border-bottom-right-radius:0;border-bottom-left-radius:0}.picker.active .pickerMenu[data-v-e00ee06c]{border-top-right-radius:0;border-top-left-radius:0}.picker.active .pickerBody[data-v-e00ee06c],.picker.active .pickerMenu[data-v-e00ee06c]{display:block}.input[data-v-e00ee06c],.select[data-v-e00ee06c]{display:block;width:100%;padding:.5rem .75rem;margin:0;font-size:1rem;font-weight:400;line-height:1.5;background-color:#f9f9f9;background-clip:padding-box;appearance:none;color:#283541;border:1px solid #d9d9d9;border-radius:.375rem;outline:0;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.input[data-v-e00ee06c]::placeholder,.select[data-v-e00ee06c]::placeholder{color:#555}.input[data-v-e00ee06c]:focus,.select[data-v-e00ee06c]:focus{border-color:#1d84b6;background-color:#f7faff}.input[disabled][data-v-e00ee06c],.input[readonly][data-v-e00ee06c],.input.disabled[data-v-e00ee06c],.select[disabled][data-v-e00ee06c],.select[readonly][data-v-e00ee06c],.select.disabled[data-v-e00ee06c]{border-color:#d6d6d6;background-color:#f0f0f0;cursor:default}.input[disabled][data-v-e00ee06c],.input.disabled[data-v-e00ee06c],.select[disabled][data-v-e00ee06c],.select.disabled[data-v-e00ee06c]{color:#9b9b9b;user-select:none;pointer-events:none}.input.plainText[data-v-e00ee06c]{background-color:transparent;border-color:transparent;padding-left:0;padding-right:0}.input.valid[data-v-e00ee06c],.validated[data-v-e00ee06c] :valid{border-color:#198754;background-color:#f1fff8;padding-right:calc(1.5em + 0.75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(0.375em + 0.1875rem) center;background-size:calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)}.validMessage[data-v-e00ee06c]{display:none;width:100%;margin-top:.25rem;font-size:.875em;color:#198754}.validTooltip[data-v-e00ee06c]{position:absolute;top:100%;z-index:5;display:none;max-width:100%;padding:.25rem .5rem;margin-top:.1rem;font-size:.875rem;color:#fff;background-color:#198754e6;border-radius:.25rem}.input.invalid[data-v-e00ee06c],.validated[data-v-e00ee06c] :invalid{border-color:#dc3545;background-color:#fbf1f2;padding-right:calc(1.5em + 0.75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(0.375em + 0.1875rem) center;background-size:calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)}.invalidMessage[data-v-e00ee06c]{display:none;width:100%;margin-top:.25rem;font-size:.875em;color:#dc3545}.invalidTooltip[data-v-e00ee06c]{position:absolute;top:100%;z-index:5;display:none;max-width:100%;padding:.25rem .5rem;margin-top:.1rem;font-size:.875rem;color:#fff;background-color:#dc3545e6;border-radius:.25rem}.valid~.validMessage[data-v-e00ee06c],.valid~.validTooltip[data-v-e00ee06c],.validated :valid~.validMessage[data-v-e00ee06c],.validated :valid~.validTooltip[data-v-e00ee06c],.invalid~.invalidMessage[data-v-e00ee06c],.invalid~.invalidTooltip[data-v-e00ee06c],.validated :invalid~.invalidMessage[data-v-e00ee06c],.validated :invalid~.invalidTooltip[data-v-e00ee06c]{display:block}textarea.input[data-v-e00ee06c]{min-height:6.5rem;resize:none}.select[data-v-e00ee06c]:not([multiple]){padding:.5rem;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right .75rem center;background-size:16px 12px}.select[multiple][data-v-e00ee06c]{padding-top:.5rem;padding-bottom:.5rem}.select[multiple] option[data-v-e00ee06c]{padding-top:.375rem;padding-bottom:.375rem;outline:0}.mt-20px[data-v-e00ee06c]{margin-top:20px}.mb-20px[data-v-e00ee06c]{margin-bottom:20px}.feather-x[data-v-e00ee06c]{feather:x}
+var VueSelectBox = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["styles", [_style_0$2]], ["__scopeId", "data-v-7a0257fe"]]);
+var _style_0$1 = `.picker[data-v-0ad3c4e4]{width:auto}.pickerContent[data-v-0ad3c4e4]{display:block;position:relative}.picker.dropdown .pickerContent[data-v-0ad3c4e4]{display:inline-block}.pickerBackdrop[data-v-0ad3c4e4]{position:fixed;z-index:5;inset:0 3em 3em 0;width:100vw;height:100vh;display:none}.picker.active .pickerBackdrop[data-v-0ad3c4e4]{display:block}.pickerToggler[data-v-0ad3c4e4]{padding:.5rem}.select.pickerToggler[data-v-0ad3c4e4]{padding-left:.75rem;padding-right:.75rem;cursor:default}.pickerBody[data-v-0ad3c4e4],.pickerMenu[data-v-0ad3c4e4]{position:absolute;z-index:6;top:2.5rem;left:0;width:240px;background-color:#fff;border:1px solid #d9d9d9;display:none}.pickerBody[data-v-0ad3c4e4]{padding:.75rem;border-radius:.375rem}.pickerMenu[data-v-0ad3c4e4]{border-radius:.375rem}.pickerMenu .pickerWrap[data-v-0ad3c4e4]{padding:.5rem;border-bottom:1px solid #d9d9d9}.pickerMenu .pickerGroup[data-v-0ad3c4e4]{overflow-y:auto;max-height:420px}.pickerMenu .pickerItem[data-v-0ad3c4e4]{display:block;padding:.675rem .75rem;border-bottom:1px solid #d9d9d9;text-decoration:none;color:#283541;cursor:default}.pickerMenu .pickerItem[data-v-0ad3c4e4]:last-child{border-bottom:0}.pickerMenu .pickerItem[data-v-0ad3c4e4]:hover{background-color:#ededed}.pickerMenu .pickerItem.active[data-v-0ad3c4e4]{pointer-events:none;border-color:#4890eb;background-color:#4c9bff;color:#fff}.pickerMenu.pickerSizing[data-v-0ad3c4e4]{overflow-y:auto;max-height:420px}.suggestion .pickerMenu[data-v-0ad3c4e4],.fill .pickerBody[data-v-0ad3c4e4]{width:100%}.pickerEnd .pickerBody[data-v-0ad3c4e4],.pickerEnd .pickerMenu[data-v-0ad3c4e4]{right:0;left:auto}.picker.active .input.pickerToggler[data-v-0ad3c4e4],.picker.active .select.pickerToggler[data-v-0ad3c4e4]{border-bottom-right-radius:0;border-bottom-left-radius:0}.picker.active .pickerMenu[data-v-0ad3c4e4]{border-top-right-radius:0;border-top-left-radius:0}.picker.active .pickerBody[data-v-0ad3c4e4],.picker.active .pickerMenu[data-v-0ad3c4e4]{display:block}.input[data-v-0ad3c4e4],.select[data-v-0ad3c4e4]{display:block;width:100%;padding:.5rem .75rem;margin:0;font-size:1rem;font-weight:400;line-height:1.5;background-color:#f9f9f9;background-clip:padding-box;appearance:none;color:#283541;border:1px solid #d9d9d9;border-radius:.375rem;outline:0;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.input[data-v-0ad3c4e4]::placeholder,.select[data-v-0ad3c4e4]::placeholder{color:#555}.input[data-v-0ad3c4e4]:focus,.select[data-v-0ad3c4e4]:focus{border-color:#1d84b6;background-color:#f7faff}.input[disabled][data-v-0ad3c4e4],.input[readonly][data-v-0ad3c4e4],.input.disabled[data-v-0ad3c4e4],.select[disabled][data-v-0ad3c4e4],.select[readonly][data-v-0ad3c4e4],.select.disabled[data-v-0ad3c4e4]{border-color:#d6d6d6;background-color:#f0f0f0;cursor:default}.input[disabled][data-v-0ad3c4e4],.input.disabled[data-v-0ad3c4e4],.select[disabled][data-v-0ad3c4e4],.select.disabled[data-v-0ad3c4e4]{color:#9b9b9b;user-select:none;pointer-events:none}.input.plainText[data-v-0ad3c4e4]{background-color:transparent;border-color:transparent;padding-left:0;padding-right:0}.input.valid[data-v-0ad3c4e4],.validated[data-v-0ad3c4e4] :valid{border-color:#198754;background-color:#f1fff8;padding-right:calc(1.5em + 0.75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(0.375em + 0.1875rem) center;background-size:calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)}.validMessage[data-v-0ad3c4e4]{display:none;width:100%;margin-top:.25rem;font-size:.875em;color:#198754}.validTooltip[data-v-0ad3c4e4]{position:absolute;top:100%;z-index:5;display:none;max-width:100%;padding:.25rem .5rem;margin-top:.1rem;font-size:.875rem;color:#fff;background-color:#198754e6;border-radius:.25rem}.input.invalid[data-v-0ad3c4e4],.validated[data-v-0ad3c4e4] :invalid{border-color:#dc3545;background-color:#fbf1f2;padding-right:calc(1.5em + 0.75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(0.375em + 0.1875rem) center;background-size:calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)}.invalidMessage[data-v-0ad3c4e4]{display:none;width:100%;margin-top:.25rem;font-size:.875em;color:#dc3545}.invalidTooltip[data-v-0ad3c4e4]{position:absolute;top:100%;z-index:5;display:none;max-width:100%;padding:.25rem .5rem;margin-top:.1rem;font-size:.875rem;color:#fff;background-color:#dc3545e6;border-radius:.25rem}.valid~.validMessage[data-v-0ad3c4e4],.valid~.validTooltip[data-v-0ad3c4e4],.validated :valid~.validMessage[data-v-0ad3c4e4],.validated :valid~.validTooltip[data-v-0ad3c4e4],.invalid~.invalidMessage[data-v-0ad3c4e4],.invalid~.invalidTooltip[data-v-0ad3c4e4],.validated :invalid~.invalidMessage[data-v-0ad3c4e4],.validated :invalid~.invalidTooltip[data-v-0ad3c4e4]{display:block}textarea.input[data-v-0ad3c4e4]{min-height:6.5rem;resize:none}.select[data-v-0ad3c4e4]:not([multiple]){padding:.5rem;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right .75rem center;background-size:16px 12px}.select[multiple][data-v-0ad3c4e4]{padding-top:.5rem;padding-bottom:.5rem}.select[multiple] option[data-v-0ad3c4e4]{padding-top:.375rem;padding-bottom:.375rem;outline:0}.mt-20px[data-v-0ad3c4e4]{margin-top:20px}.mb-20px[data-v-0ad3c4e4]{margin-bottom:20px}.feather-x[data-v-0ad3c4e4]{feather:x}
 `;
-const _hoisted_1$1 = ["id"];
-const _hoisted_2$1 = { class: "pickerContent" };
-const _hoisted_3$1 = { class: "pickerMenu pickerSizing" };
+const _hoisted_1$1 = { class: "pickerContent" };
+const _hoisted_2$1 = { class: "pickerMenu pickerSizing" };
+const _hoisted_3$1 = ["onClick"];
 const _hoisted_4$1 = ["onClick"];
 const _hoisted_5$1 = ["onClick"];
-const _hoisted_6$1 = ["onClick"];
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   props: {
     modelValue: { default: null },
@@ -5214,13 +5215,9 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       }
       return newOptions;
     });
-    const randomChar = (maxlength = 10) => {
-      let allChar = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-      let resChar = "";
-      for (let i = 0; i < maxlength; i++) {
-        resChar += allChar.charAt(Math.floor(Math.random() * allChar.length));
-      }
-      return resChar;
+    const hideByClick = (e) => {
+      e.target.style.display = "none";
+      picker.value = false;
     };
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", {
@@ -5228,23 +5225,22 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       }, [
         (openBlock(), createBlock(Teleport, { to: "body" }, [
           createBaseVNode("div", {
-            id: "combo" + randomChar(7),
             class: "pickerBackdrop",
             style: normalizeStyle({ display: picker.value ? "block" : "none" }),
-            onClick: _cache[0] || (_cache[0] = ($event) => picker.value = false)
-          }, null, 12, _hoisted_1$1)
+            onClick: hideByClick
+          }, null, 4)
         ])),
-        createBaseVNode("div", _hoisted_2$1, [
+        createBaseVNode("div", _hoisted_1$1, [
           withDirectives(createBaseVNode("input", {
             type: "search",
-            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => searchStr.value = $event),
-            onInput: _cache[2] || (_cache[2] = ($event) => unref(filteredOptions).length >= 1 && searchStr.value !== "" ? picker.value = true : picker.value = false),
-            onClick: _cache[3] || (_cache[3] = ($event) => unref(filteredOptions).length >= 1 && searchStr.value !== "" ? picker.value = true : picker.value = false),
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => searchStr.value = $event),
+            onInput: _cache[1] || (_cache[1] = ($event) => unref(filteredOptions).length >= 1 && searchStr.value !== "" ? picker.value = true : picker.value = false),
+            onClick: _cache[2] || (_cache[2] = ($event) => unref(filteredOptions).length >= 1 && searchStr.value !== "" ? picker.value = true : picker.value = false),
             class: "input"
           }, null, 544), [
             [vModelText, searchStr.value]
           ]),
-          createBaseVNode("div", _hoisted_3$1, [
+          createBaseVNode("div", _hoisted_2$1, [
             (openBlock(true), createElementBlock(Fragment, null, renderList(unref(filteredOptions), (option, index) => {
               return openBlock(), createElementBlock(Fragment, {
                 key: "option-" + option
@@ -5257,7 +5253,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
                     picker.value = false;
                   },
                   class: normalizeClass(["pickerItem", __props.modelValue === option ? "active" : ""])
-                }, toDisplayString(option), 11, _hoisted_4$1)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
+                }, toDisplayString(option), 11, _hoisted_3$1)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
                   key: 1,
                   onClick: ($event) => {
                     searchStr.value = option[__props.prop];
@@ -5265,7 +5261,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
                     picker.value = false;
                   },
                   class: normalizeClass(["pickerItem", __props.modelValue[__props.prop] === option[__props.prop] ? "active" : ""])
-                }, toDisplayString(option[__props.prop]), 11, _hoisted_5$1)) : (openBlock(), createElementBlock("div", {
+                }, toDisplayString(option[__props.prop]), 11, _hoisted_4$1)) : (openBlock(), createElementBlock("div", {
                   key: 2,
                   onClick: ($event) => {
                     searchStr.value = option;
@@ -5275,7 +5271,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
                   class: normalizeClass(["pickerItem", __props.modelValue === option ? "active" : ""])
                 }, [
                   renderSlot(_ctx.$slots, "default", { option }, void 0, true)
-                ], 10, _hoisted_6$1))
+                ], 10, _hoisted_5$1))
               ], 64);
             }), 128))
           ])
@@ -5284,7 +5280,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-var VueComboBox = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["styles", [_style_0$1]], ["__scopeId", "data-v-e00ee06c"]]);
+var VueComboBox = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["styles", [_style_0$1]], ["__scopeId", "data-v-0ad3c4e4"]]);
 var _style_0 = `.list[data-v-3b073a2f]{width:100%;background-color:#fff;border:1px solid #d9d9d9;border-radius:.375rem}.list .listWrap[data-v-3b073a2f]{padding:.5rem;border-bottom:1px solid #d9d9d9}.list .listGroup[data-v-3b073a2f]{overflow-y:auto;max-height:360px}.list .listItem[data-v-3b073a2f]{display:block;padding:.675rem .75rem;border-bottom:1px solid #d9d9d9;text-decoration:none;color:#283541}.list .listItem[data-v-3b073a2f]:last-child{border-bottom:0}.list .listItem[data-v-3b073a2f]:hover{background-color:#ededed}.list .listItem.active[data-v-3b073a2f]{pointer-events:none;border-color:#4890eb;background-color:#4c9bff;color:#fff}.list.sizing[data-v-3b073a2f]{overflow-y:auto;max-height:360px}.input[data-v-3b073a2f],.select[data-v-3b073a2f]{display:block;width:100%;padding:.5rem .75rem;margin:0;font-size:1rem;font-weight:400;line-height:1.5;background-color:#f9f9f9;background-clip:padding-box;appearance:none;color:#283541;border:1px solid #d9d9d9;border-radius:.375rem;outline:0;transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out}.input[data-v-3b073a2f]::placeholder,.select[data-v-3b073a2f]::placeholder{color:#555}.input[data-v-3b073a2f]:focus,.select[data-v-3b073a2f]:focus{border-color:#1d84b6;background-color:#f7faff}.input[disabled][data-v-3b073a2f],.input[readonly][data-v-3b073a2f],.input.disabled[data-v-3b073a2f],.select[disabled][data-v-3b073a2f],.select[readonly][data-v-3b073a2f],.select.disabled[data-v-3b073a2f]{border-color:#d6d6d6;background-color:#f0f0f0;cursor:default}.input[disabled][data-v-3b073a2f],.input.disabled[data-v-3b073a2f],.select[disabled][data-v-3b073a2f],.select.disabled[data-v-3b073a2f]{color:#9b9b9b;user-select:none;pointer-events:none}.input.plainText[data-v-3b073a2f]{background-color:transparent;border-color:transparent;padding-left:0;padding-right:0}.input.valid[data-v-3b073a2f],.validated[data-v-3b073a2f] :valid{border-color:#198754;background-color:#f1fff8;padding-right:calc(1.5em + 0.75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(0.375em + 0.1875rem) center;background-size:calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)}.validMessage[data-v-3b073a2f]{display:none;width:100%;margin-top:.25rem;font-size:.875em;color:#198754}.validTooltip[data-v-3b073a2f]{position:absolute;top:100%;z-index:5;display:none;max-width:100%;padding:.25rem .5rem;margin-top:.1rem;font-size:.875rem;color:#fff;background-color:#198754e6;border-radius:.25rem}.input.invalid[data-v-3b073a2f],.validated[data-v-3b073a2f] :invalid{border-color:#dc3545;background-color:#fbf1f2;padding-right:calc(1.5em + 0.75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(0.375em + 0.1875rem) center;background-size:calc(0.75em + 0.375rem) calc(0.75em + 0.375rem)}.invalidMessage[data-v-3b073a2f]{display:none;width:100%;margin-top:.25rem;font-size:.875em;color:#dc3545}.invalidTooltip[data-v-3b073a2f]{position:absolute;top:100%;z-index:5;display:none;max-width:100%;padding:.25rem .5rem;margin-top:.1rem;font-size:.875rem;color:#fff;background-color:#dc3545e6;border-radius:.25rem}.valid~.validMessage[data-v-3b073a2f],.valid~.validTooltip[data-v-3b073a2f],.validated :valid~.validMessage[data-v-3b073a2f],.validated :valid~.validTooltip[data-v-3b073a2f],.invalid~.invalidMessage[data-v-3b073a2f],.invalid~.invalidTooltip[data-v-3b073a2f],.validated :invalid~.invalidMessage[data-v-3b073a2f],.validated :invalid~.invalidTooltip[data-v-3b073a2f]{display:block}textarea.input[data-v-3b073a2f]{min-height:6.5rem;resize:none}.select[data-v-3b073a2f]:not([multiple]){padding:.5rem;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right .75rem center;background-size:16px 12px}.select[multiple][data-v-3b073a2f]{padding-top:.5rem;padding-bottom:.5rem}.select[multiple] option[data-v-3b073a2f]{padding-top:.375rem;padding-bottom:.375rem;outline:0}.check[data-v-3b073a2f]{display:inline-flex;align-items:center}.check .checkInput[data-v-3b073a2f]{width:1.5em;height:1.5em;appearance:none;border:1px solid #d9d9d9}.check .checkInput[type=checkbox][data-v-3b073a2f]{border-radius:.25rem}.check .checkInput[type=radio][data-v-3b073a2f]{border-radius:.75rem}.check .checkInput[data-v-3b073a2f]:checked{border-color:#1d84b6;background-color:#1d84b6}.check .checkInput[disabled][data-v-3b073a2f],.check .checkInput.disabled[data-v-3b073a2f]{border-color:#d6d6d6;background-color:#f0f0f0;pointer-events:none}.check .checkInput:checked[disabled][data-v-3b073a2f],.check .checkInput:checked.disabled[data-v-3b073a2f]{background-color:#bbb}.check .checkInput[disabled]~.checkLabel[data-v-3b073a2f],.check .checkInput.disabled~.checkLabel[data-v-3b073a2f]{color:#9b9b9b;cursor:default}.check .checkInput[type=checkbox][data-v-3b073a2f]:checked{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e")}.check .checkInput[type=checkbox][data-v-3b073a2f]:indeterminate{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e")}.check .checkInput[type=radio][data-v-3b073a2f]:checked{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e")}.check .checkLabel[data-v-3b073a2f]{display:inline-block;padding-left:.25rem}.check.switch .checkInput[data-v-3b073a2f]{width:2.85em;background-repeat:no-repeat;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%280, 0, 0, 0.25%29'/%3e%3c/svg%3e");background-position:left center;border-radius:2em;transition:background-position .15s ease-in-out}.check.switch .checkInput[data-v-3b073a2f]:checked{background-position:right center;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e")}.mt-20px[data-v-3b073a2f]{margin-top:20px}.mb-20px[data-v-3b073a2f]{margin-bottom:20px}.feather-x[data-v-3b073a2f]{feather:x}
 `;
 const _hoisted_1 = { class: "list" };

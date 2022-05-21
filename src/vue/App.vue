@@ -62,13 +62,13 @@ const comboObj = ref<any>({})
   <p>Your selected value is in multiple objects: {{ arrOfObj }}</p>
   
   <p><br /><br /></p>
-  <h3>TagBox (Strings)</h3>
+  <h3>TagBox (Only Strings)</h3>
   <TagBox v-model="arrOfStr" :options="arrayOfStrings" :size="5" />
   <p>Your selected value is in string: {{ arrOfStr }}</p>
-  <p><br/></p>
+  <!--<p><br/></p>
   <h3>TagBox (Objects)</h3>
   <TagBox v-model="arrOfObj" :options="arrayOfStrings" :size="5" />
-  <p>Your selected value is in string: {{ arrOfObj }}</p>
+  <p>Your selected value is in string: {{ arrOfObj }}</p>-->
   
   <p><br /><br /></p>
 </div>

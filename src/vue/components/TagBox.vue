@@ -87,6 +87,7 @@ const createTag = (e: any) => {
       }
     }
     inputStr.value = ''
+    emit('update:modelValue', tagList)
   }
 }
 
@@ -115,12 +116,17 @@ const randomChar = (maxlength: number = 10) => {
   }
   return resChar
 }
+
+const hideByClick = (e: any) => {
+  e.target.style.display = 'none' 
+  picker.value = false
+}
 </script>
 
 <template>
   <div class="taggable" :class="{active: picker === true}">
     <teleport to="body">
-      <div :id="'tag'+randomChar(7)" class="tagBackdrop" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+      <div class="tagBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="hideByClick"></div>
     </teleport>
     <div class="tagContent">
       <div class="input tagToggler" @click="inputFocus">
@@ -145,7 +151,7 @@ const randomChar = (maxlength: number = 10) => {
         <!--<div class="tagList" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 44)+'px' : 'auto'}">-->
           <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
             <div v-if="typeof option === 'string'" @click="inputStr = option; picker = false;" class="tagOption">{{ option }}</div>
-            <div v-else-if="typeof option === 'object' && prop in option" @click="inputStr = option; picker = false;" class="tagOption">{{ option[prop] }}</div>
+            <div v-else-if="typeof option === 'object' && prop in option" @click="inputStr = option[prop]; picker = false;" class="tagOption">{{ option[prop] }}</div>
             <div v-else @click="inputStr = option; picker = false;" class="tagOption">
               <slot :option="option"></slot>
             </div>

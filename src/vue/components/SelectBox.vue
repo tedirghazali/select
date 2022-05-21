@@ -62,12 +62,17 @@ const randomChar = (maxlength: number = 10) => {
 }
 
 const getRandomChar = randomChar()
+
+const hideByClick = (e: any) => {
+  e.target.style.display = 'none' 
+  picker.value = false
+}
 </script>
 
 <template>
   <div class="picker suggestion" :class="picker ? 'active' : ''">
     <teleport to="body">
-      <div :id="'picker'+randomChar(7)" class="pickerBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="picker = false"></div>
+      <div class="pickerBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="hideByClick"></div>
     </teleport>
     <div class="pickerContent">
       <div class="select pickerToggler" @click="picker = true">
