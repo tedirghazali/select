@@ -84,7 +84,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
         createElementVNode("div", _hoisted_1$2, [
           createElementVNode("div", {
             class: "select pickerToggler",
-            onClick: _cache[0] || (_cache[0] = ($event) => picker.value = true)
+            onClick: _cache[0] || (_cache[0] = ($event) => picker.value = !picker.value)
           }, [
             typeof __props.modelValue === "string" && __props.modelValue !== "" ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
               createTextVNode(toDisplayString(__props.modelValue), 1)
@@ -222,7 +222,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-var SelectBox = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-7a0257fe"]]);
+var SelectBox = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-59d05f18"]]);
 var ComboBox_vue_vue_type_style_index_0_scoped_true_lang = "";
 const _hoisted_1$1 = { class: "pickerContent" };
 const _hoisted_2$1 = { class: "pickerMenu pickerSizing" };

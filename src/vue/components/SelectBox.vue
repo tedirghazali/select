@@ -75,7 +75,7 @@ const hideByClick = (e: any) => {
       <div class="pickerBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="hideByClick"></div>
     </teleport>
     <div class="pickerContent">
-      <div class="select pickerToggler" @click="picker = true">
+      <div class="select pickerToggler" @click="picker = !picker">
         <template v-if="typeof modelValue === 'string' && modelValue !== ''">{{ modelValue }}</template>
         <template v-else-if="typeof modelValue === 'object' && prop in modelValue">{{ modelValue[prop] }}</template>
         <template v-else-if="Array.isArray(modelValue) && modelValue.length >= 1 && typeof modelValue[0] === 'string'">{{ modelValue.join(', ') }}</template>
