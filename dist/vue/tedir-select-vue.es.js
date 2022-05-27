@@ -122,8 +122,8 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
           }, [
             typeof selected.value === "string" && selected.value !== "" && unref(filteredOptions).length >= 1 && typeof unref(filteredOptions)[0] === "string" ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
               createTextVNode(toDisplayString(selected.value), 1)
-            ], 64)) : typeof selected.value === "string" && unref(filteredOptions).filter((i) => String(i[String(__props.dataprop || __props.prop)]) === selected.value).length >= 1 && typeof unref(filteredOptions)[0] === "object" && unref(filteredOptions)[0] !== null ? (openBlock(), createElementBlock(Fragment, { key: 1 }, [
-              createTextVNode(toDisplayString(unref(filteredOptions)[0][__props.prop]), 1)
+            ], 64)) : typeof selected.value === "string" && unref(filteredOptions).filter((i) => String(i[String(__props.dataprop || __props.prop)]) === selected.value).length >= 1 && typeof unref(filteredOptions).filter((i) => String(i[String(__props.dataprop || __props.prop)]) === selected.value)[0] === "object" ? (openBlock(), createElementBlock(Fragment, { key: 1 }, [
+              createTextVNode(toDisplayString(unref(filteredOptions).filter((i) => String(i[String(__props.dataprop || __props.prop)]) === selected.value)[0][__props.prop]), 1)
             ], 64)) : typeof selected.value === "object" && selected.value !== null && __props.prop in selected.value ? (openBlock(), createElementBlock(Fragment, { key: 2 }, [
               createTextVNode(toDisplayString(selected.value[__props.prop]), 1)
             ], 64)) : Array.isArray(selected.value) && selected.value.length >= 1 && typeof selected.value[0] === "string" ? (openBlock(), createElementBlock(Fragment, { key: 3 }, [
@@ -239,7 +239,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-var SelectBox = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-2f00b510"]]);
+var SelectBox = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-7eecebde"]]);
 var ComboBox_vue_vue_type_style_index_0_scoped_true_lang = "";
 const _hoisted_1$1 = { class: "pickerContent" };
 const _hoisted_2$1 = { class: "pickerMenu pickerSizing" };

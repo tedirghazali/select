@@ -117,7 +117,7 @@ const selectOption = (option: any) => {
     <div class="pickerContent">
       <div class="select pickerToggler" @click="picker = !picker">
         <template v-if="typeof selected === 'string' && selected !== '' && filteredOptions.length >= 1 && typeof filteredOptions[0] === 'string'">{{ selected }}</template>
-        <template v-else-if="typeof selected === 'string' && filteredOptions.filter(i => String(i[String(dataprop || prop)]) === selected).length >= 1 && typeof filteredOptions[0] === 'object' && filteredOptions[0] !== null">{{ filteredOptions[0][prop] }}</template>
+        <template v-else-if="typeof selected === 'string' && filteredOptions.filter(i => String(i[String(dataprop || prop)]) === selected).length >= 1 && typeof filteredOptions.filter(i => String(i[String(dataprop || prop)]) === selected)[0] === 'object'">{{ filteredOptions.filter(i => String(i[String(dataprop || prop)]) === selected)[0][prop] }}</template>
         <template v-else-if="typeof selected === 'object' && selected !== null && prop in selected">{{ selected[prop] }}</template>
         <template v-else-if="Array.isArray(selected) && selected.length >= 1 && typeof selected[0] === 'string'">{{ selected.join(', ') }}</template>
         <template v-else-if="Array.isArray(selected) && selected.length >= 1 && typeof selected[0] === 'object' && prop in selected[0]">{{ selected.map(i => i[prop]).join(', ') }}</template>
