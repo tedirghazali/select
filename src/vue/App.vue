@@ -11,10 +11,17 @@ const arrayOfObjects = objOptions()
 
 const str = ref<string>('')
 const obj = ref<any>({})
+const id = ref<string>('')
 const arrOfStr = ref<string[]>([])
 const arrOfObj = ref<any[]>([])
 const comboStr = ref<string>('')
 const comboObj = ref<any>({})
+
+const testChange = (value: any, option: any) => {
+  console.log('Test select change')
+  console.log(value)
+  console.log(option)
+}
 </script>
 
 <template>
@@ -26,6 +33,10 @@ const comboObj = ref<any>({})
   <h3>SelectBox (Object)</h3>
   <SelectBox v-model="obj" :options="arrayOfObjects" :size="10" />
   <p>Your selected value is in object: {{ obj }}</p>
+  <p><br/></p>
+  <h3>SelectBox (String value from array of objects)</h3>
+  <SelectBox v-model="id" prop="value" datatype="string" dataprop="id" :options="arrayOfObjects" :size="10" @change="testChange" />
+  <p>Your selected value is in string from array of objects: {{ id }}</p>
   <p><br/></p>
   <h3>SelectBox (Array of Strings)</h3>
   <SelectBox v-model="arrOfStr" :options="arrayOfStrings" :size="25" />

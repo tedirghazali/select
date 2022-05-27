@@ -1,32 +1,42 @@
 <script setup lang="ts">
-import { ref, computed, onUpdated } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 interface Props {
   modelValue?: any,
   //@ts-ignore
   options?: any[],
   prop?: string,
+  datatype?: string,
+  dataprop?: string,
   placeholder?: string,
   size?: number
 }
 
 interface Emits {
-  (e: 'update:modelValue', value: any[] | any): void
+  (e: 'update:modelValue', value: any[] | any): void,
+  (e: 'change', value: any[] | any, option: any): void
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: null,
+  modelValue: {},
   //@ts-ignore
   options: [],
   prop: 'value',
+  datatype: '',
+  dataprop: '',
   placeholder: '-- Select option --',
   size: 0
 })
 
 const emit = defineEmits<Emits>()
 
+const selected = ref<any>(props.modelValue || {})
 const picker = ref<boolean>(false)
 const searchStr = ref<string>('')
+
+watch(() => props.modelValue, () => {
+  selected.value = props.modelValue
+})
 
 const filteredOptions = computed<any[]>(() => {
   //@ts-ignore
@@ -67,6 +77,36 @@ const hideByClick = (e: any) => {
   e.target.style.display = 'none' 
   picker.value = false
 }
+
+const checkOption = (option: any, property: string = '') => {
+  if(property !== '') {
+    if(!selected.value.map((i: any) => i[property]).includes(option[property])) { 
+      selected.value.push(option)
+    } else { 
+      selected.value.splice(selected.value.findIndex((i: any) => i[property] === option[property]), 1) 
+    }
+  } else {
+    if(!selected.value.includes(option)) { 
+      selected.value.push(option)
+    } else { 
+      selected.value.splice(selected.value.findIndex((i: any) => i === option), 1) 
+    }
+  }
+  emit('update:modelValue', selected.value)
+  emit('change', selected.value, option)
+}
+
+const selectOption = (option: any) => {
+  if(typeof option === 'object' && option !== null && String(props.datatype).toLowerCase() === 'string') { 
+    selected.value = option[String(props.dataprop || props.prop)]
+    emit('update:modelValue', String(selected.value))
+  } else {
+    selected.value = option
+    emit('update:modelValue', selected.value)
+  }
+  picker.value = false
+  emit('change', selected.value, option)
+}
 </script>
 
 <template>
@@ -76,41 +116,42 @@ const hideByClick = (e: any) => {
     </teleport>
     <div class="pickerContent">
       <div class="select pickerToggler" @click="picker = !picker">
-        <template v-if="typeof modelValue === 'string' && modelValue !== ''">{{ modelValue }}</template>
-        <template v-else-if="typeof modelValue === 'object' && prop in modelValue">{{ modelValue[prop] }}</template>
-        <template v-else-if="Array.isArray(modelValue) && modelValue.length >= 1 && typeof modelValue[0] === 'string'">{{ modelValue.join(', ') }}</template>
-        <template v-else-if="Array.isArray(modelValue) && modelValue.length >= 1 && typeof modelValue[0] === 'object' && prop in modelValue[0]">{{ modelValue.map(i => i[prop]).join(', ') }}</template>
+        <template v-if="typeof selected === 'string' && selected !== '' && filteredOptions.length >= 1 && typeof filteredOptions[0] === 'string'">{{ selected }}</template>
+        <template v-else-if="typeof selected === 'string' && filteredOptions.filter(i => String(i[String(dataprop || prop)]) === selected).length >= 1 && typeof filteredOptions[0] === 'object' && filteredOptions[0] !== null">{{ filteredOptions[0][prop] }}</template>
+        <template v-else-if="typeof selected === 'object' && selected !== null && prop in selected">{{ selected[prop] }}</template>
+        <template v-else-if="Array.isArray(selected) && selected.length >= 1 && typeof selected[0] === 'string'">{{ selected.join(', ') }}</template>
+        <template v-else-if="Array.isArray(selected) && selected.length >= 1 && typeof selected[0] === 'object' && prop in selected[0]">{{ selected.map(i => i[prop]).join(', ') }}</template>
         <template v-else>{{ placeholder }}</template>
       </div>
       <div class="pickerMenu">
         <div class="pickerWrap">
           <input type="search" v-model="searchStr" class="input" />
         </div>
-        <div v-if="Array.isArray(modelValue)" class="pickerGroup" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 42)+'px' : 'auto'}">
+        <div v-if="Array.isArray(selected)" class="pickerGroup" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 42)+'px' : 'auto'}">
           <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
-            <div v-if="typeof option === 'string'" @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((i: string) => i === option), 1); emit('update:modelValue', modelValue);" class="pickerItem">
+            <div v-if="typeof option === 'string'" @click.stop="checkOption(option)" class="pickerItem">
               <div class="check">
-                <input type="checkbox" class="checkInput" :checked="modelValue.includes(option)" :id="'check-'+(getRandomChar + String(index))" @change="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((j: string) => j === option), 1); emit('update:modelValue', modelValue);">
-                <label class="checkLabel" :for="'check-'+(getRandomChar + String(index))">{{ option }}</label>
+                <input type="checkbox" class="checkInput" :checked="selected.includes(option)" :id="'check-'+(getRandomChar + String(index))" style="pointer-events: none">
+                <label class="checkLabel" :for="'check-'+(getRandomChar + String(index))" style="pointer-events: none">{{ option }}</label>
               </div>
             </div>
-            <div v-else-if="typeof option === 'object' && prop in option" @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((i: any) => i[prop] === option[prop]), 1); emit('update:modelValue', modelValue);" class="pickerItem">
+            <div v-else-if="typeof option === 'object' && option !== null && prop in option" @click.stop="checkOption(option, prop)" class="pickerItem">
               <div class="check">
-                <input type="checkbox" class="checkInput" :checked="modelValue.includes(option)" :id="'check-'+(getRandomChar + String(index))" @change="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((j: any) => j[prop] === option[prop]), 1); emit('update:modelValue', modelValue);">
-                <label class="checkLabel" :for="'check-'+(getRandomChar + String(index))">{{ option[prop] }}</label>
+                <input type="checkbox" class="checkInput" :checked="selected.includes(option)" :id="'check-'+(getRandomChar + String(index))" style="pointer-events: none">
+                <label class="checkLabel" :for="'check-'+(getRandomChar + String(index))" style="pointer-events: none">{{ option[prop] }}</label>
               </div>
             </div>
-            <div v-else @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((i: any) => i === option), 1); emit('update:modelValue', modelValue);" class="pickerItem">
-              <slot :option="option" :items="modelValue"></slot>
+            <div v-else @click.stop="checkOption(option)" class="pickerItem">
+              <slot :option="option" :selected="selected"></slot>
             </div>
           </template>
         </div>
         <div v-else class="pickerGroup" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 42)+'px' : 'auto'}">
           <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
-            <div v-if="typeof option === 'string'" @click="emit('update:modelValue', option); picker = false;" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">{{ option }}</div>
-            <div v-else-if="typeof option === 'object' && prop in option" @click="emit('update:modelValue', option); picker = false;" class="pickerItem" :class="(modelValue[prop] === option[prop]) ? 'active' : ''">{{ option[prop] }}</div>
-            <div v-else @click="emit('update:modelValue', option); picker = false;" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">
-              <slot :option="option"></slot>
+            <div v-if="typeof option === 'string'" @click="selectOption(option)" class="pickerItem" :class="(selected === option) ? 'active' : ''">{{ option }}</div>
+            <div v-else-if="typeof option === 'object' && option !== null && prop in option" @click="selectOption(option)" class="pickerItem" :class="(selected[prop] === option[prop]) ? 'active' : ''">{{ option[prop] }}</div>
+            <div v-else @click.stop="selectOption(option)" class="pickerItem" :class="(selected === option) ? 'active' : ''">
+              <slot :option="option" :selected="selected"></slot>
             </div>
           </template>
         </div>
