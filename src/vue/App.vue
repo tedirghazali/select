@@ -64,6 +64,10 @@ const testChange = (value: any, option: any) => {
   <ListBox v-model="obj" :options="arrayOfObjects" :size="5" />
   <p>Your selected value is in object: {{ obj }}</p>
   <p><br/></p>
+  <h3>ListBox (String value from array of objects)</h3>
+  <ListBox v-model="id" prop="value" datatype="string" dataprop="id" :options="arrayOfObjects" :size="5" @change="testChange" />
+  <p>Your selected value is in object: {{ id }}</p>
+  <p><br/></p>
   <h3>ListBox (Array of Strings)</h3>
   <ListBox v-model="arrOfStr" :options="arrayOfStrings" :size="5" />
   <p>Your selected value is in multiple strings: {{ arrOfStr }}</p>

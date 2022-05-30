@@ -149,7 +149,7 @@ const selectOption = (option: any) => {
         <div v-else class="pickerGroup" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 42)+'px' : 'auto'}">
           <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
             <div v-if="typeof option === 'string'" @click="selectOption(option)" class="pickerItem" :class="(selected === option) ? 'active' : ''">{{ option }}</div>
-            <div v-else-if="typeof option === 'object' && option !== null && prop in option" @click="selectOption(option)" class="pickerItem" :class="(selected[prop] === option[prop]) ? 'active' : ''">{{ option[prop] }}</div>
+            <div v-else-if="typeof option === 'object' && option !== null && prop in option" @click="selectOption(option)" class="pickerItem" :class="(selected[prop] === option[prop] || String(option[dataprop || prop]) === String(selected)) ? 'active' : ''">{{ option[prop] }}</div>
             <div v-else @click.stop="selectOption(option)" class="pickerItem" :class="(selected === option) ? 'active' : ''">
               <slot :option="option" :selected="selected"></slot>
             </div>

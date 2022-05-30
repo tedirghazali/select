@@ -219,7 +219,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
                   }, toDisplayString(option), 11, _hoisted_13$1)) : typeof option === "object" && option !== null && __props.prop in option ? (openBlock(), createElementBlock("div", {
                     key: 1,
                     onClick: ($event) => selectOption(option),
-                    class: normalizeClass(["pickerItem", selected.value[__props.prop] === option[__props.prop] ? "active" : ""])
+                    class: normalizeClass(["pickerItem", selected.value[__props.prop] === option[__props.prop] || String(option[__props.dataprop || __props.prop]) === String(selected.value) ? "active" : ""])
                   }, toDisplayString(option[__props.prop]), 11, _hoisted_14$1)) : (openBlock(), createElementBlock("div", {
                     key: 2,
                     onClick: withModifiers(($event) => selectOption(option), ["stop"]),
@@ -239,7 +239,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-var SelectBox = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-7eecebde"]]);
+var SelectBox = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-7492f150"]]);
 var ComboBox_vue_vue_type_style_index_0_scoped_true_lang = "";
 const _hoisted_1$1 = { class: "pickerContent" };
 const _hoisted_2$1 = { class: "pickerMenu pickerSizing" };
@@ -352,11 +352,11 @@ const _hoisted_1 = { class: "list" };
 const _hoisted_2 = { class: "listWrap" };
 const _hoisted_3 = ["onClick"];
 const _hoisted_4 = { class: "check" };
-const _hoisted_5 = ["checked", "id", "onChange"];
+const _hoisted_5 = ["checked", "id"];
 const _hoisted_6 = ["for"];
 const _hoisted_7 = ["onClick"];
 const _hoisted_8 = { class: "check" };
-const _hoisted_9 = ["checked", "id", "onChange"];
+const _hoisted_9 = ["checked", "id"];
 const _hoisted_10 = ["for"];
 const _hoisted_11 = ["onClick"];
 const _hoisted_12 = ["onClick"];
@@ -364,15 +364,21 @@ const _hoisted_13 = ["onClick"];
 const _hoisted_14 = ["onClick"];
 const _sfc_main = /* @__PURE__ */ defineComponent({
   props: {
-    modelValue: { default: null },
+    modelValue: { default: {} },
     options: { default: [] },
     prop: { default: "value" },
+    datatype: { default: "" },
+    dataprop: { default: "" },
     size: { default: 0 }
   },
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "change"],
   setup(__props, { emit }) {
     const props = __props;
+    const selected = ref(props.modelValue || {});
     const searchStr = ref("");
+    watch(() => props.modelValue, () => {
+      selected.value = props.modelValue;
+    });
     const filteredOptions = computed(() => {
       let newOptions = props.options;
       if (searchStr.value.length >= 1) {
@@ -404,6 +410,33 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       return resChar;
     };
     const getRandomChar = randomChar();
+    const checkOption = (option, property = "") => {
+      if (property !== "") {
+        if (!selected.value.map((i) => i[property]).includes(option[property])) {
+          selected.value.push(option);
+        } else {
+          selected.value.splice(selected.value.findIndex((i) => i[property] === option[property]), 1);
+        }
+      } else {
+        if (!selected.value.includes(option)) {
+          selected.value.push(option);
+        } else {
+          selected.value.splice(selected.value.findIndex((i) => i === option), 1);
+        }
+      }
+      emit("update:modelValue", selected.value);
+      emit("change", selected.value, option);
+    };
+    const selectOption = (option) => {
+      if (typeof option === "object" && option !== null && String(props.datatype).toLowerCase() === "string") {
+        selected.value = option[String(props.dataprop || props.prop)];
+        emit("update:modelValue", String(selected.value));
+      } else {
+        selected.value = option;
+        emit("update:modelValue", selected.value);
+      }
+      emit("change", selected.value, option);
+    };
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", null, [
         createElementVNode("div", _hoisted_1, [
@@ -427,63 +460,50 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
               }, [
                 typeof option === "string" ? (openBlock(), createElementBlock("div", {
                   key: 0,
-                  onClick: withModifiers(($event) => {
-                    !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i === option), 1);
-                    emit("update:modelValue", __props.modelValue);
-                  }, ["stop"]),
+                  onClick: withModifiers(($event) => checkOption(option), ["stop"]),
                   class: "listItem"
                 }, [
                   createElementVNode("div", _hoisted_4, [
                     createElementVNode("input", {
                       type: "checkbox",
                       class: "checkInput",
-                      checked: __props.modelValue.includes(option),
+                      checked: selected.value.includes(option),
                       id: "check-" + (unref(getRandomChar) + String(index)),
-                      onChange: ($event) => {
-                        !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((j) => j === option), 1);
-                        emit("update:modelValue", __props.modelValue);
-                      }
-                    }, null, 40, _hoisted_5),
+                      style: { "pointer-events": "none" }
+                    }, null, 8, _hoisted_5),
                     createElementVNode("label", {
                       class: "checkLabel",
-                      for: "check-" + (unref(getRandomChar) + String(index))
+                      for: "check-" + (unref(getRandomChar) + String(index)),
+                      style: { "pointer-events": "none" }
                     }, toDisplayString(option), 9, _hoisted_6)
                   ])
                 ], 8, _hoisted_3)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
                   key: 1,
-                  onClick: withModifiers(($event) => {
-                    !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i[__props.prop] === option[__props.prop]), 1);
-                    emit("update:modelValue", __props.modelValue);
-                  }, ["stop"]),
+                  onClick: withModifiers(($event) => checkOption(option, __props.prop), ["stop"]),
                   class: "listItem"
                 }, [
                   createElementVNode("div", _hoisted_8, [
                     createElementVNode("input", {
                       type: "checkbox",
                       class: "checkInput",
-                      checked: __props.modelValue.includes(option),
+                      checked: selected.value.includes(option),
                       id: "check-" + (unref(getRandomChar) + String(index)),
-                      onChange: ($event) => {
-                        !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((j) => j[__props.prop] === option[__props.prop]), 1);
-                        emit("update:modelValue", __props.modelValue);
-                      }
-                    }, null, 40, _hoisted_9),
+                      style: { "pointer-events": "none" }
+                    }, null, 8, _hoisted_9),
                     createElementVNode("label", {
                       class: "checkLabel",
-                      for: "check-" + (unref(getRandomChar) + String(index))
+                      for: "check-" + (unref(getRandomChar) + String(index)),
+                      style: { "pointer-events": "none" }
                     }, toDisplayString(option[__props.prop]), 9, _hoisted_10)
                   ])
                 ], 8, _hoisted_7)) : (openBlock(), createElementBlock("div", {
                   key: 2,
-                  onClick: ($event) => {
-                    !__props.modelValue.includes(option) ? __props.modelValue.push(option) : __props.modelValue.splice(__props.modelValue.findIndex((i) => i === option), 1);
-                    emit("update:modelValue", __props.modelValue);
-                  },
-                  class: normalizeClass(["listItem", __props.modelValue.includes(option) ? "active" : ""])
+                  onClick: withModifiers(($event) => checkOption(option), ["stop"]),
+                  class: normalizeClass(["listItem", selected.value.includes(option) ? "active" : ""])
                 }, [
                   renderSlot(_ctx.$slots, "default", {
                     option,
-                    items: __props.modelValue
+                    selected: selected.value
                   }, void 0, true)
                 ], 10, _hoisted_11))
               ], 64);
@@ -499,24 +519,21 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
               }, [
                 typeof option === "string" ? (openBlock(), createElementBlock("div", {
                   key: 0,
-                  onClick: ($event) => {
-                    emit("update:modelValue", option);
-                  },
-                  class: normalizeClass(["listItem", __props.modelValue === option ? "active" : ""])
+                  onClick: ($event) => selectOption(option),
+                  class: normalizeClass(["listItem", selected.value === option ? "active" : ""])
                 }, toDisplayString(option), 11, _hoisted_12)) : typeof option === "object" && __props.prop in option ? (openBlock(), createElementBlock("div", {
                   key: 1,
-                  onClick: ($event) => {
-                    emit("update:modelValue", option);
-                  },
-                  class: normalizeClass(["listItem", __props.modelValue[__props.prop] === option[__props.prop] ? "active" : ""])
+                  onClick: ($event) => selectOption(option),
+                  class: normalizeClass(["listItem", selected.value[__props.prop] === option[__props.prop] || String(option[__props.dataprop || __props.prop]) === String(selected.value) ? "active" : ""])
                 }, toDisplayString(option[__props.prop]), 11, _hoisted_13)) : (openBlock(), createElementBlock("div", {
                   key: 2,
-                  onClick: ($event) => {
-                    emit("update:modelValue", option);
-                  },
-                  class: normalizeClass(["listItem", __props.modelValue === option ? "active" : ""])
+                  onClick: withModifiers(($event) => selectOption(option), ["stop"]),
+                  class: normalizeClass(["listItem", selected.value === option ? "active" : ""])
                 }, [
-                  renderSlot(_ctx.$slots, "default", { option }, void 0, true)
+                  renderSlot(_ctx.$slots, "default", {
+                    option,
+                    selected: selected.value
+                  }, void 0, true)
                 ], 10, _hoisted_14))
               ], 64);
             }), 128))
@@ -526,5 +543,5 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
   }
 });
-var ListBox = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-3b073a2f"]]);
+var ListBox = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-33f11966"]]);
 export { ComboBox, ListBox, SelectBox };

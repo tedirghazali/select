@@ -1,29 +1,39 @@
 <script setup lang="ts">
-import { ref, computed, onUpdated } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 interface Props {
   modelValue?: any,
   //@ts-ignore
   options?: any[],
   prop?: string,
+  datatype?: string,
+  dataprop?: string,
   size?: number
 }
 
 interface Emits {
-  (e: 'update:modelValue', value: any[] | any): void
+  (e: 'update:modelValue', value: any[] | any): void,
+  (e: 'change', value: any[] | any, option: any): void
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: null,
+  modelValue: {},
   //@ts-ignore
   options: [],
   prop: 'value',
+  datatype: '',
+  dataprop: '',
   size: 0
 })
 
 const emit = defineEmits<Emits>()
 
+const selected = ref<any>(props.modelValue || {})
 const searchStr = ref<string>('')
+
+watch(() => props.modelValue, () => {
+  selected.value = props.modelValue
+})
 
 const filteredOptions = computed<any[]>(() => {
   //@ts-ignore
@@ -59,6 +69,35 @@ const randomChar = () => {
 }
 
 const getRandomChar = randomChar()
+
+const checkOption = (option: any, property: string = '') => {
+  if(property !== '') {
+    if(!selected.value.map((i: any) => i[property]).includes(option[property])) { 
+      selected.value.push(option)
+    } else { 
+      selected.value.splice(selected.value.findIndex((i: any) => i[property] === option[property]), 1) 
+    }
+  } else {
+    if(!selected.value.includes(option)) { 
+      selected.value.push(option)
+    } else { 
+      selected.value.splice(selected.value.findIndex((i: any) => i === option), 1) 
+    }
+  }
+  emit('update:modelValue', selected.value)
+  emit('change', selected.value, option)
+}
+
+const selectOption = (option: any) => {
+  if(typeof option === 'object' && option !== null && String(props.datatype).toLowerCase() === 'string') { 
+    selected.value = option[String(props.dataprop || props.prop)]
+    emit('update:modelValue', String(selected.value))
+  } else {
+    selected.value = option
+    emit('update:modelValue', selected.value)
+  }
+  emit('change', selected.value, option)
+}
 </script>
 
 <template>
@@ -69,29 +108,29 @@ const getRandomChar = randomChar()
       </div>
       <div v-if="Array.isArray(modelValue)" class="listGroup" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 44)+'px' : 'auto'}">
         <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
-          <div v-if="typeof option === 'string'" @click.stop="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((i: string) => i === option), 1); emit('update:modelValue', modelValue);" class="listItem">
+          <div v-if="typeof option === 'string'" @click.stop="checkOption(option)" class="listItem">
             <div class="check">
-              <input type="checkbox" class="checkInput" :checked="modelValue.includes(option)" :id="'check-'+(getRandomChar + String(index))" @change="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((j: string) => j === option), 1); emit('update:modelValue', modelValue);">
-              <label class="checkLabel" :for="'check-'+(getRandomChar + String(index))">{{ option }}</label>
+              <input type="checkbox" class="checkInput" :checked="selected.includes(option)" :id="'check-'+(getRandomChar + String(index))" style="pointer-events: none">
+              <label class="checkLabel" :for="'check-'+(getRandomChar + String(index))" style="pointer-events: none">{{ option }}</label>
             </div>
           </div>
-          <div v-else-if="typeof option === 'object' && prop in option" @click.stop="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((i: any) => i[prop] === option[prop]), 1); emit('update:modelValue', modelValue);" class="listItem">
+          <div v-else-if="typeof option === 'object' && prop in option" @click.stop="checkOption(option, prop)" class="listItem">
             <div class="check">
-              <input type="checkbox" class="checkInput" :checked="modelValue.includes(option)" :id="'check-'+(getRandomChar + String(index))" @change="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((j: any) => j[prop] === option[prop]), 1); emit('update:modelValue', modelValue);">
-              <label class="checkLabel" :for="'check-'+(getRandomChar + String(index))">{{ option[prop] }}</label>
+              <input type="checkbox" class="checkInput" :checked="selected.includes(option)" :id="'check-'+(getRandomChar + String(index))" style="pointer-events: none">
+              <label class="checkLabel" :for="'check-'+(getRandomChar + String(index))" style="pointer-events: none">{{ option[prop] }}</label>
             </div>
           </div>
-          <div v-else @click="(!modelValue.includes(option)) ? modelValue.push(option) : modelValue.splice(modelValue.findIndex((i: any) => i === option), 1); emit('update:modelValue', modelValue);" class="listItem" :class="modelValue.includes(option) ? 'active' : ''">
-            <slot :option="option" :items="modelValue"></slot>
+          <div v-else @click.stop="checkOption(option)" class="listItem" :class="selected.includes(option) ? 'active' : ''">
+            <slot :option="option" :selected="selected"></slot>
           </div>
         </template>
       </div>
       <div v-else class="listGroup" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 44)+'px' : 'auto'}">
         <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
-          <div v-if="typeof option === 'string'" @click="emit('update:modelValue', option);" class="listItem" :class="(modelValue === option) ? 'active' : ''">{{ option }}</div>
-          <div v-else-if="typeof option === 'object' && prop in option" @click="emit('update:modelValue', option);" class="listItem" :class="(modelValue[prop] === option[prop]) ? 'active' : ''">{{ option[prop] }}</div>
-          <div v-else @click="emit('update:modelValue', option);" class="listItem" :class="(modelValue === option) ? 'active' : ''">
-            <slot :option="option"></slot>
+          <div v-if="typeof option === 'string'" @click="selectOption(option)" class="listItem" :class="(selected === option) ? 'active' : ''">{{ option }}</div>
+          <div v-else-if="typeof option === 'object' && prop in option" @click="selectOption(option)" class="listItem" :class="(selected[prop] === option[prop] || String(option[dataprop || prop]) === String(selected)) ? 'active' : ''">{{ option[prop] }}</div>
+          <div v-else @click.stop="selectOption(option)" class="listItem" :class="(selected === option) ? 'active' : ''">
+            <slot :option="option" :selected="selected"></slot>
           </div>
         </template>
       </div>
