@@ -4,6 +4,7 @@ import SelectBox from './components/SelectBox.vue'
 import ComboBox from './components/ComboBox.vue'
 import ListBox from './components/ListBox.vue'
 import TagBox from './components/TagBox.vue'
+import CategoryBox from './components/CategoryBox.vue'
 import { strOptions, objOptions } from './models/options'
 
 const arrayOfStrings = strOptions()
@@ -84,6 +85,27 @@ const testChange = (value: any, option: any) => {
     <h3>TagBox (Objects)</h3>
     <TagBox v-model="arrOfObj" :options="arrayOfStrings" :size="5" />
     <p>Your selected value is in string: {{ arrOfObj }}</p>-->
+    
+    <p><br /><br /></p>
+    <h3>CategoryBox (String)</h3>
+    <CategoryBox v-model="str" :options="arrayOfStrings" :size="5" />
+    <p>Your selected value is in string: {{ str }}</p>
+    <p><br/></p>
+    <h3>CategoryBox (Object)</h3>
+    <CategoryBox v-model="obj" :options="arrayOfObjects" :size="10" />
+    <p>Your selected value is in object: {{ obj }}</p>
+    <p><br/></p>
+    <h3>CategoryBox (String value from array of objects)</h3>
+    <CategoryBox v-model="id" prop="value" datatype="string" dataprop="id" :options="arrayOfObjects" :size="10" @change="testChange" />
+    <p>Your selected value is in string from array of objects: {{ id }}</p>
+    <p><br/></p>
+    <h3>CategoryBox (Array of Strings)</h3>
+    <CategoryBox v-model="arrOfStr" :options="arrayOfStrings" :size="25" />
+    <p>Your selected value is in multiple strings: {{ arrOfStr }}</p>
+    <p><br/></p>
+    <h3>CategoryBox (Array of Objects)</h3>
+    <CategoryBox v-model="arrOfObj" :options="arrayOfObjects" :size="50" />
+    <p>Your selected value is in multiple objects: {{ arrOfObj }}</p>
     
     <p><br /><br /></p>
   </div>

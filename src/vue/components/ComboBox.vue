@@ -72,9 +72,9 @@ const hideByClick = (e: any) => {
     <teleport to="body">
       <div class="pickerBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="hideByClick"></div>
     </teleport>
-    <div class="pickerContent">
+    <div class="pickerOverlay pickerWrap">
       <input type="search" v-model="searchStr" @input="(filteredOptions.length >= 1 && searchStr !== '') ? picker = true : picker = false" @click="(filteredOptions.length >= 1 && searchStr !== '') ? picker = true : picker = false" class="input" />
-      <div class="pickerMenu pickerSizing">
+      <div class="pickerContent pickerSizing">
         <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
           <div v-if="typeof option === 'string'" @click="searchStr = option; emit('update:modelValue', option); picker = false;" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">{{ option }}</div>
           <div v-else-if="typeof option === 'object' && prop in option" @click="searchStr = option[prop]; emit('update:modelValue', option); picker = false;" class="pickerItem" :class="(modelValue[prop] === option[prop]) ? 'active' : ''">{{ option[prop] }}</div>

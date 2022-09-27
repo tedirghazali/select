@@ -128,7 +128,7 @@ const hideByClick = (e: any) => {
     <teleport to="body">
       <div class="tagBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="hideByClick"></div>
     </teleport>
-    <div class="tagContent">
+    <div class="tagContent tagWrap">
       <div class="input tagToggler" @click="inputFocus">
         <div class="tags">
           <div v-for="(tag, index) in tagList" :key="'tag-'+index" class="group">
@@ -138,10 +138,11 @@ const hideByClick = (e: any) => {
               <template v-else>{{ placeholder }}</template>
             </div>
             <div class="tag groupItem" @click="tagList.splice(index, 1)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
+              <!-- icon from feather-->
             </div>
           </div>
           <input type="search" ref="inputRef" v-model="inputStr" class="tagInput" @input="createTag($event)" @keyup.enter="createTag($event)" placeholder="Add new tag" />
@@ -150,9 +151,9 @@ const hideByClick = (e: any) => {
       <div class="tagList">
         <!--<div class="tagList" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 44)+'px' : 'auto'}">-->
           <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
-            <div v-if="typeof option === 'string'" @click="inputStr = option; picker = false;" class="tagOption">{{ option }}</div>
-            <div v-else-if="typeof option === 'object' && prop in option" @click="inputStr = option[prop]; picker = false;" class="tagOption">{{ option[prop] }}</div>
-            <div v-else @click="inputStr = option; picker = false;" class="tagOption">
+            <div v-if="typeof option === 'string'" @click="inputStr = option +','; createTag($event);" class="tagOption">{{ option }}</div>
+            <div v-else-if="typeof option === 'object' && prop in option" @click="inputStr = option[prop] +','; createTag($event);" class="tagOption">{{ option[prop] }}</div>
+            <div v-else @click="inputStr = option +','; createTag($event);" class="tagOption">
               <slot :option="option"></slot>
             </div>
           </template>

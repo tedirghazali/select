@@ -14,7 +14,8 @@ interface Props {
 
 interface Emits {
   (e: 'update:modelValue', value: any[] | any): void,
-  (e: 'change', value: any[] | any, option: any): void
+  (e: 'change', value: any[] | any, option: any): void,
+  (e: 'add', value: string): void
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -33,6 +34,7 @@ const emit = defineEmits<Emits>()
 const selected = ref<any>(props.modelValue || {})
 const picker = ref<boolean>(false)
 const searchStr = ref<string>('')
+const addStr = ref<string>('')
 
 watch(() => props.modelValue, () => {
   selected.value = props.modelValue
@@ -155,6 +157,12 @@ const selectOption = (option: any) => {
             </div>
           </template>
         </div>
+        <div class="pickerFooter">
+          <div class="display-flex justifyContent-spaceBetween">
+            <input type="text" v-model="addStr" class="input" placeholder="Add New Category" />
+            <button type="button" class="button marginLeft-0.5rem primary-light color-white">Save</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -163,6 +171,6 @@ const selectOption = (option: any) => {
 <style scoped>
 @use picker;
 @use form {
-  field: input, check;
+  field: input, check, group, button;
 }
 </style>

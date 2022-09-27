@@ -13,7 +13,7 @@ Initialize it in the .vue file
 ```html
 <script setup>
 import { ref, reactive } from 'vue'
-import { SelectBox, ComboBox, ListBox, TagBox } from 'tedir-select'
+import { SelectBox, ComboBox, ListBox, TagBox, CategoryBox } from 'tedir-select'
 
 const stateRef = ref('')
 const options = reactive(['Option One', 'Option Two', 'Option Three'])

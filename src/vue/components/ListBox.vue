@@ -103,10 +103,10 @@ const selectOption = (option: any) => {
 <template>
   <div>
     <div class="list">
-      <div class="listWrap">
+      <div class="listHeader">
         <input type="search" v-model="searchStr" class="input" />
       </div>
-      <div v-if="Array.isArray(modelValue)" class="listGroup" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 44)+'px' : 'auto'}">
+      <div v-if="Array.isArray(modelValue)" class="listMenu" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 44)+'px' : 'auto'}">
         <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
           <div v-if="typeof option === 'string'" @click.stop="checkOption(option)" class="listItem">
             <div class="check">
@@ -125,7 +125,7 @@ const selectOption = (option: any) => {
           </div>
         </template>
       </div>
-      <div v-else class="listGroup" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 44)+'px' : 'auto'}">
+      <div v-else class="listMenu" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 44)+'px' : 'auto'}">
         <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
           <div v-if="typeof option === 'string'" @click="selectOption(option)" class="listItem" :class="(selected === option) ? 'active' : ''">{{ option }}</div>
           <div v-else-if="typeof option === 'object' && prop in option" @click="selectOption(option)" class="listItem" :class="(selected[prop] === option[prop] || String(option[dataprop || prop]) === String(selected)) ? 'active' : ''">{{ option[prop] }}</div>
