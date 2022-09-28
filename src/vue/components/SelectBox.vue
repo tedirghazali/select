@@ -114,7 +114,7 @@ const selectOption = (option: any) => {
     <teleport to="body">
       <div class="pickerBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="hideByClick"></div>
     </teleport>
-    <div class="pickerOverlay pickerWrap">
+    <div class="pickerWrap">
       <div class="select pickerToggler" @click="picker = !picker">
         <template v-if="typeof selected === 'string' && selected !== '' && filteredOptions.length >= 1 && typeof filteredOptions[0] === 'string'">{{ selected }}</template>
         <template v-else-if="typeof selected === 'string' && filteredOptions.filter(i => String(i[String(dataprop || prop)]) === selected).length >= 1 && typeof filteredOptions.filter(i => String(i[String(dataprop || prop)]) === selected)[0] === 'object'">{{ filteredOptions.filter(i => String(i[String(dataprop || prop)]) === selected)[0][prop] }}</template>

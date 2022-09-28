@@ -160,7 +160,7 @@ const selectOption = (option: any) => {
         <div class="pickerFooter">
           <div class="display-flex justifyContent-spaceBetween">
             <input type="text" v-model="addStr" class="input" placeholder="Add New Category" />
-            <button type="button" class="button marginLeft-0.5rem primary-light color-white">Save</button>
+            <button type="button" class="button marginLeft-0.5rem primary-light color-white hover:opacity-0.7" @click="emit('add', addStr); addStr = '';">Save</button>
           </div>
         </div>
       </div>
@@ -173,4 +173,6 @@ const selectOption = (option: any) => {
 @use form {
   field: input, check, group, button;
 }
+
+@ref isplay-flex justifyContent-spaceBetween marginLeft-0.5rem primary-light color-white hover\:opacity-0.7;
 </style>
