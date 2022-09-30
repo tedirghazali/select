@@ -125,9 +125,9 @@ const hideByClick = (e: any) => {
 
 <template>
   <div class="taggable" :class="{active: picker === true}">
-    <teleport to="body">
+    <!--<teleport to="body">-->
       <div class="tagBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="hideByClick"></div>
-    </teleport>
+    <!--</teleport>-->
     <div class="tagWrap">
       <div class="input tagToggler" @click="inputFocus">
         <div class="tags">

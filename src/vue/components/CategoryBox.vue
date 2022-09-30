@@ -113,9 +113,9 @@ const selectOption = (option: any) => {
 
 <template>
   <div class="picker suggestion tedirCategory" :class="picker ? 'active' : ''">
-    <teleport to="body">
+    <!--<teleport to="body">-->
       <div class="pickerBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="hideByClick"></div>
-    </teleport>
+    <!--</teleport>-->
     <div class="pickerOverlay pickerWrap">
       <div class="select pickerToggler" @click="picker = !picker">
         <template v-if="typeof selected === 'string' && selected !== '' && filteredOptions.length >= 1 && typeof filteredOptions[0] === 'string'">{{ selected }}</template>

@@ -69,9 +69,9 @@ const hideByClick = (e: any) => {
 
 <template>
   <div class="picker suggestion" :class="picker ? 'active' : ''">
-    <teleport to="body">
+    <!--<teleport to="body">-->
       <div class="pickerBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="hideByClick"></div>
-    </teleport>
+    <!--</teleport>-->
     <div class="pickerWrap">
       <input type="search" v-model="searchStr" @input="(filteredOptions.length >= 1 && searchStr !== '') ? picker = true : picker = false" @click="(filteredOptions.length >= 1 && searchStr !== '') ? picker = true : picker = false" class="input" />
       <div class="pickerContent pickerSizing">
