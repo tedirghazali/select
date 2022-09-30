@@ -1,0 +1,25 @@
+@define refs {
+  name: tedirCategory;
+}
+
+@alga {refs.name} {
+  .{refs.name} {
+    
+    &Add {
+      ref: display-flex justifyContent-spaceBetween;
+      
+      .input {
+        ref: flexGrow-1;
+      }
+      
+      .{refs.name}Button {
+        ref: marginLeft-0.5rem bgColor-primary bdColor-primary color-white;
+        
+        &:hover {
+          ref-backgroundColor: lighten(primary,20);
+          ref-borderColor: lighten(primary,20);
+        }
+      }
+    }
+  }
+}
