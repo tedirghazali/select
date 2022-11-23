@@ -13,7 +13,8 @@ interface Props {
 
 interface Emits {
   (e: 'update:modelValue', value: any[] | any): void,
-  (e: 'change', value: any[] | any, option: any): void
+  (e: 'change', value: any[] | any, option: any): void,
+  (e: 'search', value: string): void
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -30,10 +31,23 @@ const emit = defineEmits<Emits>()
 
 const selected = ref<any>(props.modelValue || {})
 const searchStr = ref<string>('')
+const searchRef = ref<any>(null)
+const searchTimer = ref<any>(undefined)
 
 watch(() => props.modelValue, () => {
   selected.value = props.modelValue
 })
+
+const searchOptions = () => {
+  clearTimeout(searchTimer.value)
+  searchTimer.value = setTimeout(() => {
+    searchStr.value = ''
+    if(searchRef.value?.value && searchRef.value?.value !== '') {
+      searchStr.value = searchRef.value.value
+    }
+    emit('search', searchStr.value)
+  }, 500)
+}
 
 const filteredOptions = computed<any[]>(() => {
   //@ts-ignore
@@ -104,7 +118,7 @@ const selectOption = (option: any) => {
   <div>
     <div class="list">
       <div class="listHeader">
-        <input type="search" v-model="searchStr" class="input" />
+        <input type="search" ref="searchRef" @input="searchOptions" class="input" />
       </div>
       <div v-if="Array.isArray(modelValue)" class="listMenu" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 44)+'px' : 'auto'}">
         <template v-for="(option, index) in filteredOptions" :key="'option-'+option">

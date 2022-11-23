@@ -29,16 +29,20 @@ const testAdd = (value: string) => {
   arrayOfStrings.push(value)
   console.log(value)
 }
+
+const testSearch = (value: string) => {
+  console.log('Search: '+value)
+}
 </script>
 
 <template>
   <div class="container mt-20px mb-20px">
     <h3>SelectBox (String)</h3>
-    <SelectBox v-model="str" :options="arrayOfStrings" :size="5" />
+    <SelectBox v-model="str" :options="arrayOfStrings" :size="5" @search="testSearch" />
     <p>Your selected value is in string: {{ str }}</p>
     <p><br/></p>
     <h3>SelectBox (Object)</h3>
-    <SelectBox v-model="obj" :options="arrayOfObjects" :size="10" />
+    <SelectBox v-model="obj" :options="arrayOfObjects" :size="10" @search="testSearch" />
     <p>Your selected value is in object: {{ obj }}</p>
     <p><br/></p>
     <h3>SelectBox (String value from array of objects)</h3>
@@ -55,7 +59,7 @@ const testAdd = (value: string) => {
     
     <p><br /><br /></p>
     <h3>ComboBox Autocomplete (String)</h3>
-    <ComboBox v-model="comboStr" :options="arrayOfStrings" :size="5" />
+    <ComboBox v-model="comboStr" :options="arrayOfStrings" :size="5" @search="testSearch" />
     <p>You choose the value in string: {{ comboStr }}</p>
     <p><br/></p>
     <h3>ComboBox Autocomplete (Object)</h3>
@@ -64,7 +68,7 @@ const testAdd = (value: string) => {
     
     <p><br /><br /></p>
     <h3>ListBox (String)</h3>
-    <ListBox v-model="str" :options="arrayOfStrings" :size="5" />
+    <ListBox v-model="str" :options="arrayOfStrings" :size="5" @search="testSearch" />
     <p>Your selected value is in string: {{ str }}</p>
     <p><br/></p>
     <h3>ListBox (Object)</h3>
@@ -98,7 +102,7 @@ const testAdd = (value: string) => {
     <p>Your selected value is in multiple strings: {{ arrOfStr }}</p>
     <p><br/></p>
     <h3>CategoryBox (Array of Objects)</h3>
-    <CategoryBox v-model="arrOfObj" :options="arrayOfObjects" :size="50" />
+    <CategoryBox v-model="arrOfObj" :options="arrayOfObjects" :size="50" @search="testSearch" />
     <p>Your selected value is in multiple objects: {{ arrOfObj }}</p>
     
     <p><br /><br /></p>
