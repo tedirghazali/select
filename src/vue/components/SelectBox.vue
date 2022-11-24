@@ -90,6 +90,10 @@ const getRandomChar = randomChar()
 const hideByClick = (e: any) => {
   e.target.style.display = 'none' 
   picker.value = false
+  if(searchRef.value?.value) {
+    searchRef.value.value = ''
+    searchStr.value = ''
+  }
 }
 
 const checkOption = (option: any, property: string = '') => {
