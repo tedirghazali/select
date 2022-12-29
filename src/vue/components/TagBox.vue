@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<Props>(), {
   //@ts-ignore
   options: [],
   prop: 'value',
-  placeholder: '-- add new tag --',
+  placeholder: 'Add new tag',
   size: 0,
   separator: ','
 })

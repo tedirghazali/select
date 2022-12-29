@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<Props>(), {
   //@ts-ignore
   options: [],
   prop: 'value',
-  placeholder: '-- combo option --',
+  placeholder: 'Search option',
   size: 0
 })
 

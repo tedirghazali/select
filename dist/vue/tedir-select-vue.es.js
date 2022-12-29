@@ -1,5 +1,5 @@
-import { defineComponent as T, ref as $, watch as M, computed as A, openBlock as c, createElementBlock as n, normalizeClass as N, createElementVNode as i, normalizeStyle as V, unref as y, Fragment as h, createTextVNode as x, toDisplayString as p, renderList as O, withModifiers as _, renderSlot as L, reactive as E, withDirectives as R, withKeys as H, vModelText as W, pushScopeId as F, popScopeId as D } from "vue";
-const K = { class: "pickerWrap" }, U = { class: "pickerContent" }, P = { class: "pickerHeader" }, q = ["onClick"], G = { class: "check" }, J = ["checked", "id"], Q = ["for"], X = ["onClick"], Y = { class: "check" }, Z = ["checked", "id"], ee = ["for"], le = ["onClick"], te = ["onClick"], ae = ["onClick"], se = ["onClick"], ue = /* @__PURE__ */ T({
+import { defineComponent as A, ref as $, watch as M, computed as T, openBlock as c, createElementBlock as n, normalizeClass as N, createElementVNode as i, normalizeStyle as O, unref as y, Fragment as h, createTextVNode as x, toDisplayString as p, renderList as L, withModifiers as V, renderSlot as _, reactive as E, withDirectives as R, withKeys as H, vModelText as W, pushScopeId as F, popScopeId as D } from "vue";
+const K = { class: "pickerWrap" }, U = { class: "pickerContent" }, P = { class: "pickerHeader" }, q = ["onClick"], G = { class: "check" }, J = ["checked", "id"], Q = ["for"], X = ["onClick"], Y = { class: "check" }, Z = ["checked", "id"], ee = ["for"], le = ["onClick"], te = ["onClick"], ae = ["onClick"], se = ["onClick"], ue = /* @__PURE__ */ A({
   __name: "SelectBox",
   props: {
     modelValue: { default: {} },
@@ -8,7 +8,8 @@ const K = { class: "pickerWrap" }, U = { class: "pickerContent" }, P = { class: 
     datatype: { default: "" },
     dataprop: { default: "" },
     placeholder: { default: "-- Select option --" },
-    size: { default: 0 }
+    size: { default: 0 },
+    type: { default: "" }
   },
   emits: ["update:modelValue", "change", "search"],
   setup(s, { emit: g }) {
@@ -21,7 +22,7 @@ const K = { class: "pickerWrap" }, U = { class: "pickerContent" }, P = { class: 
         var l, t;
         v.value = "", ((l = m.value) == null ? void 0 : l.value) && ((t = m.value) == null ? void 0 : t.value) !== "" && (v.value = m.value.value), g("search", v.value);
       }, 500);
-    }, S = A(() => {
+    }, S = T(() => {
       let l = k.options;
       return v.value.length >= 1 && (l = l.filter((t) => {
         if (isNaN(t) === !1 && Number(t) === Number(v.value))
@@ -55,7 +56,7 @@ const K = { class: "pickerWrap" }, U = { class: "pickerContent" }, P = { class: 
     }, [
       i("div", {
         class: "pickerBackdrop",
-        style: V({ display: r.value ? "block" : "none" }),
+        style: O({ display: r.value ? "block" : "none" }),
         onClick: d
       }, null, 4),
       i("div", K, [
@@ -90,14 +91,14 @@ const K = { class: "pickerWrap" }, U = { class: "pickerContent" }, P = { class: 
           Array.isArray(e.value) ? (c(), n("div", {
             key: 0,
             class: "pickerMenu",
-            style: V({ "max-height": Number(s.size) !== 0 ? Number(s.size) * 42 + "px" : "auto" })
+            style: O({ "max-height": Number(s.size) !== 0 ? Number(s.size) * 42 + "px" : "auto" })
           }, [
-            (c(!0), n(h, null, O(y(S), (a, u) => (c(), n(h, {
+            (c(!0), n(h, null, L(y(S), (a, u) => (c(), n(h, {
               key: "option-" + a
             }, [
-              typeof a == "string" ? (c(), n("div", {
+              typeof a == "string" && s.type !== "slot" ? (c(), n("div", {
                 key: 0,
-                onClick: _((w) => f(a), ["stop"]),
+                onClick: V((w) => f(a), ["stop"]),
                 class: "pickerItem"
               }, [
                 i("div", G, [
@@ -114,9 +115,9 @@ const K = { class: "pickerWrap" }, U = { class: "pickerContent" }, P = { class: 
                     style: { "pointer-events": "none" }
                   }, p(a), 9, Q)
                 ])
-              ], 8, q)) : typeof a == "object" && a !== null && s.prop in a ? (c(), n("div", {
+              ], 8, q)) : typeof a == "object" && a !== null && s.prop in a && s.type !== "slot" ? (c(), n("div", {
                 key: 1,
-                onClick: _((w) => f(a, s.prop), ["stop"]),
+                onClick: V((w) => f(a, s.prop), ["stop"]),
                 class: "pickerItem"
               }, [
                 i("div", Y, [
@@ -135,10 +136,10 @@ const K = { class: "pickerWrap" }, U = { class: "pickerContent" }, P = { class: 
                 ])
               ], 8, X)) : (c(), n("div", {
                 key: 2,
-                onClick: _((w) => f(a), ["stop"]),
+                onClick: V((w) => f(a), ["stop"]),
                 class: "pickerItem"
               }, [
-                L(l.$slots, "default", {
+                _(l.$slots, "default", {
                   option: a,
                   selected: e.value
                 }, void 0, !0)
@@ -147,25 +148,25 @@ const K = { class: "pickerWrap" }, U = { class: "pickerContent" }, P = { class: 
           ], 4)) : (c(), n("div", {
             key: 1,
             class: "pickerMenu",
-            style: V({ "max-height": Number(s.size) !== 0 ? Number(s.size) * 42 + "px" : "auto" })
+            style: O({ "max-height": Number(s.size) !== 0 ? Number(s.size) * 42 + "px" : "auto" })
           }, [
-            (c(!0), n(h, null, O(y(S), (a, u) => (c(), n(h, {
+            (c(!0), n(h, null, L(y(S), (a, u) => (c(), n(h, {
               key: "option-" + a
             }, [
-              typeof a == "string" ? (c(), n("div", {
+              typeof a == "string" && s.type !== "slot" ? (c(), n("div", {
                 key: 0,
                 onClick: (w) => o(a),
                 class: N(["pickerItem", e.value === a ? "active" : ""])
-              }, p(a), 11, te)) : typeof a == "object" && a !== null && s.prop in a ? (c(), n("div", {
+              }, p(a), 11, te)) : typeof a == "object" && a !== null && s.prop in a && s.type !== "slot" ? (c(), n("div", {
                 key: 1,
                 onClick: (w) => o(a),
                 class: N(["pickerItem", e.value[s.prop] === a[s.prop] || String(a[s.dataprop || s.prop]) === String(e.value) ? "active" : ""])
               }, p(a[s.prop]), 11, ae)) : (c(), n("div", {
                 key: 2,
-                onClick: _((w) => o(a), ["stop"]),
+                onClick: V((w) => o(a), ["stop"]),
                 class: N(["pickerItem", e.value === a ? "active" : ""])
               }, [
-                L(l.$slots, "default", {
+                _(l.$slots, "default", {
                   option: a,
                   selected: e.value
                 }, void 0, !0)
@@ -182,18 +183,18 @@ const z = (s, g) => {
   for (const [e, r] of g)
     k[e] = r;
   return k;
-}, sl = /* @__PURE__ */ z(ue, [["__scopeId", "data-v-8e66f5df"]]), ce = { class: "pickerWrap" }, ne = { class: "pickerContent pickerSizing" }, re = ["onClick"], oe = ["onClick"], ie = ["onClick"], de = /* @__PURE__ */ T({
+}, sl = /* @__PURE__ */ z(ue, [["__scopeId", "data-v-5e4fd693"]]), ce = { class: "pickerWrap" }, ne = { class: "pickerContent pickerSizing" }, re = ["onClick"], oe = ["onClick"], ie = ["onClick"], de = /* @__PURE__ */ A({
   __name: "ComboBox",
   props: {
     modelValue: { default: null },
     options: { default: [] },
     prop: { default: "value" },
-    placeholder: { default: "-- combo option --" },
+    placeholder: { default: "Search option" },
     size: { default: 0 }
   },
   emits: ["update:modelValue", "search"],
   setup(s, { emit: g }) {
-    const k = s, e = $(!1), r = $(""), v = $(null), m = $(void 0), I = A(() => {
+    const k = s, e = $(!1), r = $(""), v = $(null), m = $(void 0), I = T(() => {
       let b = k.options;
       return r.value.length >= 1 && (b = b.filter((C) => {
         if (isNaN(C) === !1 && Number(C) === Number(r.value))
@@ -222,7 +223,7 @@ const z = (s, g) => {
     }, [
       i("div", {
         class: "pickerBackdrop",
-        style: V({ display: e.value ? "block" : "none" }),
+        style: O({ display: e.value ? "block" : "none" }),
         onClick: S
       }, null, 4),
       i("div", ce, [
@@ -235,7 +236,7 @@ const z = (s, g) => {
           class: "input"
         }, null, 544),
         i("div", ne, [
-          (c(!0), n(h, null, O(y(I), (d, f) => (c(), n(h, {
+          (c(!0), n(h, null, L(y(I), (d, f) => (c(), n(h, {
             key: "option-" + d
           }, [
             typeof d == "string" ? (c(), n("div", {
@@ -257,7 +258,7 @@ const z = (s, g) => {
               },
               class: N(["pickerItem", s.modelValue === d ? "active" : ""])
             }, [
-              L(b.$slots, "default", { option: d }, void 0, !0)
+              _(b.$slots, "default", { option: d }, void 0, !0)
             ], 10, ie))
           ], 64))), 128))
         ])
@@ -265,7 +266,7 @@ const z = (s, g) => {
     ], 2));
   }
 });
-const ul = /* @__PURE__ */ z(de, [["__scopeId", "data-v-6df46acc"]]), ve = { class: "list" }, fe = { class: "listHeader" }, ke = ["onClick"], he = { class: "check" }, ye = ["checked", "id"], pe = ["for"], ge = ["onClick"], Ce = { class: "check" }, be = ["checked", "id"], me = ["for"], $e = ["onClick"], Se = ["onClick"], Ne = ["onClick"], Ie = ["onClick"], xe = /* @__PURE__ */ T({
+const ul = /* @__PURE__ */ z(de, [["__scopeId", "data-v-35a9430b"]]), ve = { class: "list" }, fe = { class: "listHeader" }, ke = ["onClick"], he = { class: "check" }, ye = ["checked", "id"], pe = ["for"], ge = ["onClick"], Ce = { class: "check" }, be = ["checked", "id"], me = ["for"], $e = ["onClick"], Se = ["onClick"], Ne = ["onClick"], Ie = ["onClick"], xe = /* @__PURE__ */ A({
   __name: "ListBox",
   props: {
     modelValue: { default: {} },
@@ -286,7 +287,7 @@ const ul = /* @__PURE__ */ z(de, [["__scopeId", "data-v-6df46acc"]]), ve = { cla
         var f, o;
         r.value = "", ((f = v.value) == null ? void 0 : f.value) && ((o = v.value) == null ? void 0 : o.value) !== "" && (r.value = v.value.value), g("search", r.value);
       }, 500);
-    }, j = A(() => {
+    }, j = T(() => {
       let f = k.options;
       return r.value.length >= 1 && (f = f.filter((o) => {
         if (isNaN(o) === !1 && Number(o) === Number(r.value))
@@ -326,14 +327,14 @@ const ul = /* @__PURE__ */ z(de, [["__scopeId", "data-v-6df46acc"]]), ve = { cla
         Array.isArray(s.modelValue) ? (c(), n("div", {
           key: 0,
           class: "listMenu",
-          style: V({ "max-height": Number(s.size) !== 0 ? Number(s.size) * 44 + "px" : "auto" })
+          style: O({ "max-height": Number(s.size) !== 0 ? Number(s.size) * 44 + "px" : "auto" })
         }, [
-          (c(!0), n(h, null, O(y(j), (l, t) => (c(), n(h, {
+          (c(!0), n(h, null, L(y(j), (l, t) => (c(), n(h, {
             key: "option-" + l
           }, [
             typeof l == "string" ? (c(), n("div", {
               key: 0,
-              onClick: _((a) => C(l), ["stop"]),
+              onClick: V((a) => C(l), ["stop"]),
               class: "listItem"
             }, [
               i("div", he, [
@@ -352,7 +353,7 @@ const ul = /* @__PURE__ */ z(de, [["__scopeId", "data-v-6df46acc"]]), ve = { cla
               ])
             ], 8, ke)) : typeof l == "object" && s.prop in l ? (c(), n("div", {
               key: 1,
-              onClick: _((a) => C(l, s.prop), ["stop"]),
+              onClick: V((a) => C(l, s.prop), ["stop"]),
               class: "listItem"
             }, [
               i("div", Ce, [
@@ -371,10 +372,10 @@ const ul = /* @__PURE__ */ z(de, [["__scopeId", "data-v-6df46acc"]]), ve = { cla
               ])
             ], 8, ge)) : (c(), n("div", {
               key: 2,
-              onClick: _((a) => C(l), ["stop"]),
+              onClick: V((a) => C(l), ["stop"]),
               class: N(["listItem", e.value.includes(l) ? "active" : ""])
             }, [
-              L(f.$slots, "default", {
+              _(f.$slots, "default", {
                 option: l,
                 selected: e.value
               }, void 0, !0)
@@ -383,9 +384,9 @@ const ul = /* @__PURE__ */ z(de, [["__scopeId", "data-v-6df46acc"]]), ve = { cla
         ], 4)) : (c(), n("div", {
           key: 1,
           class: "listMenu",
-          style: V({ "max-height": Number(s.size) !== 0 ? Number(s.size) * 44 + "px" : "auto" })
+          style: O({ "max-height": Number(s.size) !== 0 ? Number(s.size) * 44 + "px" : "auto" })
         }, [
-          (c(!0), n(h, null, O(y(j), (l, t) => (c(), n(h, {
+          (c(!0), n(h, null, L(y(j), (l, t) => (c(), n(h, {
             key: "option-" + l
           }, [
             typeof l == "string" ? (c(), n("div", {
@@ -398,10 +399,10 @@ const ul = /* @__PURE__ */ z(de, [["__scopeId", "data-v-6df46acc"]]), ve = { cla
               class: N(["listItem", e.value[s.prop] === l[s.prop] || String(l[s.dataprop || s.prop]) === String(e.value) ? "active" : ""])
             }, p(l[s.prop]), 11, Ne)) : (c(), n("div", {
               key: 2,
-              onClick: _((a) => d(l), ["stop"]),
+              onClick: V((a) => d(l), ["stop"]),
               class: N(["listItem", e.value === l ? "active" : ""])
             }, [
-              L(f.$slots, "default", {
+              _(f.$slots, "default", {
                 option: l,
                 selected: e.value
               }, void 0, !0)
@@ -412,7 +413,7 @@ const ul = /* @__PURE__ */ z(de, [["__scopeId", "data-v-6df46acc"]]), ve = { cla
     ]));
   }
 });
-const cl = /* @__PURE__ */ z(xe, [["__scopeId", "data-v-e44f257b"]]), je = (s) => (F("data-v-de7e2b23"), s = s(), D(), s), we = { class: "tagWrap" }, _e = { class: "tags" }, Ve = { class: "tag groupItem" }, Oe = ["onClick"], Le = /* @__PURE__ */ je(() => /* @__PURE__ */ i("svg", {
+const cl = /* @__PURE__ */ z(xe, [["__scopeId", "data-v-e44f257b"]]), je = (s) => (F("data-v-3acd22f1"), s = s(), D(), s), we = { class: "tagWrap" }, Ve = { class: "tags" }, Oe = { class: "tag groupItem" }, Le = ["onClick"], _e = /* @__PURE__ */ je(() => /* @__PURE__ */ i("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   width: "16",
   height: "16",
@@ -436,20 +437,20 @@ const cl = /* @__PURE__ */ z(xe, [["__scopeId", "data-v-e44f257b"]]), je = (s) =
     y2: "18"
   })
 ], -1)), Be = [
-  Le
-], Te = { class: "tagContent" }, Ae = ["onClick"], ze = ["onClick"], Me = ["onClick"], Re = /* @__PURE__ */ T({
+  _e
+], Ae = { class: "tagContent" }, Te = ["onClick"], ze = ["onClick"], Me = ["onClick"], Re = /* @__PURE__ */ A({
   __name: "TagBox",
   props: {
     modelValue: { default: [] },
     options: { default: [] },
     prop: { default: "value" },
-    placeholder: { default: "-- add new tag --" },
+    placeholder: { default: "Add new tag" },
     size: { default: 0 },
     separator: { default: "," }
   },
   emits: ["update:modelValue"],
   setup(s, { emit: g }) {
-    const k = s, e = $(!1), r = $(""), v = $(null), m = E(k.modelValue || []), I = $(k.options || []), j = $(k.separator || ","), S = $(k.prop || "value"), b = A(() => {
+    const k = s, e = $(!1), r = $(""), v = $(null), m = E(k.modelValue || []), I = $(k.options || []), j = $(k.separator || ","), S = $(k.prop || "value"), b = T(() => {
       let o = I.value;
       return r.value.length >= 1 && (o = o.filter((l) => {
         if (isNaN(l) === !1 && Number(l) === Number(r.value))
@@ -491,7 +492,7 @@ const cl = /* @__PURE__ */ z(xe, [["__scopeId", "data-v-e44f257b"]]), je = (s) =
     }, [
       i("div", {
         class: "tagBackdrop",
-        style: V({ display: e.value ? "block" : "none" }),
+        style: O({ display: e.value ? "block" : "none" }),
         onClick: f
       }, null, 4),
       i("div", we, [
@@ -499,12 +500,12 @@ const cl = /* @__PURE__ */ z(xe, [["__scopeId", "data-v-e44f257b"]]), je = (s) =
           class: "input tagToggler",
           onClick: C
         }, [
-          i("div", _e, [
-            (c(!0), n(h, null, O(m, (t, a) => (c(), n("div", {
+          i("div", Ve, [
+            (c(!0), n(h, null, L(m, (t, a) => (c(), n("div", {
               key: "tag-" + a,
               class: "group"
             }, [
-              i("div", Ve, [
+              i("div", Oe, [
                 typeof t == "string" && t !== "" ? (c(), n(h, { key: 0 }, [
                   x(p(t), 1)
                 ], 64)) : typeof t == "object" && S.value in t ? (c(), n(h, { key: 1 }, [
@@ -516,7 +517,7 @@ const cl = /* @__PURE__ */ z(xe, [["__scopeId", "data-v-e44f257b"]]), je = (s) =
               i("div", {
                 class: "tag groupItem",
                 onClick: (u) => m.splice(a, 1)
-              }, Be, 8, Oe)
+              }, Be, 8, Le)
             ]))), 128)),
             R(i("input", {
               type: "search",
@@ -532,8 +533,8 @@ const cl = /* @__PURE__ */ z(xe, [["__scopeId", "data-v-e44f257b"]]), je = (s) =
             ])
           ])
         ]),
-        i("div", Te, [
-          (c(!0), n(h, null, O(y(b), (t, a) => (c(), n(h, {
+        i("div", Ae, [
+          (c(!0), n(h, null, L(y(b), (t, a) => (c(), n(h, {
             key: "option-" + t
           }, [
             typeof t == "string" ? (c(), n("div", {
@@ -542,7 +543,7 @@ const cl = /* @__PURE__ */ z(xe, [["__scopeId", "data-v-e44f257b"]]), je = (s) =
                 r.value = t + ",", d(u);
               },
               class: "tagItem"
-            }, p(t), 9, Ae)) : typeof t == "object" && S.value in t ? (c(), n("div", {
+            }, p(t), 9, Te)) : typeof t == "object" && S.value in t ? (c(), n("div", {
               key: 1,
               onClick: (u) => {
                 r.value = t[S.value] + ",", d(u);
@@ -555,7 +556,7 @@ const cl = /* @__PURE__ */ z(xe, [["__scopeId", "data-v-e44f257b"]]), je = (s) =
               },
               class: "tagItem"
             }, [
-              L(o.$slots, "default", { option: t }, void 0, !0)
+              _(o.$slots, "default", { option: t }, void 0, !0)
             ], 8, Me))
           ], 64))), 128))
         ])
@@ -563,7 +564,7 @@ const cl = /* @__PURE__ */ z(xe, [["__scopeId", "data-v-e44f257b"]]), je = (s) =
     ], 2));
   }
 });
-const nl = /* @__PURE__ */ z(Re, [["__scopeId", "data-v-de7e2b23"]]), We = { class: "pickerOverlay pickerWrap" }, Ee = { class: "pickerContent" }, He = { class: "pickerHeader" }, Fe = ["onClick"], De = { class: "check" }, Ke = ["checked", "id"], Ue = ["for"], Pe = ["onClick"], qe = { class: "check" }, Ge = ["checked", "id"], Je = ["for"], Qe = ["onClick"], Xe = ["onClick"], Ye = ["onClick"], Ze = ["onClick"], el = { class: "pickerFooter" }, ll = { class: "tedirCategoryAdd" }, tl = /* @__PURE__ */ T({
+const nl = /* @__PURE__ */ z(Re, [["__scopeId", "data-v-3acd22f1"]]), We = { class: "pickerOverlay pickerWrap" }, Ee = { class: "pickerContent" }, He = { class: "pickerHeader" }, Fe = ["onClick"], De = { class: "check" }, Ke = ["checked", "id"], Ue = ["for"], Pe = ["onClick"], qe = { class: "check" }, Ge = ["checked", "id"], Je = ["for"], Qe = ["onClick"], Xe = ["onClick"], Ye = ["onClick"], Ze = ["onClick"], el = { class: "pickerFooter" }, ll = { class: "tedirCategoryAdd" }, tl = /* @__PURE__ */ A({
   __name: "CategoryBox",
   props: {
     modelValue: { default: {} },
@@ -585,7 +586,7 @@ const nl = /* @__PURE__ */ z(Re, [["__scopeId", "data-v-de7e2b23"]]), We = { cla
         var t, a;
         v.value = "", ((t = m.value) == null ? void 0 : t.value) && ((a = m.value) == null ? void 0 : a.value) !== "" && (v.value = m.value.value), g("search", v.value);
       }, 500);
-    }, b = A(() => {
+    }, b = T(() => {
       let t = k.options;
       return v.value.length >= 1 && (t = t.filter((a) => {
         if (isNaN(a) === !1 && Number(a) === Number(v.value))
@@ -619,7 +620,7 @@ const nl = /* @__PURE__ */ z(Re, [["__scopeId", "data-v-de7e2b23"]]), We = { cla
     }, [
       i("div", {
         class: "pickerBackdrop",
-        style: V({ display: r.value ? "block" : "none" }),
+        style: O({ display: r.value ? "block" : "none" }),
         onClick: f
       }, null, 4),
       i("div", We, [
@@ -654,14 +655,14 @@ const nl = /* @__PURE__ */ z(Re, [["__scopeId", "data-v-de7e2b23"]]), We = { cla
           Array.isArray(e.value) ? (c(), n("div", {
             key: 0,
             class: "pickerMenu",
-            style: V({ "max-height": Number(s.size) !== 0 ? Number(s.size) * 42 + "px" : "auto" })
+            style: O({ "max-height": Number(s.size) !== 0 ? Number(s.size) * 42 + "px" : "auto" })
           }, [
-            (c(!0), n(h, null, O(y(b), (u, w) => (c(), n(h, {
+            (c(!0), n(h, null, L(y(b), (u, w) => (c(), n(h, {
               key: "option-" + u
             }, [
               typeof u == "string" ? (c(), n("div", {
                 key: 0,
-                onClick: _((B) => o(u), ["stop"]),
+                onClick: V((B) => o(u), ["stop"]),
                 class: "pickerItem"
               }, [
                 i("div", De, [
@@ -680,7 +681,7 @@ const nl = /* @__PURE__ */ z(Re, [["__scopeId", "data-v-de7e2b23"]]), We = { cla
                 ])
               ], 8, Fe)) : typeof u == "object" && u !== null && s.prop in u ? (c(), n("div", {
                 key: 1,
-                onClick: _((B) => o(u, s.prop), ["stop"]),
+                onClick: V((B) => o(u, s.prop), ["stop"]),
                 class: "pickerItem"
               }, [
                 i("div", qe, [
@@ -699,10 +700,10 @@ const nl = /* @__PURE__ */ z(Re, [["__scopeId", "data-v-de7e2b23"]]), We = { cla
                 ])
               ], 8, Pe)) : (c(), n("div", {
                 key: 2,
-                onClick: _((B) => o(u), ["stop"]),
+                onClick: V((B) => o(u), ["stop"]),
                 class: "pickerItem"
               }, [
-                L(t.$slots, "default", {
+                _(t.$slots, "default", {
                   option: u,
                   selected: e.value
                 }, void 0, !0)
@@ -711,9 +712,9 @@ const nl = /* @__PURE__ */ z(Re, [["__scopeId", "data-v-de7e2b23"]]), We = { cla
           ], 4)) : (c(), n("div", {
             key: 1,
             class: "pickerMenu",
-            style: V({ "max-height": Number(s.size) !== 0 ? Number(s.size) * 42 + "px" : "auto" })
+            style: O({ "max-height": Number(s.size) !== 0 ? Number(s.size) * 42 + "px" : "auto" })
           }, [
-            (c(!0), n(h, null, O(y(b), (u, w) => (c(), n(h, {
+            (c(!0), n(h, null, L(y(b), (u, w) => (c(), n(h, {
               key: "option-" + u
             }, [
               typeof u == "string" ? (c(), n("div", {
@@ -726,10 +727,10 @@ const nl = /* @__PURE__ */ z(Re, [["__scopeId", "data-v-de7e2b23"]]), We = { cla
                 class: N(["pickerItem", e.value[s.prop] === u[s.prop] || String(u[s.dataprop || s.prop]) === String(e.value) ? "active" : ""])
               }, p(u[s.prop]), 11, Ye)) : (c(), n("div", {
                 key: 2,
-                onClick: _((B) => l(u), ["stop"]),
+                onClick: V((B) => l(u), ["stop"]),
                 class: N(["pickerItem", e.value === u ? "active" : ""])
               }, [
-                L(t.$slots, "default", {
+                _(t.$slots, "default", {
                   option: u,
                   selected: e.value
                 }, void 0, !0)
