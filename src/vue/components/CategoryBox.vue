@@ -120,6 +120,9 @@ const selectOption = (option: any) => {
   if(typeof option === 'object' && option !== null && String(props.datatype).toLowerCase() === 'string') { 
     selected.value = option[String(props.dataprop || props.prop)]
     emit('update:modelValue', String(selected.value))
+  } else if(typeof option === 'object' && option !== null && String(props.datatype).toLowerCase() === 'number') { 
+    selected.value = option[String(props.dataprop || props.prop)]
+    emit('update:modelValue', Number(selected.value))
   } else {
     selected.value = option
     emit('update:modelValue', selected.value)

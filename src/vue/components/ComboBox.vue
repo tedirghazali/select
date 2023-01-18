@@ -7,7 +7,8 @@ interface Props {
   options?: any[],
   prop?: string,
   placeholder?: string,
-  size?: number
+  size?: number,
+  select?: boolean
 }
 
 interface Emits {
@@ -21,7 +22,8 @@ const props = withDefaults(defineProps<Props>(), {
   options: [],
   prop: 'value',
   placeholder: 'Search option',
-  size: 0
+  size: 0,
+  select: false
 })
 
 const emit = defineEmits<Emits>()
@@ -92,7 +94,8 @@ const hideByClick = (e: any) => {
       <div class="pickerBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="hideByClick"></div>
     <!--</teleport>-->
     <div class="pickerWrap">
-      <input type="search" ref="searchRef" @input="searchOptions" @click="(filteredOptions.length >= 1 && searchStr !== '') ? picker = true : picker = false" class="input" />
+      <input v-if="select" type="search" ref="searchRef" @input="searchOptions" @click="picker = true" class="select" />
+      <input v-else type="search" ref="searchRef" @input="searchOptions" @click="(filteredOptions.length >= 1 && searchStr !== '') ? picker = true : picker = false" class="input" />
       <div class="pickerContent pickerSizing">
         <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
           <div v-if="typeof option === 'string'" @click="searchStr = option; emit('update:modelValue', option); picker = false;" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">{{ option }}</div>
