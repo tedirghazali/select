@@ -130,6 +130,38 @@ const selectOption = (option: any) => {
   picker.value = false
   emit('change', selected.value, option)
 }
+
+const selectedValue = computed<any | any[]>(() => {
+  let newSelectedValue = props?.placeholder || '-- Select option --'
+  if(filteredOptions.value.length >= 1) {
+    if(typeof selected.value === 'number') {
+      let newFilteredOptions = filteredOptions.value.filter((i: any) => Number(i[String(props.dataprop || props.prop)]) === Number(selected.value))
+      if(typeof filteredOptions.value[0] === 'object' && newFilteredOptions.length >= 1) {
+        newSelectedValue = newFilteredOptions[0][String(props.prop)]
+      } else if(typeof filteredOptions.value[0] === 'number') {
+        newSelectedValue = selected.value
+      }
+    } else if(typeof selected.value === 'string') {
+      let newFilteredOptions = filteredOptions.value.filter((i: any) => String(i[String(props.dataprop || props.prop)]) === selected.value)
+      if(typeof filteredOptions.value[0] === 'object' && newFilteredOptions.length >= 1) { 
+        newSelectedValue = newFilteredOptions[0][String(props.prop)]
+      } else if(typeof filteredOptions.value[0] === 'string' && selected.value !== '') { 
+        newSelectedValue = selected.value
+      }
+    } else if(typeof selected.value === 'object') {
+      if(Array.isArray(selected.value) && selected.value.length >= 1) {
+        if(typeof selected.value[0] === 'object' && String(props.prop) in selected.value[0]) {
+          newSelectedValue = selected.value.map((i: any) => i[String(props.prop)]).join(', ')
+        } else {
+          newSelectedValue = selected.value.join(', ')
+        }
+      } else if(selected.value !== null && String(props.prop) in selected.value) {
+        newSelectedValue = selected.value[String(props.prop)]
+      }
+    }
+  }
+  return newSelectedValue
+})
 </script>
 
 <template>
@@ -139,12 +171,7 @@ const selectOption = (option: any) => {
     <!--</teleport>-->
     <div class="pickerWrap">
       <div class="select pickerToggler" @click="picker = !picker">
-        <template v-if="typeof selected === 'string' && selected !== '' && filteredOptions.length >= 1 && typeof filteredOptions[0] === 'string'">{{ selected }}</template>
-        <template v-else-if="typeof selected === 'string' && filteredOptions.filter(i => String(i[String(dataprop || prop)]) === selected).length >= 1 && typeof filteredOptions.filter(i => String(i[String(dataprop || prop)]) === selected)[0] === 'object'">{{ filteredOptions.filter(i => String(i[String(dataprop || prop)]) === selected)[0][prop] }}</template>
-        <template v-else-if="typeof selected === 'object' && selected !== null && prop in selected">{{ selected[prop] }}</template>
-        <template v-else-if="Array.isArray(selected) && selected.length >= 1 && typeof selected[0] === 'string'">{{ selected.join(', ') }}</template>
-        <template v-else-if="Array.isArray(selected) && selected.length >= 1 && typeof selected[0] === 'object' && prop in selected[0]">{{ selected.map(i => i[prop]).join(', ') }}</template>
-        <template v-else>{{ placeholder }}</template>
+        {{ selectedValue }}
       </div>
       <div class="pickerContent">
         <div class="pickerHeader">
