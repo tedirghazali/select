@@ -10,7 +10,8 @@ interface Props {
   dataprop?: string,
   placeholder?: string,
   size?: number,
-  type?: string
+  type?: string,
+  up?: boolean
 }
 
 interface Emits {
@@ -28,7 +29,8 @@ const props = withDefaults(defineProps<Props>(), {
   dataprop: '',
   placeholder: '-- Select option --',
   size: 0,
-  type: ''
+  type: '',
+  up: false
 })
 
 const emit = defineEmits<Emits>()
@@ -165,7 +167,7 @@ const selectedValue = computed<any | any[]>(() => {
 </script>
 
 <template>
-  <div class="picker suggestion" :class="picker ? 'active' : ''">
+  <div class="picker suggestion" :class="{active: picker, pickerUp: up}">
     <!--<teleport to="body">-->
       <div class="pickerBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="hideByClick"></div>
     <!--</teleport>-->

@@ -8,7 +8,8 @@ interface Props {
   prop?: string,
   placeholder?: string,
   size?: number,
-  select?: boolean
+  select?: boolean,
+  up?: boolean
 }
 
 interface Emits {
@@ -23,7 +24,8 @@ const props = withDefaults(defineProps<Props>(), {
   prop: 'value',
   placeholder: 'Search option',
   size: 0,
-  select: false
+  select: false,
+  up: false
 })
 
 const emit = defineEmits<Emits>()
@@ -89,7 +91,7 @@ const hideByClick = (e: any) => {
 </script>
 
 <template>
-  <div class="picker suggestion" :class="picker ? 'active' : ''">
+  <div class="picker suggestion" :class="{active: picker, pickerUp: up}">
     <!--<teleport to="body">-->
       <div class="pickerBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="hideByClick"></div>
     <!--</teleport>-->

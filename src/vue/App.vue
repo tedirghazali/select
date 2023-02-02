@@ -55,11 +55,11 @@ const testSearch = (value: string) => {
     <p>Your selected value is in number from array of objects: {{ num }}</p>
     <p><br/></p>
     <h3>SelectBox (Array of Strings)</h3>
-    <SelectBox v-model="arrOfStr" :options="arrayOfStrings" :size="25" />
+    <SelectBox v-model="arrOfStr" :options="arrayOfStrings" :size="25" :up="true" />
     <p>Your selected value is in multiple strings: {{ arrOfStr }}</p>
     <p><br/></p>
     <h3>SelectBox (Array of Objects)</h3>
-    <SelectBox v-model="arrOfObj" :options="arrayOfObjects" :size="50" />
+    <SelectBox v-model="arrOfObj" :options="arrayOfObjects" :size="50" :up="true" />
     <p>Your selected value is in multiple objects: {{ arrOfObj }}</p>
     
     <p><br /><br /></p>
