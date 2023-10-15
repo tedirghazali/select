@@ -72,7 +72,7 @@ const testSearch = (value: string) => {
     <p>You choose the value in an object: {{ comboObj }}</p>
     <p><br /></p>
     <h3>ComboBox Selection</h3>
-    <ComboBox v-model="comboStr" :options="arrayOfStrings" :size="5" :select="true" />
+    <ComboBox v-model="comboStr" :options="arrayOfStrings" :size="5" :select="true" @change="testChange" />
     <p>You choose the value in a string: {{ comboStr }}</p>
     
     <p><br /><br /></p>

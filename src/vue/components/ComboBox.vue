@@ -14,6 +14,7 @@ interface Props {
 
 interface Emits {
   (e: 'update:modelValue', value: any[] | any): void,
+  (e: 'change', value: any[] | any, option: any): void,
   (e: 'search', value: string): void
 }
 
@@ -100,9 +101,9 @@ const hideByClick = (e: any) => {
       <input v-else type="search" ref="searchRef" @input="searchOptions" @click="(filteredOptions.length >= 1 && searchStr !== '') ? picker = true : picker = false" class="input" />
       <div class="pickerContent pickerSizing">
         <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
-          <div v-if="typeof option === 'string'" @click="searchStr = option; emit('update:modelValue', option); picker = false;" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">{{ option }}</div>
-          <div v-else-if="typeof option === 'object' && prop in option" @click="searchStr = option[prop]; emit('update:modelValue', option); picker = false;" class="pickerItem" :class="(modelValue[prop] === option[prop]) ? 'active' : ''">{{ option[prop] }}</div>
-          <div v-else @click="searchStr = option; emit('update:modelValue', option); picker = false;" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">
+          <div v-if="typeof option === 'string'" @click="searchStr = option; emit('update:modelValue', option); emit('change', option, option); picker = false;" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">{{ option }}</div>
+          <div v-else-if="typeof option === 'object' && prop in option" @click="searchStr = option[prop]; emit('update:modelValue', option); emit('change', option[prop], option); picker = false;" class="pickerItem" :class="(modelValue[prop] === option[prop]) ? 'active' : ''">{{ option[prop] }}</div>
+          <div v-else @click="searchStr = option; emit('update:modelValue', option); emit('change', option, option); picker = false;" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">
             <slot :option="option"></slot>
           </div>
         </template>
