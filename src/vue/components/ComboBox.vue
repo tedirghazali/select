@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onUpdated } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 interface Props {
   modelValue?: any,
@@ -9,7 +9,8 @@ interface Props {
   placeholder?: string,
   size?: number,
   select?: boolean,
-  up?: boolean
+  up?: boolean,
+  serverSearch?: boolean
 }
 
 interface Emits {
@@ -26,7 +27,8 @@ const props = withDefaults(defineProps<Props>(), {
   placeholder: 'Search option',
   size: 0,
   select: false,
-  up: false
+  up: false,
+  serverSearch: false
 })
 
 const emit = defineEmits<Emits>()
@@ -39,7 +41,7 @@ const searchTimer = ref<any>(undefined)
 const filteredOptions = computed<any[]>(() => {
   //@ts-ignore
   let newOptions: any[] = props.options
-  if(searchStr.value.length >= 1) {
+  if(searchStr.value.length >= 1 && props.serverSearch !== true) {
     newOptions = newOptions.filter((item: any) => {
       if(isNaN(item) === false && Number(item) === Number(searchStr.value)) {
         return true
@@ -85,6 +87,16 @@ const randomChar = (maxlength: number = 10) => {
   return resChar
 }
 
+const chooseOption = (val: any[] | any, opt: any) => {
+  if(typeof val === 'string' || isNaN(val) === false) {
+    searchStr.value = val; 
+    searchRef.value.value = val; 
+  }
+  emit('update:modelValue', opt); 
+  emit('change', val, opt); 
+  picker.value = false;
+}
+
 const hideByClick = (e: any) => {
   e.target.style.display = 'none' 
   picker.value = false
@@ -101,9 +113,9 @@ const hideByClick = (e: any) => {
       <input v-else type="search" ref="searchRef" @input="searchOptions" @click="(filteredOptions.length >= 1 && searchStr !== '') ? picker = true : picker = false" class="input" />
       <div class="pickerContent pickerSizing">
         <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
-          <div v-if="typeof option === 'string'" @click="searchStr = option; emit('update:modelValue', option); emit('change', option, option); picker = false;" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">{{ option }}</div>
-          <div v-else-if="typeof option === 'object' && prop in option" @click="searchStr = option[prop]; emit('update:modelValue', option); emit('change', option[prop], option); picker = false;" class="pickerItem" :class="(modelValue[prop] === option[prop]) ? 'active' : ''">{{ option[prop] }}</div>
-          <div v-else @click="searchStr = option; emit('update:modelValue', option); emit('change', option, option); picker = false;" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">
+          <div v-if="typeof option === 'string'" @click="chooseOption(option, option)" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">{{ option }}</div>
+          <div v-else-if="typeof option === 'object' && prop in option" @click="chooseOption(option[prop], option)" class="pickerItem" :class="(modelValue[prop] === option[prop]) ? 'active' : ''">{{ option[prop] }}</div>
+          <div v-else @click="chooseOption(option, option)" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">
             <slot :option="option"></slot>
           </div>
         </template>
