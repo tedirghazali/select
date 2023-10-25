@@ -10,7 +10,8 @@ interface Props {
   size?: number,
   select?: boolean,
   up?: boolean,
-  serverSearch?: boolean
+  serverSearch?: boolean,
+  emptySearch?: boolean
 }
 
 interface Emits {
@@ -28,7 +29,8 @@ const props = withDefaults(defineProps<Props>(), {
   size: 0,
   select: false,
   up: false,
-  serverSearch: false
+  serverSearch: false,
+  emptySearch: false
 })
 
 const emit = defineEmits<Emits>()
@@ -70,7 +72,7 @@ const searchOptions = () => {
       searchStr.value = searchRef.value.value
     }
     emit('search', searchStr.value)
-    if (filteredOptions.value.length >= 1 && searchStr.value !== '') { 
+    if ((filteredOptions.value.length >= 1 && searchStr.value !== '') || props.serverSearch == true) { 
       picker.value = true
     } else {
       picker.value = false
@@ -78,19 +80,14 @@ const searchOptions = () => {
   }, 500)
 }
 
-const randomChar = (maxlength: number = 10) => {
-  let allChar: string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  let resChar: string = ''
-  for(let i: number = 0; i < maxlength; i++) {
-    resChar += allChar.charAt(Math.floor(Math.random() * allChar.length))
-  }
-  return resChar
-}
-
 const chooseOption = (val: any[] | any, opt: any) => {
   if(typeof val === 'string' || isNaN(val) === false) {
-    searchStr.value = val; 
-    searchRef.value.value = val; 
+    searchStr.value = val
+    searchRef.value.value = val
+  }
+  if(props?.emptySearch) {
+    searchStr.value = '' 
+    searchRef.value.value = ''
   }
   emit('update:modelValue', opt); 
   emit('change', val, opt); 

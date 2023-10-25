@@ -192,7 +192,8 @@ const A = (u, k) => {
     size: { default: 0 },
     select: { type: Boolean, default: !1 },
     up: { type: Boolean, default: !1 },
-    serverSearch: { type: Boolean, default: !1 }
+    serverSearch: { type: Boolean, default: !1 },
+    emptySearch: { type: Boolean, default: !1 }
   },
   emits: ["update:modelValue", "change", "search"],
   setup(u, { emit: k }) {
@@ -215,10 +216,10 @@ const A = (u, k) => {
     }), j = () => {
       clearTimeout(g.value), g.value = setTimeout(() => {
         var y, p;
-        d.value = "", ((y = h.value) == null ? void 0 : y.value) && ((p = h.value) == null ? void 0 : p.value) !== "" && (d.value = h.value.value), k("search", d.value), w.value.length >= 1 && d.value !== "" ? e.value = !0 : e.value = !1;
+        d.value = "", ((y = h.value) == null ? void 0 : y.value) && ((p = h.value) == null ? void 0 : p.value) !== "" && (d.value = h.value.value), k("search", d.value), w.value.length >= 1 && d.value !== "" || c.serverSearch == !0 ? e.value = !0 : e.value = !1;
       }, 500);
     }, C = (y, p) => {
-      (typeof y == "string" || isNaN(y) === !1) && (d.value = y, h.value.value = y), k("update:modelValue", p), k("change", y, p), e.value = !1;
+      (typeof y == "string" || isNaN(y) === !1) && (d.value = y, h.value.value = y), c != null && c.emptySearch && (d.value = "", h.value.value = ""), k("update:modelValue", p), k("change", y, p), e.value = !1;
     }, $ = (y) => {
       y.target.style.display = "none", e.value = !1;
     };
@@ -273,7 +274,7 @@ const A = (u, k) => {
     ], 2));
   }
 });
-const cl = /* @__PURE__ */ A(ve, [["__scopeId", "data-v-6171fab7"]]), fe = { class: "list" }, pe = { class: "listHeader" }, he = ["onClick"], ke = { class: "check" }, ye = ["checked", "id"], ge = ["for"], be = ["onClick"], Ce = { class: "check" }, me = ["checked", "id"], Se = ["for"], $e = ["onClick"], _e = ["onClick"], Ne = ["onClick"], we = ["onClick"], je = /* @__PURE__ */ z({
+const cl = /* @__PURE__ */ A(ve, [["__scopeId", "data-v-fdb04902"]]), fe = { class: "list" }, pe = { class: "listHeader" }, he = ["onClick"], ke = { class: "check" }, ye = ["checked", "id"], ge = ["for"], be = ["onClick"], Ce = { class: "check" }, me = ["checked", "id"], Se = ["for"], $e = ["onClick"], _e = ["onClick"], Ne = ["onClick"], we = ["onClick"], je = /* @__PURE__ */ z({
   __name: "ListBox",
   props: {
     modelValue: { default: {} },

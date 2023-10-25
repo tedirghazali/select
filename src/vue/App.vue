@@ -68,7 +68,7 @@ const testSearch = (value: string) => {
     <p>You choose the value in a string: {{ comboStr }}</p>
     <p><br/></p>
     <h3>ComboBox Autocomplete (Object)</h3>
-    <ComboBox v-model="comboObj" :options="arrayOfObjects" :size="5" />
+    <ComboBox v-model="comboObj" :options="arrayOfObjects" :size="5" :select="true" :emptySearch="true" />
     <p>You choose the value in an object: {{ comboObj }}</p>
     <p><br /></p>
     <h3>ComboBox Selection</h3>
