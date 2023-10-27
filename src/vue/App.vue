@@ -39,11 +39,11 @@ const testSearch = (value: string) => {
 <template>
   <div class="container mt-20px mb-20px">
     <h3>SelectBox (String)</h3>
-    <SelectBox v-model="str" :options="arrayOfStrings" :size="5" @search="testSearch" />
+    <SelectBox v-model="str" :options="arrayOfStrings" :size="5" @search="testSearch" :defaultOption="true" />
     <p>Your selected value is in a string: {{ str }}</p>
     <p><br/></p>
     <h3>SelectBox (Object)</h3>
-    <SelectBox v-model="obj" :options="arrayOfObjects" :size="10" @search="testSearch" />
+    <SelectBox v-model="obj" :options="arrayOfObjects" :size="10" @search="testSearch" :defaultOption="true" />
     <p>Your selected value is in an object: {{ obj }}</p>
     <p><br/></p>
     <h3>SelectBox (String value from array of objects)</h3>
@@ -55,11 +55,11 @@ const testSearch = (value: string) => {
     <p>Your selected value is in a number from array of objects: {{ num }}</p>
     <p><br/></p>
     <h3>SelectBox (Array of Strings)</h3>
-    <SelectBox v-model="arrOfStr" :options="arrayOfStrings" :size="25" :up="true" />
+    <SelectBox v-model="arrOfStr" :options="arrayOfStrings" :size="5" :up="true" />
     <p>Your selected value is in multiple strings: {{ arrOfStr }}</p>
     <p><br/></p>
     <h3>SelectBox (Array of Objects)</h3>
-    <SelectBox v-model="arrOfObj" :options="arrayOfObjects" :size="50" :up="true" />
+    <SelectBox v-model="arrOfObj" :options="arrayOfObjects" :size="5" :up="true" />
     <p>Your selected value is in multiple objects: {{ arrOfObj }}</p>
     
     <p><br /><br /></p>

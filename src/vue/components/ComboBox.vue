@@ -85,9 +85,10 @@ const chooseOption = (val: any[] | any, opt: any) => {
     searchStr.value = val
     searchRef.value.value = val
   }
-  if(props?.emptySearch) {
+  if(props.emptySearch == true) {
     searchStr.value = '' 
     searchRef.value.value = ''
+    emit('search', searchStr.value)
   }
   emit('update:modelValue', opt); 
   emit('change', val, opt); 
