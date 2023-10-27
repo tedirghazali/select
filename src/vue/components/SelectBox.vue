@@ -102,6 +102,13 @@ const hideByClick = (e: any) => {
   }
 }
 
+const setDefaultOption = (option: any[] | any) => {
+  selected.value = option
+  emit('update:modelValue', selected.value)
+  emit('change', selected.value, option)
+  picker.value = false
+}
+
 const checkOption = (option: any, property: string = '') => {
   if(property !== '') {
     if(!selected.value.map((i: any) => i[property]).includes(option[property])) { 
@@ -182,7 +189,7 @@ const selectedValue = computed<any | any[]>(() => {
           <input type="search" ref="searchRef" @input="searchOptions" class="input" />
         </div>
         <div v-if="Array.isArray(selected)" class="pickerMenu" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 42)+'px' : 'auto'}">
-          <div v-show="defaultOption" @click.stop="checkOption(typeof modelValue === 'object' ? (Array.isArray(modelValue) ? [] : {}) : (isNaN(modelValue) === false ? 0 : ''))" class="pickerItem">{{ placeholder || '-- Select Option --' }}</div>
+          <div v-show="defaultOption" @click.stop="setDefaultOption(typeof modelValue === 'object' ? (Array.isArray(modelValue) ? [] : {}) : '')" class="pickerItem">{{ placeholder || '-- Select Option --' }}</div>
           <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
             <div v-if="typeof option === 'string' && type !== 'slot'" @click.stop="checkOption(option)" class="pickerItem">
               <div class="check">
@@ -202,7 +209,7 @@ const selectedValue = computed<any | any[]>(() => {
           </template>
         </div>
         <div v-else class="pickerMenu" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 42)+'px' : 'auto'}">
-          <div v-show="defaultOption" @click.stop="checkOption(typeof modelValue === 'object' ? (Array.isArray(modelValue) ? [] : {}) : (isNaN(modelValue) === false ? 0 : ''))" class="pickerItem">{{ placeholder || '-- Select Option --' }}</div>
+          <div v-show="defaultOption" @click.stop="setDefaultOption(typeof modelValue === 'object' ? (Array.isArray(modelValue) ? [] : {}) : '')" class="pickerItem">{{ placeholder || '-- Select Option --' }}</div>
           <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
             <div v-if="typeof option === 'string' && type !== 'slot'" @click="selectOption(option)" class="pickerItem" :class="(selected === option) ? 'active' : ''">{{ option }}</div>
             <div v-else-if="typeof option === 'object' && option !== null && prop in option && type !== 'slot'" @click="selectOption(option)" class="pickerItem" :class="(selected[prop] === option[prop] || String(option[dataprop || prop]) === String(selected)) ? 'active' : ''">{{ option[prop] }}</div>
