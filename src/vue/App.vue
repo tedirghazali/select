@@ -39,7 +39,7 @@ const testSearch = (value: string) => {
 <template>
   <div class="container mt-20px mb-20px">
     <h3>SelectBox (String)</h3>
-    <SelectBox v-model="str" :options="arrayOfStrings" :size="5" @search="testSearch" :defaultOption="true" />
+    <SelectBox v-model="str" :options="arrayOfStrings" :size="5" @search="testSearch" :defaultOption="true" :loading="true" />
     <p>Your selected value is in a string: {{ str }}</p>
     <p><br/></p>
     <h3>SelectBox (Object)</h3>

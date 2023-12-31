@@ -12,7 +12,8 @@ interface Props {
   size?: number,
   type?: string,
   up?: boolean,
-  defaultOption?: boolean
+  defaultOption?: boolean,
+  loading?: boolean
 }
 
 interface Emits {
@@ -32,7 +33,8 @@ const props = withDefaults(defineProps<Props>(), {
   size: 0,
   type: '',
   up: false,
-  defaultOption: false
+  defaultOption: false,
+  loading: false
 })
 
 const emit = defineEmits<Emits>()
@@ -188,36 +190,41 @@ const selectedValue = computed<any | any[]>(() => {
         <div class="pickerHeader">
           <input type="search" ref="searchRef" @input="searchOptions" class="input" />
         </div>
-        <div v-if="Array.isArray(selected)" class="pickerMenu" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 42)+'px' : 'auto'}">
-          <div v-show="defaultOption" @click.stop="setDefaultOption(typeof modelValue === 'object' ? (Array.isArray(modelValue) ? [] : {}) : '')" class="pickerItem">{{ placeholder || '-- Select Option --' }}</div>
-          <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
-            <div v-if="typeof option === 'string' && type !== 'slot'" @click.stop="checkOption(option)" class="pickerItem">
-              <div class="check">
-                <input type="checkbox" class="checkInput" :checked="selected.includes(option)" :id="'check-'+(getRandomChar + String(index))" style="pointer-events: none">
-                <label class="checkLabel" :for="'check-'+(getRandomChar + String(index))" style="pointer-events: none">{{ option }}</label>
-              </div>
-            </div>
-            <div v-else-if="typeof option === 'object' && option !== null && prop in option && type !== 'slot'" @click.stop="checkOption(option, prop)" class="pickerItem">
-              <div class="check">
-                <input type="checkbox" class="checkInput" :checked="selected.includes(option)" :id="'check-'+(getRandomChar + String(index))" style="pointer-events: none">
-                <label class="checkLabel" :for="'check-'+(getRandomChar + String(index))" style="pointer-events: none">{{ option[prop] }}</label>
-              </div>
-            </div>
-            <div v-else @click.stop="checkOption(option)" class="pickerItem">
-              <slot :option="option" :selected="selected"></slot>
-            </div>
-          </template>
+        <div v-if="loading" class="tedirSelectLoading">
+          <span class="spinner"></span>
         </div>
-        <div v-else class="pickerMenu" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 42)+'px' : 'auto'}">
-          <div v-show="defaultOption" @click.stop="setDefaultOption(typeof modelValue === 'object' ? (Array.isArray(modelValue) ? [] : {}) : '')" class="pickerItem">{{ placeholder || '-- Select Option --' }}</div>
-          <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
-            <div v-if="typeof option === 'string' && type !== 'slot'" @click="selectOption(option)" class="pickerItem" :class="(selected === option) ? 'active' : ''">{{ option }}</div>
-            <div v-else-if="typeof option === 'object' && option !== null && prop in option && type !== 'slot'" @click="selectOption(option)" class="pickerItem" :class="(selected[prop] === option[prop] || String(option[dataprop || prop]) === String(selected)) ? 'active' : ''">{{ option[prop] }}</div>
-            <div v-else @click.stop="selectOption(option)" class="pickerItem" :class="(selected === option) ? 'active' : ''">
-              <slot :option="option" :selected="selected"></slot>
-            </div>
-          </template>
-        </div>
+        <template v-else>
+          <div v-if="Array.isArray(selected)" class="pickerMenu" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 42)+'px' : 'auto'}">
+            <div v-show="defaultOption" @click.stop="setDefaultOption(typeof modelValue === 'object' ? (Array.isArray(modelValue) ? [] : {}) : '')" class="pickerItem">{{ placeholder || '-- Select Option --' }}</div>
+            <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
+              <div v-if="typeof option === 'string' && type !== 'slot'" @click.stop="checkOption(option)" class="pickerItem">
+                <div class="check">
+                  <input type="checkbox" class="checkInput" :checked="selected.includes(option)" :id="'check-'+(getRandomChar + String(index))" style="pointer-events: none">
+                  <label class="checkLabel" :for="'check-'+(getRandomChar + String(index))" style="pointer-events: none">{{ option }}</label>
+                </div>
+              </div>
+              <div v-else-if="typeof option === 'object' && option !== null && prop in option && type !== 'slot'" @click.stop="checkOption(option, prop)" class="pickerItem">
+                <div class="check">
+                  <input type="checkbox" class="checkInput" :checked="selected.includes(option)" :id="'check-'+(getRandomChar + String(index))" style="pointer-events: none">
+                  <label class="checkLabel" :for="'check-'+(getRandomChar + String(index))" style="pointer-events: none">{{ option[prop] }}</label>
+                </div>
+              </div>
+              <div v-else @click.stop="checkOption(option)" class="pickerItem">
+                <slot :option="option" :selected="selected"></slot>
+              </div>
+            </template>
+          </div>
+          <div v-else class="pickerMenu" :style="{'max-height': (Number(size) !== 0) ? (Number(size) * 42)+'px' : 'auto'}">
+            <div v-show="defaultOption" @click.stop="setDefaultOption(typeof modelValue === 'object' ? (Array.isArray(modelValue) ? [] : {}) : '')" class="pickerItem">{{ placeholder || '-- Select Option --' }}</div>
+            <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
+              <div v-if="typeof option === 'string' && type !== 'slot'" @click="selectOption(option)" class="pickerItem" :class="(selected === option) ? 'active' : ''">{{ option }}</div>
+              <div v-else-if="typeof option === 'object' && option !== null && prop in option && type !== 'slot'" @click="selectOption(option)" class="pickerItem" :class="(selected[prop] === option[prop] || String(option[dataprop || prop]) === String(selected)) ? 'active' : ''">{{ option[prop] }}</div>
+              <div v-else @click.stop="selectOption(option)" class="pickerItem" :class="(selected === option) ? 'active' : ''">
+                <slot :option="option" :selected="selected"></slot>
+              </div>
+            </template>
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -228,4 +235,6 @@ const selectedValue = computed<any | any[]>(() => {
 @use form {
   field: input, check;
 }
+@use spinner;
+@use tedirSelect;
 </style>

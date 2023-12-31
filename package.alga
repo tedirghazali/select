@@ -1,5 +1,7 @@
 @import "./src/alga/tedirTag.alga";
 @import "./src/alga/tedirCategory.alga";
+@import "./src/alga/tedirSelect.alga";
 
 @export tedirTag;
 @export tedirCategory;
+@export tedirSelect;
