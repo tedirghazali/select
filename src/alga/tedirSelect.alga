@@ -4,11 +4,6 @@
 
 @alga {refs.name} {
   .{refs.name}Loading {
-    ref: width-100pct height-150px position-relative;
-
-    & .spinner {
-      ref: top-35pct left-45pct;
-    }
+    ref: width-100pct height-150px display-grid placeItems-center;
   }
-  
 }
