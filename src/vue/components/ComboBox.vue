@@ -24,7 +24,7 @@ interface Emits {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: null,
+  modelValue: {},
   //@ts-ignore
   options: [],
   prop: 'value',
@@ -43,30 +43,15 @@ const emit = defineEmits<Emits>()
 
 const selected = ref<any>(props.modelValue || {})
 const picker = ref<boolean>(false)
-const searchStr = ref<string>('')
+const searchStr = ref<string>(props?.options?.filter((i: any) => (i?.[String(props?.prop)] || i) === props.modelValue)?.[0] || '')
 const searchRef = ref<any>(null)
 const searchTimer = ref<any>(undefined)
 const mouseIn = ref(false)
 
 watch(() => props.modelValue, () => {
   selected.value = props.modelValue
+  searchStr.value = props?.options?.filter((i: any) => (i?.[String(props?.prop)] || i) === props.modelValue)?.[0] || ''
   mouseIn.value = false
-  if(typeof selected.value === 'string' || isNaN(selected.value) === false) {
-    searchStr.value = selected.value
-    if(searchRef.value?.value) {
-      searchRef.value.value = selected.value
-    }
-  } else if(typeof selected.value?.[String(props.prop)] === 'string' || isNaN(selected.value?.[String(props.prop)]) === false) {
-    searchStr.value = selected.value[String(props.prop)]
-    if(searchRef.value?.value) {
-      searchRef.value.value = selected.value[String(props.prop)]
-    }
-  }
-  if(props.emptySearch == true) {
-    searchStr.value = '' 
-    searchRef.value.value = ''
-    emit('search', searchStr.value)
-  }
 })
 
 const filteredOptions = computed<any[]>(() => {
@@ -142,9 +127,6 @@ const hideByClick = (e: any) => {
 
 const selectedValue = computed<any | any[]>(() => {
   let newSelectedValue = searchStr.value
-  if(searchRef.value?.value) {
-    newSelectedValue = searchRef.value.value
-  }
   if(filteredOptions.value.length >= 1 && mouseIn.value !== true && props.emptySearch !== true) {
     if(typeof selected.value === 'number') {
       let newFilteredOptions = filteredOptions.value.filter((i: any) => Number(i[String(props.dataprop || props.prop)]) === Number(selected.value))
@@ -185,7 +167,7 @@ const selectedValue = computed<any | any[]>(() => {
     <!--</teleport>-->
     <div class="pickerWrap">
       <input v-if="select" type="search" :value="selectedValue" ref="searchRef" @input="searchOptions" @click="picker = true" @focus="mouseIn = true" @blur="mouseIn = false" class="select" :placeholder="placeholder" />
-      <input v-else type="search" :value="selectedValue" ref="searchRef" @input="searchOptions" @click="(filteredOptions.length >= 1 && searchStr !== '') ? picker = true : picker = false" @focus="mouseIn = true" @blur="mouseIn = false" class="input" :placeholder="placeholder" />
+      <input v-else type="search" :value="selectedValue" ref="searchRef" @input="searchOptions" @click="picker = (filteredOptions.length >= 1 && searchStr !== '') ? true : false" @focus="mouseIn = true" @blur="mouseIn = false" class="input" :placeholder="placeholder || '-- Search Option --'" />
       <div class="pickerContent pickerSizing">
         <div v-if="loading" class="tedirSelectLoading">
           <span class="spinner"></span>
