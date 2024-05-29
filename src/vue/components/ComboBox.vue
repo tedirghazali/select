@@ -13,7 +13,8 @@ interface Props {
   select?: boolean,
   up?: boolean,
   serverSearch?: boolean,
-  emptySearch?: boolean
+  emptySearch?: boolean,
+  loading?: boolean
 }
 
 interface Emits {
@@ -34,7 +35,8 @@ const props = withDefaults(defineProps<Props>(), {
   select: false,
   up: false,
   serverSearch: false,
-  emptySearch: false
+  emptySearch: false,
+  loading: false
 })
 
 const emit = defineEmits<Emits>()
@@ -51,9 +53,9 @@ watch(() => props.modelValue, () => {
   if(typeof props.modelValue === 'string' || isNaN(props.modelValue) === false) {
     searchStr.value = props.modelValue
     searchRef.value.value = props.modelValue
-  } else if(typeof props.modelValue?.[String(props.dataprop || props.prop)] === 'string' || isNaN(props.modelValue?.[String(props.dataprop || props.prop)]) === false) {
-    searchStr.value = props.modelValue[String(props.dataprop || props.prop)]
-    searchRef.value.value = props.modelValue[String(props.dataprop || props.prop)]
+  } else if(typeof props.modelValue?.[String(props.prop)] === 'string' || isNaN(props.modelValue?.[String(props.prop)]) === false) {
+    searchStr.value = props.modelValue[String(props.prop)]
+    searchRef.value.value = props.modelValue[String(props.prop)]
   }
   if(props.emptySearch == true) {
     searchStr.value = '' 
@@ -177,12 +179,17 @@ const selectedValue = computed<any | any[]>(() => {
       <input v-if="select" type="search" :value="selectedValue" ref="searchRef" @input="searchOptions" @click="picker = true" @focus="mouseIn = true" @blur="mouseIn = false" class="select" :placeholder="placeholder" />
       <input v-else type="search" :value="selectedValue" ref="searchRef" @input="searchOptions" @click="(filteredOptions.length >= 1 && searchStr !== '') ? picker = true : picker = false" @focus="mouseIn = true" @blur="mouseIn = false" class="input" :placeholder="placeholder" />
       <div class="pickerContent pickerSizing">
-        <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
-          <div v-if="typeof option === 'string'" @click="chooseOption(option, option)" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">{{ option }}</div>
-          <div v-else-if="typeof option === 'object' && prop in option" @click="chooseOption(option[prop], option)" class="pickerItem" :class="(modelValue[prop] === option[prop]) ? 'active' : ''">{{ option[prop] }}</div>
-          <div v-else @click="chooseOption(option, option)" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">
-            <slot :option="option"></slot>
-          </div>
+        <div v-if="loading" class="tedirSelectLoading">
+          <span class="spinner"></span>
+        </div>
+        <template v-else>
+          <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
+            <div v-if="typeof option === 'string'" @click="chooseOption(option, option)" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">{{ option }}</div>
+            <div v-else-if="typeof option === 'object' && prop in option" @click="chooseOption(option[prop], option)" class="pickerItem" :class="(selected[prop] === option[prop] || String(option[dataprop || prop]) === String(selected)) ? 'active' : ''">{{ option[prop] }}</div>
+            <div v-else @click.stop="chooseOption(option, option)" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">
+              <slot :option="option"></slot>
+            </div>
+          </template>
         </template>
       </div>
     </div>
@@ -194,4 +201,6 @@ const selectedValue = computed<any | any[]>(() => {
 @use form {
   field: input;
 }
+@use spinner;
+@use tedirSelect;
 </style>

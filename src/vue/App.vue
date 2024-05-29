@@ -5,7 +5,7 @@ import ComboBox from './components/ComboBox.vue'
 import ListBox from './components/ListBox.vue'
 import TagBox from './components/TagBox.vue'
 import CategoryBox from './components/CategoryBox.vue'
-import { strOptions, objOptions } from './models/options'
+import { defOptions, strOptions, objOptions } from './models/options'
 
 const arrayOfStrings = strOptions()
 const arrayOfObjects = objOptions()
@@ -18,13 +18,14 @@ const arrOfStr = ref<string[]>([])
 const arrOfObj = ref<any[]>([])
 const comboStr = ref<string>('')
 const comboObj = ref<any>({})
+const comboId = ref<string | number>('')
 
 const testChange = (value: any, option: any) => {
   console.log('Test select change')
   console.log(value)
   console.log(option)
-  comboObj.value = option
-  console.log(comboObj.value)
+  comboId.value = option.id
+  console.log(comboId.value)
 }
 
 const testAdd = (value: string) => {
@@ -70,8 +71,8 @@ const testSearch = (value: string) => {
     <p>You choose the value in a string: {{ comboStr }}</p>
     <p><br/></p>
     <h3>ComboBox Autocomplete (Object)</h3>
-    <ComboBox v-model="comboObj" :options="arrayOfObjects" :size="5" :select="true" />
-    <p>You choose the value in an object: {{ comboObj }}</p>
+    <ComboBox v-model="comboId" :options="defOptions" :size="5" :select="true" prop="name" dataprop="id" datatype="string" />
+    <p>You choose the value in an object: {{ comboId }}</p>
     <p><br /></p>
     <h3>ComboBox Empty Search (Object)</h3>
     <ComboBox v-model="comboObj" :options="arrayOfObjects" :size="5" :select="true" :emptySearch="true" />

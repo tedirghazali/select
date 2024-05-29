@@ -171,6 +171,8 @@ const options: any[] = [
   { id: 170, name: 'Teuku Usman', position: 'Alga.js Developer', office: 'Ternate', extension: 2456, startdate: '2011-10-11', salary: 580000 }
 ]
 
+export const defOptions: any[] = options
+
 export const strOptions = (prop: string = 'office') => {
   const newOptions: string[] = []
   for(const option of options) {
