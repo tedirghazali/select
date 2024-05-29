@@ -50,12 +50,17 @@ const mouseIn = ref(false)
 
 watch(() => props.modelValue, () => {
   selected.value = props.modelValue
-  if(typeof props.modelValue === 'string' || isNaN(props.modelValue) === false) {
-    searchStr.value = props.modelValue
-    searchRef.value.value = props.modelValue
-  } else if(typeof props.modelValue?.[String(props.prop)] === 'string' || isNaN(props.modelValue?.[String(props.prop)]) === false) {
-    searchStr.value = props.modelValue[String(props.prop)]
-    searchRef.value.value = props.modelValue[String(props.prop)]
+  mouseIn.value = false
+  if(typeof selected.value === 'string' || isNaN(selected.value) === false) {
+    searchStr.value = selected.value
+    if(searchRef.value?.value) {
+      searchRef.value.value = selected.value
+    }
+  } else if(typeof selected.value?.[String(props.prop)] === 'string' || isNaN(selected.value?.[String(props.prop)]) === false) {
+    searchStr.value = selected.value[String(props.prop)]
+    if(searchRef.value?.value) {
+      searchRef.value.value = selected.value[String(props.prop)]
+    }
   }
   if(props.emptySearch == true) {
     searchStr.value = '' 
@@ -136,7 +141,10 @@ const hideByClick = (e: any) => {
 }
 
 const selectedValue = computed<any | any[]>(() => {
-  let newSelectedValue = ''
+  let newSelectedValue = searchStr.value
+  if(searchRef.value?.value) {
+    newSelectedValue = searchRef.value.value
+  }
   if(filteredOptions.value.length >= 1 && mouseIn.value !== true && props.emptySearch !== true) {
     if(typeof selected.value === 'number') {
       let newFilteredOptions = filteredOptions.value.filter((i: any) => Number(i[String(props.dataprop || props.prop)]) === Number(selected.value))
