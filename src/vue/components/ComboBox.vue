@@ -29,7 +29,7 @@ const props = withDefaults(defineProps<Props>(), {
   prop: 'value',
   datatype: '',
   dataprop: '',
-  placeholder: '-- Search option --',
+  placeholder: '-- Search Option --',
   size: 0,
   select: false,
   up: false,
@@ -44,9 +44,22 @@ const picker = ref<boolean>(false)
 const searchStr = ref<string>('')
 const searchRef = ref<any>(null)
 const searchTimer = ref<any>(undefined)
+const mouseIn = ref(false)
 
 watch(() => props.modelValue, () => {
   selected.value = props.modelValue
+  if(typeof props.modelValue === 'string' || isNaN(props.modelValue) === false) {
+    searchStr.value = props.modelValue
+    searchRef.value.value = props.modelValue
+  } else if(typeof props.modelValue?.[String(props.dataprop || props.prop)] === 'string' || isNaN(props.modelValue?.[String(props.dataprop || props.prop)]) === false) {
+    searchStr.value = props.modelValue[String(props.dataprop || props.prop)]
+    searchRef.value.value = props.modelValue[String(props.dataprop || props.prop)]
+  }
+  if(props.emptySearch == true) {
+    searchStr.value = '' 
+    searchRef.value.value = ''
+    emit('search', searchStr.value)
+  }
 })
 
 const filteredOptions = computed<any[]>(() => {
@@ -81,7 +94,7 @@ const searchOptions = () => {
       searchStr.value = searchRef.value.value
     }
     emit('search', searchStr.value)
-    if ((filteredOptions.value.length >= 1 && searchStr.value !== '') || props.serverSearch == true) { 
+    if ((filteredOptions.value.length >= 1 && mouseIn.value === true) || props.serverSearch == true) { 
       picker.value = true
     } else {
       picker.value = false
@@ -120,10 +133,9 @@ const hideByClick = (e: any) => {
   picker.value = false
 }
 
-const mouseIn = ref(false)
 const selectedValue = computed<any | any[]>(() => {
   let newSelectedValue = ''
-  if(filteredOptions.value.length >= 1 && mouseIn.value === false) {
+  if(filteredOptions.value.length >= 1 && mouseIn.value !== true && props.emptySearch !== true) {
     if(typeof selected.value === 'number') {
       let newFilteredOptions = filteredOptions.value.filter((i: any) => Number(i[String(props.dataprop || props.prop)]) === Number(selected.value))
       if(typeof filteredOptions.value[0] === 'object' && newFilteredOptions.length >= 1) {
@@ -149,7 +161,7 @@ const selectedValue = computed<any | any[]>(() => {
         newSelectedValue = selected.value[String(props.prop)]
       }
     }
-  } else if(searchRef.value.value && mouseIn.value === true) {
+  } else if(searchRef.value?.value && mouseIn.value === true && props.emptySearch !== true) {
     newSelectedValue = searchRef.value.value
   }
   return newSelectedValue
@@ -157,13 +169,13 @@ const selectedValue = computed<any | any[]>(() => {
 </script>
 
 <template>
-  <div class="picker suggestion" :class="{active: picker, pickerUp: up}" @mouseenter.self="mouseIn = true" @mouseleave.self="mouseIn = false">
+  <div class="picker suggestion" :class="{active: picker, pickerUp: up}">
     <!--<teleport to="body">-->
       <div class="pickerBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="hideByClick"></div>
     <!--</teleport>-->
     <div class="pickerWrap">
-      <input v-if="select" type="search" :value="selectedValue" ref="searchRef" @input="searchOptions" @click="picker = true" class="select" :placeholder="placeholder" />
-      <input v-else type="search" :value="selectedValue" ref="searchRef" @input="searchOptions" @click="(filteredOptions.length >= 1 && searchStr !== '') ? picker = true : picker = false" class="input" :placeholder="placeholder" />
+      <input v-if="select" type="search" :value="selectedValue" ref="searchRef" @input="searchOptions" @click="picker = true" @focus="mouseIn = true" @blur="mouseIn = false" class="select" :placeholder="placeholder" />
+      <input v-else type="search" :value="selectedValue" ref="searchRef" @input="searchOptions" @click="(filteredOptions.length >= 1 && searchStr !== '') ? picker = true : picker = false" @focus="mouseIn = true" @blur="mouseIn = false" class="input" :placeholder="placeholder" />
       <div class="pickerContent pickerSizing">
         <template v-for="(option, index) in filteredOptions" :key="'option-'+option">
           <div v-if="typeof option === 'string'" @click="chooseOption(option, option)" class="pickerItem" :class="(modelValue === option) ? 'active' : ''">{{ option }}</div>

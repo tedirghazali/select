@@ -23,6 +23,8 @@ const testChange = (value: any, option: any) => {
   console.log('Test select change')
   console.log(value)
   console.log(option)
+  comboObj.value = option
+  console.log(comboObj.value)
 }
 
 const testAdd = (value: string) => {
@@ -68,6 +70,10 @@ const testSearch = (value: string) => {
     <p>You choose the value in a string: {{ comboStr }}</p>
     <p><br/></p>
     <h3>ComboBox Autocomplete (Object)</h3>
+    <ComboBox v-model="comboObj" :options="arrayOfObjects" :size="5" :select="true" />
+    <p>You choose the value in an object: {{ comboObj }}</p>
+    <p><br /></p>
+    <h3>ComboBox Empty Search (Object)</h3>
     <ComboBox v-model="comboObj" :options="arrayOfObjects" :size="5" :select="true" :emptySearch="true" />
     <p>You choose the value in an object: {{ comboObj }}</p>
     <p><br /></p>
