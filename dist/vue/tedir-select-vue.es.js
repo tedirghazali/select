@@ -1,5 +1,5 @@
 import { defineComponent as T, ref as g, watch as z, computed as B, openBlock as c, createElementBlock as o, normalizeClass as j, createElementVNode as d, normalizeStyle as x, toDisplayString as C, unref as b, Fragment as $, withDirectives as R, withModifiers as _, vShow as H, renderList as L, renderSlot as A, pushScopeId as W, popScopeId as E, reactive as D, createTextVNode as F, withKeys as K, vModelText as U } from "vue";
-const P = (u) => (W("data-v-9d6782b2"), u = u(), E(), u), q = { class: "pickerWrap" }, G = { class: "pickerContent" }, J = { class: "pickerHeader" }, Q = {
+const P = (u) => (W("data-v-9a9dee56"), u = u(), E(), u), q = { class: "pickerWrap" }, G = { class: "pickerContent" }, J = { class: "pickerHeader" }, Q = {
   key: 0,
   class: "tedirSelectLoading"
 }, X = /* @__PURE__ */ P(() => /* @__PURE__ */ d("span", { class: "spinner" }, null, -1)), Y = [
@@ -19,7 +19,7 @@ const P = (u) => (W("data-v-9d6782b2"), u = u(), E(), u), q = { class: "pickerWr
     defaultOption: { type: Boolean, default: !1 },
     loading: { type: Boolean, default: !1 }
   },
-  emits: ["update:modelValue", "change", "search"],
+  emits: ["update:modelValue", "change", "search", "load"],
   setup(u, { emit: h }) {
     const s = u, e = g(s.modelValue || {}), v = g(!1), f = g(""), y = g(null), V = g(void 0);
     z(() => s.modelValue, () => {
@@ -84,7 +84,9 @@ const P = (u) => (W("data-v-9d6782b2"), u = u(), E(), u), q = { class: "pickerWr
       d("div", q, [
         d("div", {
           class: "select pickerToggler",
-          onClick: t[0] || (t[0] = (a) => v.value = !v.value)
+          onClick: t[0] || (t[0] = (a) => {
+            v.value = !v.value, h("load");
+          })
         }, C(b(r)), 1),
         d("div", G, [
           d("div", J, [
@@ -205,7 +207,7 @@ const M = (u, h) => {
   for (const [e, v] of h)
     s[e] = v;
   return s;
-}, yl = /* @__PURE__ */ M(de, [["__scopeId", "data-v-9d6782b2"]]), ve = (u) => (W("data-v-6d1b181c"), u = u(), E(), u), fe = { class: "pickerWrap" }, pe = ["value", "placeholder"], he = ["value", "placeholder"], ye = { class: "pickerContent pickerSizing" }, ke = {
+}, yl = /* @__PURE__ */ M(de, [["__scopeId", "data-v-9a9dee56"]]), ve = (u) => (W("data-v-6d1b181c"), u = u(), E(), u), fe = { class: "pickerWrap" }, pe = ["value", "placeholder"], he = ["value", "placeholder"], ye = { class: "pickerContent pickerSizing" }, ke = {
   key: 0,
   class: "tedirSelectLoading"
 }, ge = /* @__PURE__ */ ve(() => /* @__PURE__ */ d("span", { class: "spinner" }, null, -1)), be = [

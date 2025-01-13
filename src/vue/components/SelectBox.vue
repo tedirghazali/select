@@ -19,7 +19,8 @@ interface Props {
 interface Emits {
   (e: 'update:modelValue', value: any[] | any): void,
   (e: 'change', value: any[] | any, option: any): void,
-  (e: 'search', value: string): void
+  (e: 'search', value: string): void,
+  (e: 'load'): void
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -183,7 +184,7 @@ const selectedValue = computed<any | any[]>(() => {
       <div class="pickerBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="hideByClick"></div>
     <!--</teleport>-->
     <div class="pickerWrap">
-      <div class="select pickerToggler" @click="picker = !picker">
+      <div class="select pickerToggler" @click="picker = !picker; emit('load');">
         {{ selectedValue }}
       </div>
       <div class="pickerContent">
