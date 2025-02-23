@@ -153,7 +153,7 @@ const selectedValue = computed<any | any[]>(() => {
       if(typeof filteredOptions.value[0] === 'object' && newFilteredOptions.length >= 1) {
         newSelectedValue = newFilteredOptions[0][String(props.prop)]
       } else if(typeof filteredOptions.value[0] === 'number') {
-        newSelectedValue = selected.value
+        newSelectedValue = String(selected.value)
       }
     } else if(typeof selected.value === 'string') {
       let newFilteredOptions = filteredOptions.value.filter((i: any) => String(i[String(props.dataprop || props.prop)]) === selected.value)

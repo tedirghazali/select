@@ -20,7 +20,8 @@ interface Props {
 interface Emits {
   (e: 'update:modelValue', value: any[] | any): void,
   (e: 'change', value: any[] | any, option: any): void,
-  (e: 'search', value: string): void
+  (e: 'search', value: string): void,
+  (e: 'load'): void
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -133,7 +134,7 @@ const selectedValue = computed<any | any[]>(() => {
       if(typeof filteredOptions.value[0] === 'object' && newFilteredOptions.length >= 1) {
         newSelectedValue = newFilteredOptions[0][String(props.prop)]
       } else if(typeof filteredOptions.value[0] === 'number') {
-        newSelectedValue = selected.value
+        newSelectedValue = String(selected.value)
       }
     } else if(typeof selected.value === 'string') {
       let newFilteredOptions = filteredOptions.value.filter((i: any) => String(i[String(props.dataprop || props.prop)]) === selected.value)
@@ -166,7 +167,7 @@ const selectedValue = computed<any | any[]>(() => {
       <div class="pickerBackdrop" :style="{display: picker ? 'block' : 'none'}" @click="hideByClick"></div>
     <!--</teleport>-->
     <div class="pickerWrap">
-      <input v-if="select" type="search" :value="selectedValue" ref="searchRef" @input="searchOptions" @click="picker = true" @focus="mouseIn = true" @blur="mouseIn = false" class="select" :placeholder="placeholder" />
+      <input v-if="select" type="search" :value="selectedValue" ref="searchRef" @input="searchOptions" @click="picker = true; emit('load');" @focus="mouseIn = true" @blur="mouseIn = false" class="select" :placeholder="placeholder" />
       <input v-else type="search" :value="selectedValue" ref="searchRef" @input="searchOptions" @click="picker = (filteredOptions.length >= 1 && searchStr !== '') ? true : false" @focus="mouseIn = true" @blur="mouseIn = false" class="input" :placeholder="placeholder || '-- Search Option --'" />
       <div class="pickerContent pickerSizing">
         <div v-if="loading" class="tedirSelectLoading">
