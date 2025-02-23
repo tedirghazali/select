@@ -301,7 +301,9 @@ const P = { class: "pickerWrap" }, q = { class: "pickerContent" }, G = { class: 
           ref_key: "searchRef",
           ref: y,
           onInput: b,
-          onClick: e[3] || (e[3] = (t) => v.value = h.value.length >= 1 && p.value !== ""),
+          onClick: e[3] || (e[3] = (t) => {
+            v.value = h.value.length >= 1 && p.value !== "", f("load");
+          }),
           onFocus: e[4] || (e[4] = (t) => m.value = !0),
           onBlur: e[5] || (e[5] = (t) => m.value = !1),
           class: "input",
@@ -333,7 +335,7 @@ const P = { class: "pickerWrap" }, q = { class: "pickerContent" }, G = { class: 
       ])
     ], 2));
   }
-}), nl = /* @__PURE__ */ F(he, [["__scopeId", "data-v-17949050"]]), ke = { class: "list" }, ge = { class: "listHeader" }, me = ["onClick"], be = { class: "check" }, Ce = ["checked", "id"], Se = ["for"], $e = ["onClick"], Ne = { class: "check" }, je = ["checked", "id"], we = ["for"], Ve = ["onClick"], _e = ["onClick"], Ie = ["onClick"], Oe = ["onClick"], Le = /* @__PURE__ */ M({
+}), nl = /* @__PURE__ */ F(he, [["__scopeId", "data-v-873cb0de"]]), ke = { class: "list" }, ge = { class: "listHeader" }, me = ["onClick"], be = { class: "check" }, Ce = ["checked", "id"], Se = ["for"], $e = ["onClick"], Ne = { class: "check" }, je = ["checked", "id"], we = ["for"], Ve = ["onClick"], _e = ["onClick"], Ie = ["onClick"], Oe = ["onClick"], Le = /* @__PURE__ */ M({
   __name: "ListBox",
   props: {
     modelValue: { default: {} },

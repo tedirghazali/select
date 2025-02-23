@@ -168,7 +168,7 @@ const selectedValue = computed<any | any[]>(() => {
     <!--</teleport>-->
     <div class="pickerWrap">
       <input v-if="select" type="search" :value="selectedValue" ref="searchRef" @input="searchOptions" @click="picker = true; emit('load');" @focus="mouseIn = true" @blur="mouseIn = false" class="select" :placeholder="placeholder" />
-      <input v-else type="search" :value="selectedValue" ref="searchRef" @input="searchOptions" @click="picker = (filteredOptions.length >= 1 && searchStr !== '') ? true : false" @focus="mouseIn = true" @blur="mouseIn = false" class="input" :placeholder="placeholder || '-- Search Option --'" />
+      <input v-else type="search" :value="selectedValue" ref="searchRef" @input="searchOptions" @click="picker = ((filteredOptions.length >= 1 && searchStr !== '') ? true : false); emit('load');" @focus="mouseIn = true" @blur="mouseIn = false" class="input" :placeholder="placeholder || '-- Search Option --'" />
       <div class="pickerContent pickerSizing">
         <div v-if="loading" class="tedirSelectLoading">
           <span class="spinner"></span>
